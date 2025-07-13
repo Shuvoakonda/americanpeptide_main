@@ -1,432 +1,339 @@
 @extends('frontend.layouts.app')
 
-@section('title', 'Eterna Reads - Your Literary Haven')
+@section('title', 'American Peptides - Home')
 
+<style>
+    .corepepbgimage {
+        background-image: url("{{ asset('assets/images/home/gradient_home_first.png') }}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: transparent;
+    }
+
+    .et_pb_background_pattern {
+        background-image: url(data:image/svg+xml;base64,PHN2ZyAgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA0KSIgaGVpZ2h0PSIyNnB4IiB3aWR0aD0iMjAwcHgiIHZpZXdCb3g9IjAgMCAyMDAgMjYiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTMzLjc3LDBDMjUuMDksMy44MSwxNC41Nyw2LjUsMCw2LjVWMFpNMjAwLDYuNVYwSDE2Ni4yM0MxNzQuOTEsMy44MSwxODUuNDMsNi41LDIwMCw2LjVaTTEzMy43NywwSDEwMGMyNCwwLDM1Ljc5LDcuNjQsNDguMjMsMTUuNzNhMTI1LDEyNSwwLDAsMCwxOCwxMC4yN0gyMDBjLTI0LDAtMzUuNzktNy42NC00OC4yMy0xNS43M0ExMjUsMTI1LDAsMCwwLDEzMy43NywwWk0xMDAsMEg2Ni4yM2ExMjUsMTI1LDAsMCwwLTE4LDEwLjI3QzM1Ljc5LDE4LjM2LDI0LDI2LDAsMjZIMzMuNzdhMTI1LDEyNSwwLDAsMCwxOC0xMC4yN0M2NC4yMSw3LjY0LDc2LDAsMTAwLDBaTTY2LjIzLDI2aDY3LjU0Yy04LjY4LTMuODEtMTkuMi02LjUtMzMuNzctNi41Uzc0LjkxLDIyLjE5LDY2LjIzLDI2WiIvPjwvc3ZnPg==);
+        background-size: 80px auto;
+    }
+
+    .product-cat {
+        background-image: url('{{ asset('assets/images/home/section-4-bg_02-scaled-2-1.webp') }}') !important;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        padding: 80px 0;
+    }
+
+    .peptides-hero {
+        background-image: url('{{ asset('assets/images/home/homepage-shop-now-bg.png') }}');
+        background-size: contain;
+        /* Changed from cover to contain */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-color: #ffffff;
+        /* Fallback color */
+        height: 779px;
+        position: relative;
+    }
+</style>
 @section('content')
-<!-- Hero Section with Carousel -->
-<section class="hero-section">
-    <div class="container">
-        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+
+    <section class="">
+        <div class="et_pb_section et_pb_section_0 corepepbgimage et_pb_with_background et_section_regular">
+            <span class="et_pb_background_pattern"></span>
+            <div class="et_pb_row et_pb_row_0">
+                <div class="et_pb_column et_pb_column_1_2 et_pb_column_0  et_pb_css_mix_blend_mode_passthrough">
+                    <div
+                        class="et_pb_module et_pb_text et_pb_text_0 gradient-overlay-home-banner  et_pb_text_align_left et_pb_bg_layout_light">
+                        <div class="et_pb_text_inner">
+                            <h1>Highest Quality<br />Peptides For Sale</h1>
+                        </div>
+                    </div>
+                    <div class="et_pb_module et_pb_text et_pb_text_1  et_pb_text_align_left et_pb_bg_layout_light">
+                        <div class="et_pb_text_inner">
+                            <p>We are proud to carry the highest quality peptides and
+                                peptide blends in the research industry.</p>
+                        </div>
+                    </div>
+                    <div class="et_pb_button_module_wrapper et_pb_button_0_wrapper  et_pb_module ">
+                        <a class="et_pb_button et_pb_button_0 et_pb_bg_layout_light" href="#">BUY
+                            PEPTIDES</a>
+                    </div>
+                </div>
+                <div
+                    class="et_pb_column et_pb_column_1_2 et_pb_column_1  et_pb_css_mix_blend_mode_passthrough et-last-child">
+                    <div class="et_pb_module et_pb_image et_pb_image_0">
+                        <span class="et_pb_image_wrap "><img src="{{ asset('assets/images/home/home-pt.webp') }}"
+                                class="wp-image-84149" /></span>
+                    </div>
+                </div>
             </div>
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <div class="hero-content">
-                                <h1 class="display-4 fw-bold mb-4">
-                        Discover Your Next Great Read
-                    </h1>
-                    <p class="lead mb-4">
-                        Welcome to Eterna Reads, your literary haven for physical books, audiobooks, and curated gift boxes. 
-                        Immerse yourself in stories that inspire, educate, and entertain.
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="feature-strip py-5 text-white">
+            <div class="row text-center ">
+                <div class="col-md-4 mb-4 px-4">
+                    <img src="/assets/images/home/plane.png" alt="Free Delivery" style="height:50px;">
+                    <h5 class="mt-3 text-uppercase" style="color: #d6a754;">Free Delivery</h5>
+                    <p class="mb-0" style="color: #aca9a5;">Any purchase of $200 or more qualifies for free delivery
+                        within the USA.</p>
+                </div>
+
+                <div class="col-md-4 mb-4 px-4">
+                    <img src="/assets/images/home/medal.png" alt="Quality Peptides" style="height:50px;">
+                    <h5 class="mt-3 text-uppercase" style="color: #d6a754;">Highest Quality Peptides</h5>
+                    <p class="mb-0" style="color: #aca9a5;">Our products are scientifically-formulated and produced in
+                        cGMP facilities.</p>
+                </div>
+
+                <div class="col-md-4 mb-4 px-4">
+                    <img src="/assets/images/home/headset.png" alt="Online Support" style="height:50px;">
+                    <h5 class="mt-3 text-uppercase" style="color: #d6a754;">Online Support</h5>
+                    <p class="mb-0" style="color: #aca9a5;">Have questions? We can help. Email us or connect via our
+                        <a href="#" class="text-warning">Contact</a> page.
                     </p>
-                    <div class="hero-buttons">
-                        <a href="{{ route('products.index') }}" class="btn btn-primary btn-lg me-3 mb-2">
-                            <i class="bi bi-book me-2"></i>Browse Books
-                        </a>
-                        <a href="{{ route('products.index', ['category' => 'gift-boxes']) }}" class="btn btn-outline-primary btn-lg mb-2">
-                            <i class="bi bi-gift me-2"></i>Gift Boxes
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="hero-image text-center">
-                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                         alt="Eterna Reads - Literary Haven" 
-                         class="img-fluid rounded-3 shadow-lg" 
-                         style="max-height: 400px; object-fit: cover;">
                 </div>
             </div>
         </div>
-    </div>
-                <div class="carousel-item">
-        <div class="row align-items-center">
-                        <div class="col-lg-6">
-                            <div class="hero-content">
-                                <h1 class="display-4 fw-bold mb-4">
-                                    Holiday Special: 20% Off Gift Boxes
-                                </h1>
-                                <p class="lead mb-4">
-                                    Perfect for the book lover in your life. Our curated gift boxes feature handpicked books, 
-                                    literary accessories, and thoughtful surprises.
-                                </p>
-                                <div class="hero-buttons">
-                                    <a href="{{ route('products.index', ['category' => 'gift-boxes']) }}" class="btn btn-primary btn-lg me-3 mb-2">
-                                        <i class="bi bi-gift me-2"></i>Shop Gift Boxes
-                                    </a>
-                                    <a href="{{ route('products.index') }}" class="btn btn-outline-primary btn-lg mb-2">
-                                        <i class="bi bi-book me-2"></i>Browse All
-                                    </a>
-                                </div>
+    </section>
+    <section class="container-fluid mt-5">
+        <div class="text-center mb-4">
+            <h2 class="section-title">Research Peptides For Sale</h2>
+        </div>
+
+        <!-- Filters & Sorting Row -->
+        <div class="d-flex justify-content-between align-items-center mb-4 px-5">
+            <p class="woocommerce-result-count mb-0">Showing all 99 results</p>
+            <form class="woocommerce-ordering">
+                <select name="orderby" class="orderby p-1" aria-label="Shop order">
+                    <option value="popularity">Sort by popularity</option>
+                    <option value="date">Sort by latest</option>
+                    <option value="price">Sort by price: low to high</option>
+                    <option value="price-desc">Sort by price: high to low</option>
+                    <option value="title" selected>Sort by title (A-Z)</option>
+                    <option value="title-desc">Sort by title (Z-A)</option>
+                </select>
+                <input type="hidden" name="paged" value="1" />
+            </form>
+        </div>
+
+        <!-- Products Grid (4 per row) -->
+        <div class="row px-5">
+            <!-- Product 1 -->
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product />
+            </div>
+
+            <!-- Product 2 -->
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product />
+            </div>
+
+            <!-- Product 3 -->
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product-3 />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product-3 />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product-3 />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product-3 />
+            </div>
+
+            <!-- Product 4 -->
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product-2 />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product-2 />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product-2 />
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                <x-product.product-2 />
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="content mt-5">
+        <div class="product-cat">
+            <div class="row">
+                <div class="col-lg-12 d-flex justify-content-evenly">
+                    <div class="cat_type">
+                        <img src="{{ asset('assets/images/home/pep.svg') }}" alt="Peptides Icon" />
+                        <a class="pep_btn" href="#">PEPTIDES</a>
+                    </div>
+
+                    <div class="cat_type">
+                        <img src="{{ asset('assets/images/home/pep_blend.svg') }}" alt="Peptide Blends Icon" />
+                        <a class="blend_btn" href="#">PEPTIDE BLENDS</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content mt-5 mb-5">
+        <div class="peptides-hero">
+            <div class="hero-container">
+                <div class="text-content">
+                    <div class="main-heading">
+                        <h2>Highest Quality<br>Peptides For Sale</h2>
+                    </div>
+                    <div class="description-text">
+                        <p>Welcome to Core Peptides. We are proud to carry the highest quality peptides and peptide
+                            blends
+                            in the research industry. All of our peptides have gone through rigorous quality control
+                            procedures to ensure our clients are receiving the best quality peptides available. We offer
+                            custom peptides for sale online.</p>
+                    </div>
+                </div>
+                <div class="shop-now-wrapper">
+                    <a href="#" class="shop-now-button">SHOP NOW</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content mt-2">
+        <div class="newsletter-section py-5">
+            <div class="container">
+                <div class="newsletter-container">
+                    <div class="text-center">
+                        <h2 class="newsletter-title">SUBSCRIBE TO OUR NEWSLETTER</h2>
+                        <p class="newsletter-subtitle">
+                            ENJOY PROMOTIONS AND DISCOUNTS
+                        </p>
+
+                        <form action="" method="POST" class="newsletter-form row justify-content-center gy-3 mt-4">
+                            @csrf
+                            <div class="col-md-3">
+                                <input type="text" name="first_name" class="form-control newsletter-input"
+                                    placeholder="First Name" required>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="hero-image text-center">
-                                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                                     alt="Gift Boxes" 
-                                     class="img-fluid rounded-3 shadow-lg" 
-                                     style="max-height: 400px; object-fit: cover;">
+
+                            <div class="col-md-3">
+                                <input type="email" name="email" class="form-control newsletter-input"
+                                    placeholder="Email Address" required>
                             </div>
-                        </div>
-                    </div>
-            </div>
-                <div class="carousel-item">
-                    <div class="row align-items-center">
-                        <div class="col-lg-6">
-                            <div class="hero-content">
-                                <h1 class="display-4 fw-bold mb-4">
-                                    Listen to Stories Anywhere
-                                </h1>
-                                <p class="lead mb-4">
-                                    Discover our collection of audiobooks narrated by talented voice actors. 
-                                    Perfect for commuting, exercising, or relaxing at home.
-                                </p>
-                                <div class="hero-buttons">
-                                    <a href="{{ route('products.index', ['category' => 'audiobooks']) }}" class="btn btn-primary btn-lg me-3 mb-2">
-                                        <i class="bi bi-headphones me-2"></i>Listen Now
-                                    </a>
-                                    <a href="{{ route('products.index') }}" class="btn btn-outline-primary btn-lg mb-2">
-                                        <i class="bi bi-book me-2"></i>Browse All
-                                    </a>
-                                </div>
+
+                            <div class="col-md-3">
+                                <input type="tel" name="phone" class="form-control newsletter-input"
+                                    placeholder="Contact Number" required>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="hero-image text-center">
-                                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                                     alt="Audiobooks" 
-                                     class="img-fluid rounded-3 shadow-lg" 
-                                     style="max-height: 400px; object-fit: cover;">
+
+                            <div class="col-md-2">
+                                <button type="submit" class="btn newsletter-btn w-100">Subscribe</button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-    </div>
-</section>
-
-<!-- Quick Navigation Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="section-title mb-3">Explore Our Collection</h2>
-            <p class="section-subtitle">Find exactly what you're looking for</p>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-md-3 col-sm-6">
-                <div class="quick-link-card text-center p-4 h-100">
-                    <div class="quick-link-icon mb-3">
-                        <i class="bi bi-book fs-1"></i>
-                    </div>
-                    <h4 class="h5 mb-3">Shop Books</h4>
-                    <p class="text-muted mb-3">Explore our curated collection of physical books across all genres.</p>
-                    <a href="{{ route('products.index') }}" class="btn btn-outline-primary">Browse Books</a>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="quick-link-card text-center p-4 h-100">
-                    <div class="quick-link-icon mb-3">
-                        <i class="bi bi-gift fs-1"></i>
-                    </div>
-                    <h4 class="h5 mb-3">Gift Boxes</h4>
-                    <p class="text-muted mb-3">Curated collections perfect for any occasion and book lover.</p>
-                    <a href="{{ route('products.index', ['category' => 'gift-boxes']) }}" class="btn btn-outline-primary">View Boxes</a>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="quick-link-card text-center p-4 h-100">
-                    <div class="quick-link-icon mb-3">
-                        <i class="bi bi-headphones fs-1"></i>
-                    </div>
-                    <h4 class="h5 mb-3">Audiobooks</h4>
-                    <p class="text-muted mb-3">Listen to your favorite stories anywhere, anytime.</p>
-                    <a href="{{ route('products.index', ['category' => 'audiobooks']) }}" class="btn btn-outline-primary">Listen Now</a>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-                <div class="quick-link-card text-center p-4 h-100">
-                    <div class="quick-link-icon mb-3">
-                        <i class="bi bi-envelope fs-1"></i>
-                    </div>
-                    <h4 class="h5 mb-3">Contact Us</h4>
-                    <p class="text-muted mb-3">Have questions? We'd love to hear from you.</p>
-                    <a href="{{ route('contact') }}" class="btn btn-outline-primary">Get in Touch</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- About Eterna Reads Section -->
-<section class="py-5" style="background: var(--light-bg);">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 mb-3">
-                <div class="about-content">
-                    <h2 class="section-title mb-4">About Eterna Reads</h2>
-                    <p class="lead mb-4">
-                        Founded with a passion for literature and storytelling, Eterna Reads is more than just a bookstore. 
-                        We're a community of book lovers dedicated to bringing you the finest selection of books, audiobooks, 
-                        and thoughtfully curated gift boxes.
-                    </p>
-                    <p class="mb-4">
-                        Our mission is to inspire a love for reading in everyone, from avid bookworms to those just beginning 
-                        their literary journey. We believe that every book has the power to transform, educate, and entertain.
-                    </p>
-                    <div class="about-stats row text-center">
-                        <div class="col-4">
-                            <div class="stat-item">
-                                <h3 class="fw-bold" style="color: var(--primary-color);">1000+</h3>
-                                <p class="text-muted">Books Available</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="stat-item">
-                                <h3 class="fw-bold" style="color: var(--primary-color);">50+</h3>
-                                <p class="text-muted">Gift Boxes</p>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="stat-item">
-                                <h3 class="fw-bold" style="color: var(--primary-color);">500+</h3>
-                                <p class="text-muted">Happy Readers</p>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="{{ route('about') }}" class="btn btn-primary btn-lg mt-4">
-                        Learn More About Us
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="about-image text-center">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
-                         alt="About Eterna Reads" 
-                         class="img-fluid rounded-3 shadow-lg" 
-                         style="max-height: 400px; object-fit: cover;">
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Featured Products Section -->
-<section class="py-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="section-title mb-3">Featured Products</h2>
-            <p class="section-subtitle">Discover our handpicked selection of must-read books and exclusive gift boxes</p>
-        </div>
-
-        @php
-            $featuredProducts = \App\Models\Product::where('status', 'active')
-                ->orderBy('created_at', 'desc')
-                ->limit(8)
-                ->get();
-        @endphp
-
-        @if($featuredProducts->count() > 0)
-            <div class="row g-4">
-                @foreach($featuredProducts as $product)
-                <div class="col-md-6 col-lg-3">
-                    <x-product-card :product="$product" />
-                </div>
-                @endforeach
-            </div>
-
-            <div class="text-center mt-5">
-                <a href="{{ route('products.index') }}" class="btn btn-outline-primary btn-lg">
-                    <i class="bi bi-arrow-right me-2"></i>View All Products
-                </a>
-            </div>
-        @else
-            <div class="text-center">
-                <div class="py-5">
-                    <i class="bi bi-book fs-1 text-muted mb-3"></i>
-                    <h4 class="text-muted">No products available at the moment</h4>
-                    <p class="text-muted">Check back soon for our latest collection!</p>
-                </div>
-            </div>
-        @endif
-    </div>
-</section>
-
-<!-- Testimonials Section -->
-<section class="py-5" style="background: var(--light-bg);">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="section-title mb-3">What Our Readers Say</h2>
-            <p class="section-subtitle">Join our community of satisfied book lovers</p>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="mb-3">
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                    </div>
-                        <p class="card-text mb-3">
-                            "Eterna Reads has become my go-to bookstore. Their curated selection and gift boxes are absolutely perfect for any book lover!"
-                    </p>
-                        <h6 class="card-title mb-1">Sarah Johnson</h6>
-                        <small class="text-muted">Book Club Leader</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="mb-3">
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                    </div>
-                        <p class="card-text mb-3">
-                            "The audiobook collection is fantastic! Perfect for my daily commute. The quality and selection are outstanding."
-                    </p>
-                        <h6 class="card-title mb-1">Michael Chen</h6>
-                        <small class="text-muted">Audiobook Enthusiast</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm">
-                    <div class="card-body text-center p-4">
-                        <div class="mb-3">
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                        <i class="bi bi-star-fill text-warning"></i>
-                    </div>
-                        <p class="card-text mb-3">
-                            "I love their gift boxes! They're beautifully packaged and always contain the perfect combination of books and accessories."
-                    </p>
-                        <h6 class="card-title mb-1">Emily Rodriguez</h6>
-                        <small class="text-muted">Gift Buyer</small>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Newsletter Section -->
-<section class="py-5" style="background: var(--primary-color); color: white;">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h3 class="mb-3">Stay Updated</h3>
-                <p class="mb-0">Subscribe to our newsletter for book recommendations, exclusive offers, and literary news.</p>
-            </div>
-            <div class="col-lg-6">
-                <div class="d-flex">
-                    <input type="email" class="form-control me-2" placeholder="Enter your email address">
-                    <button class="btn btn-light">Subscribe</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+    <script>
+        function addToCart(productId) {
+            fetch('{{ route('cart.add') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        product_id: productId,
+                        quantity: 1
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update cart count
+                        updateCartCount();
 
-<script>
-function addToCart(productId) {
-    fetch('{{ route("cart.add") }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({
-            product_id: productId,
-            quantity: 1
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Update cart count
-            updateCartCount();
-            
-            // Show success message
-            const alert = document.createElement('div');
-            alert.className = 'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
-            alert.style.zIndex = '9999';
-            alert.innerHTML = `
+                        // Show success message
+                        const alert = document.createElement('div');
+                        alert.className =
+                            'alert alert-success alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
+                        alert.style.zIndex = '9999';
+                        alert.innerHTML = `
                 <i class="bi bi-check-circle me-2"></i>
                 Product added to cart successfully!
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             `;
-            document.body.appendChild(alert);
-            
-            // Auto-remove after 3 seconds
-            setTimeout(() => {
-                if (alert.parentNode) {
-                    alert.remove();
-                }
-            }, 3000);
-        } else {
-            // Show error message
-            const alert = document.createElement('div');
-            alert.className = 'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
-            alert.style.zIndex = '9999';
-            alert.innerHTML = `
+                        document.body.appendChild(alert);
+
+                        // Auto-remove after 3 seconds
+                        setTimeout(() => {
+                            if (alert.parentNode) {
+                                alert.remove();
+                            }
+                        }, 3000);
+                    } else {
+                        // Show error message
+                        const alert = document.createElement('div');
+                        alert.className =
+                            'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
+                        alert.style.zIndex = '9999';
+                        alert.innerHTML = `
                 <i class="bi bi-exclamation-triangle me-2"></i>
                 ${data.message || 'Error adding product to cart'}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             `;
-            document.body.appendChild(alert);
-            
-            // Auto-remove after 3 seconds
-            setTimeout(() => {
-                if (alert.parentNode) {
-                    alert.remove();
-                }
-            }, 3000);
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        // Show error message
-        const alert = document.createElement('div');
-        alert.className = 'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
-        alert.style.zIndex = '9999';
-        alert.innerHTML = `
+                        document.body.appendChild(alert);
+
+                        // Auto-remove after 3 seconds
+                        setTimeout(() => {
+                            if (alert.parentNode) {
+                                alert.remove();
+                            }
+                        }, 3000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Show error message
+                    const alert = document.createElement('div');
+                    alert.className =
+                        'alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3';
+                    alert.style.zIndex = '9999';
+                    alert.innerHTML = `
             <i class="bi bi-exclamation-triangle me-2"></i>
             Error adding product to cart
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         `;
-        document.body.appendChild(alert);
-        
-        // Auto-remove after 3 seconds
-        setTimeout(() => {
-            if (alert.parentNode) {
-                alert.remove();
-            }
-        }, 3000);
-    });
-}
-</script>
+                    document.body.appendChild(alert);
+
+                    // Auto-remove after 3 seconds
+                    setTimeout(() => {
+                        if (alert.parentNode) {
+                            alert.remove();
+                        }
+                    }, 3000);
+                });
+        }
+    </script>
 @endsection

@@ -1,0 +1,210 @@
+   :root {
+       --card-bg: #fff;
+       --card-title: #222;
+       --card-border: #e0e0e0;
+       --primary-color: #ac7630;
+       --price-color: #ac7630;
+       --badge-sale: #FF5722;
+   }
+
+
+   .breadcrumb {
+       font-size: 15px;
+       padding-top: 6px;
+   }
+
+   .breadcrumb a {
+       color: #222;
+       font-weight: 600;
+       text-decoration: none;
+   }
+
+   .breadcrumb a:hover {
+       color: var(--primary-color);
+       text-decoration: underline;
+   }
+
+   .product-container {
+       display: flex;
+       overflow: hidden;
+   }
+
+   .product-image {
+       flex: 1;
+       padding: 5px;
+       text-align: center;
+   }
+
+   .product-card-details_title {
+       font-size: 1.5rem;
+       margin: 0 0 10px;
+       line-height: 1.4;
+       min-height: 50px;
+   }
+
+   .product-card-details_title a {
+       color: var(--card-title);
+       font-weight: bold;
+       text-decoration: none;
+       transition: color 0.2s;
+   }
+
+   .product-card-details_title a:hover {
+       color: #ac7630;
+   }
+
+   .product-image h1 {
+       font-size: 28px;
+       margin-bottom: 10px;
+       color: #222;
+   }
+
+   .product-image img {
+       max-width: 100%;
+       height: auto;
+       margin: 20px 0;
+       border-radius: 4px;
+   }
+
+
+
+   .powered-tag {
+       font-size: 14px;
+       color: var(--primary-color);
+       font-style: italic;
+       margin-bottom: 20px;
+   }
+
+   .product-details {
+       flex: 1;
+       padding: 20px;
+   }
+
+   .price {
+       font-size: 20px;
+       font-weight: bold;
+       color: var(--price-color);
+       margin-bottom: 10px;
+   }
+
+
+   .info-row {
+       display: flex;
+   }
+
+   .info-label {
+       font-weight: bold;
+       width: 100px;
+       color: #555;
+   }
+
+   .info-value {
+       flex: 1;
+   }
+
+   .shipping-notice {
+       background-color: rgba(76, 175, 80, 0.1);
+       padding: 10px 15px;
+       border-radius: 5px;
+       margin-bottom: 25px;
+       font-size: 14px;
+       color: var(--primary-color);
+       border-left: 4px solid var(--primary-color);
+   }
+
+   .discount-table {
+       width: 100%;
+       border-collapse: collapse;
+       margin-bottom: 25px;
+   }
+
+   .discount-table th,
+   .discount-table td {
+       padding: 10px;
+       text-align: left;
+       border-bottom: 1px solid var(--card-border);
+   }
+
+   .discount-table th {
+       background-color: #f5f5f5;
+       font-weight: bold;
+       color: #555;
+   }
+
+
+   .pro-quantity-selector {
+       display: flex;
+       align-items: center;
+       margin-bottom: 20px;
+   }
+
+   .pro-quantity-label {
+       margin-right: 15px;
+       font-weight: bold;
+   }
+
+   .pro-quantity-controls {
+       display: flex;
+       align-items: center;
+   }
+
+   .pro-quantity-btn {
+       width: 30px;
+       height: 30px;
+       background-color: var(--primary-color);
+       color: white;
+       border: none;
+       border-radius: 4px;
+       font-size: 16px;
+       cursor: pointer;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+   }
+
+   .pro-quantity-input {
+       width: 50px;
+       height: 30px;
+       text-align: center;
+       margin: 0 10px;
+       border: 1px solid var(--card-border);
+       border-radius: 4px;
+   }
+
+   .pro-quantity-input::-webkit-outer-spin-button,
+   .pro-quantity-input::-webkit-inner-spin-button {
+       -webkit-appearance: none;
+       margin: 0;
+   }
+
+   .pro-quantity-input[type=number] {
+       -moz-appearance: textfield;
+   }
+
+   .add-to-cart {
+       color: #222;
+       padding: 6px 10px;
+       font-size: 16px;
+       text-decoration: none;
+       cursor: pointer;
+       border: 2px solid var(--primary-color);
+       border-radius: 7px;
+       transition: background-color 0.3s;
+       font-weight: bold;
+       text-transform: uppercase;
+   }
+
+   .add-to-cart:hover {
+       background-color: #ac7630;
+       color: #000000;
+   }
+
+   .zoom-in {
+       transition: transform 0.3s ease;
+   }
+
+   .zoom-in:hover {
+       transform: scale(1.1);
+   }
+
+   /* Text zoom out effect */

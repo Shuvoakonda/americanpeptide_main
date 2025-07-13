@@ -3,12 +3,12 @@
 @section('title', 'Shop - Eterna Reads')
 
 @section('content')
-<div class="container py-5">
-    <!-- Hero Section -->
-    <div class="section-header text-center mb-5">
+    <div class="container py-5">
+        <!-- Hero Section -->
+        <div class="section-header text-center mb-5">
             <h1 class="section-title display-4 fw-bold">Discover Our Collection</h1>
             <p class="section-subtitle lead">Find the perfect books, audiobooks, and gift boxes for your reading journey</p>
-    </div>
+        </div>
 
         <div class="row">
             <!-- Sidebar Filters (Desktop) & Offcanvas (Mobile) -->
@@ -16,26 +16,26 @@
                 <div class="position-sticky" style="top: 90px;">
                     <div class="card">
                         <div class="card-header">
-                    <h5 class="mb-0">
+                            <h5 class="mb-0">
                                 <i class="bi bi-funnel me-2"></i>Filters & Search
-                    </h5>
-                </div>
-                <div class="card-body">
+                            </h5>
+                        </div>
+                        <div class="card-body">
                             @include('frontend.products._filters', [
                                 'categories' => $categories,
                                 'brands' => $brands,
                             ])
                         </div>
-                                    </div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+            </div>
             <!-- Offcanvas Trigger (Mobile) -->
             <div class="col-12 d-md-none mb-3">
                 <button class="btn btn-outline-primary w-100" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#filtersOffcanvas" aria-controls="filtersOffcanvas">
                     <i class="bi bi-funnel me-2"></i>Filters & Search
-                                    </button>
-                                </div>
+                </button>
+            </div>
             <!-- Offcanvas Filters (Mobile) -->
             <div class="offcanvas offcanvas-start" tabindex="-1" id="filtersOffcanvas"
                 aria-labelledby="filtersOffcanvasLabel">
@@ -44,7 +44,7 @@
                     </h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
-                            </div>
+                </div>
                 <div class="offcanvas-body">
                     @include('frontend.products._filters', [
                         'categories' => $categories,
@@ -54,95 +54,95 @@
             </div>
             <!-- Main Content: Products -->
             <div class="col-md-8">
-    <!-- Active Filters Display -->
+                <!-- Active Filters Display -->
                 @if (request('search') ||
                         request('category') ||
                         request('brand') ||
                         request('min_price') ||
                         request('max_price') ||
                         request('sort'))
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex flex-wrap gap-2 align-items-center">
-                <span class="text-muted">Active Filters:</span>
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="d-flex flex-wrap gap-2 align-items-center">
+                                <span class="text-muted">Active Filters:</span>
                                 @if (request('search'))
-                    <span class="badge bg-primary">
-                        Search: "{{ request('search') }}"
+                                    <span class="badge bg-primary">
+                                        Search: "{{ request('search') }}"
                                         <a href="{{ route('products.index', request()->except('search')) }}"
                                             class="text-white text-decoration-none ms-1">×</a>
-                    </span>
-                @endif
+                                    </span>
+                                @endif
                                 @if (request('category'))
-                    @php $category = $categories->firstWhere('slug', request('category')) @endphp
+                                    @php $category = $categories->firstWhere('slug', request('category')) @endphp
                                     @if ($category)
-                        <span class="badge bg-primary">
-                            Category: {{ $category->name }}
+                                        <span class="badge bg-primary">
+                                            Category: {{ $category->name }}
                                             <a href="{{ route('products.index', request()->except('category')) }}"
                                                 class="text-white text-decoration-none ms-1">×</a>
-                        </span>
-                    @endif
-                @endif
+                                        </span>
+                                    @endif
+                                @endif
                                 @if (request('brand'))
-                    @php $brand = $brands->find(request('brand')) @endphp
+                                    @php $brand = $brands->find(request('brand')) @endphp
                                     @if ($brand)
-                        <span class="badge bg-primary">
-                            Brand: {{ $brand->name }}
+                                        <span class="badge bg-primary">
+                                            Brand: {{ $brand->name }}
                                             <a href="{{ route('products.index', request()->except('brand')) }}"
                                                 class="text-white text-decoration-none ms-1">×</a>
-                        </span>
-                    @endif
-                @endif
+                                        </span>
+                                    @endif
+                                @endif
                                 @if (request('min_price') || request('max_price'))
-                    <span class="badge bg-primary">
-                        Price: ${{ request('min_price', '0') }} - ${{ request('max_price', '∞') }}
+                                    <span class="badge bg-primary">
+                                        Price: ${{ request('min_price', '0') }} - ${{ request('max_price', '∞') }}
                                         <a href="{{ route('products.index', request()->except(['min_price', 'max_price'])) }}"
                                             class="text-white text-decoration-none ms-1">×</a>
-                    </span>
-                @endif
+                                    </span>
+                                @endif
                                 @if (request('sort'))
-                    @php
-                        $sortLabels = [
-                            'name' => 'Name A-Z',
-                            'name_desc' => 'Name Z-A',
-                            'price' => 'Price Low-High',
-                            'price_desc' => 'Price High-Low',
-                            'newest' => 'Newest First',
+                                    @php
+                                        $sortLabels = [
+                                            'name' => 'Name A-Z',
+                                            'name_desc' => 'Name Z-A',
+                                            'price' => 'Price Low-High',
+                                            'price_desc' => 'Price High-Low',
+                                            'newest' => 'Newest First',
                                             'popular' => 'Most Popular',
-                        ];
-                    @endphp
-                    <span class="badge bg-primary">
-                        Sort: {{ $sortLabels[request('sort')] ?? request('sort') }}
+                                        ];
+                                    @endphp
+                                    <span class="badge bg-primary">
+                                        Sort: {{ $sortLabels[request('sort')] ?? request('sort') }}
                                         <a href="{{ route('products.index', request()->except('sort')) }}"
                                             class="text-white text-decoration-none ms-1">×</a>
-                    </span>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 @endif
-            </div>
-        </div>
-    </div>
-    @endif
 
-    <!-- Results Summary -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center">
-                <p class="text-muted mb-0">
+                <!-- Results Summary -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <p class="text-muted mb-0">
                                 Showing {{ $products->firstItem() ?? 0 }} to {{ $products->lastItem() ?? 0 }} of
                                 {{ $products->total() }} products
                             </p>
                         </div>
-        </div>
-    </div>
+                    </div>
+                </div>
 
-    <!-- Products Grid -->
+                <!-- Products Grid -->
                 @if ($products->count() > 0)
                     <div class="row g-4" id="productsGrid">
                         @foreach ($products as $product)
                             <div class="col-md-6 col-lg-6 ">
                                 <x-product-card :product="$product" />
-                        </div>
+                            </div>
                         @endforeach
                     </div>
-                    
+
                     <!-- Pagination -->
                     <div class="row mt-5">
                         <div class="col-12">
@@ -151,7 +151,7 @@
                             </nav>
                         </div>
                     </div>
-                            @else
+                @else
                     <div class="text-center py-5">
                         <div class="mb-4">
                             <i class="bi bi-search fs-1 text-muted"></i>
@@ -196,7 +196,7 @@
                                         <option value="">All Categories</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->slug }}"
-                                                {{ trim((string)request('category')) === trim((string)$category->slug) ? 'selected' : '' }}>
+                                                {{ trim((string) request('category')) === trim((string) $category->slug) ? 'selected' : '' }}>
                                                 {{ $category->name }}
                                             </option>
                                         @endforeach
@@ -233,7 +233,7 @@
                                     </select>
                                 </div>
                                 <!-- Price Range -->
-        <div class="col-12">
+                                <div class="col-12">
                                     <label class="form-label">Price Range</label>
                                     <div class="row g-2">
                                         <div class="col-6">
@@ -254,15 +254,15 @@
                                         </button>
                                         <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
                                             <i class="bi bi-arrow-clockwise me-2"></i>Clear
-                </a>
-            </div>
-        </div>
-    </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
-        </div>
+                    </div>
                 @endpush
             @endonce
-    @endif
+        @endif
     @endpush
 
     <script>
@@ -369,6 +369,6 @@
                     });
                 });
             }
-    });
-</script>
-@endsection 
+        });
+    </script>
+@endsection
