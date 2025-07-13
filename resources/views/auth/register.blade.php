@@ -3,285 +3,164 @@
 @section('title', 'Register - MyShop')
 
 @section('content')
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8">
-            <!-- Logo/Brand Section -->
-            <div class="text-center mb-5">
-                <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4" style="width: 80px; height: 80px;">
-                    <i class="fas fa-user-plus text-primary" style="font-size: 2rem;"></i>
-                </div>
-                <h2 class="fw-bold text-dark mb-2">Join Our Community</h2>
-                <p class="text-muted mb-0">Create your account and start shopping today</p>
-            </div>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="cart-header-wrapper mb-4">
+                    <div class="d-flex align-items-center position-relative">
+                        <!-- Icon and Title with underline effect -->
+                        <h2 class="mb-0 pe-4 d-flex align-items-center">
+                            <span class="user-icon me-2">
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="">
+                                    <path
+                                        d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                                        stroke="#ac7630" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path
+                                        d="M20 21C20 18.8783 19.1571 16.8434 17.6569 15.3431C16.1566 13.8429 14.1217 13 12 13C9.87827 13 7.84344 13.8429 6.34315 15.3431C4.84285 16.8434 4 18.8783 4 21"
+                                        stroke="#ac7630" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <span class="position-relative">
+                                <span class="title-text">Create Account<br>Get started with American Peptides !</span>
+                                <span class="title-underline"></span>
+                            </span>
+                        </h2>
 
-            <!-- Register Form Card -->
-            <div class="card border-0 shadow-sm rounded-3">
-                <div class="card-body p-4 p-md-5">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        <!-- Name and Email Row -->
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <div class="form-floating">
-                                    <input type="text" 
-                                           class="form-control @error('name') is-invalid @enderror" 
-                                           id="name" 
-                                           name="name" 
-                                           value="{{ old('name') }}" 
-                                           placeholder="Full Name"
-                                           required 
-                                           autocomplete="name" 
-                                           autofocus>
-                                    <label for="name">
-                                        <i class="fas fa-user me-2 text-muted"></i>
-                                        Full Name
-                                    </label>
-                                    @error('name')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <div class="form-floating">
-                                    <input type="email" 
-                                           class="form-control @error('email') is-invalid @enderror" 
-                                           id="email" 
-                                           name="email" 
-                                           value="{{ old('email') }}" 
-                                           placeholder="Email Address"
-                                           required 
-                                           autocomplete="email">
-                                    <label for="email">
-                                        <i class="fas fa-envelope me-2 text-muted"></i>
-                                        Email Address
-                                    </label>
-                                    @error('email')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Password Row -->
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <div class="form-floating">
-                                    <div class="position-relative">
-                                        <input type="password" 
-                                               class="form-control @error('password') is-invalid @enderror" 
-                                               id="password" 
-                                               name="password" 
-                                               placeholder="Password"
-                                               required 
-                                               autocomplete="new-password">
-                                        <label for="password">
-                                            <i class="fas fa-lock me-2 text-muted"></i>
-                                            Password
-                                        </label>
-                                        <button type="button" 
-                                                class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" 
-                                                id="togglePassword">
-                                            <i class="fas fa-eye text-muted" id="togglePasswordIcon"></i>
-                                        </button>
-                                    </div>
-                                    <div class="mt-2" id="password-strength"></div>
-                                    @error('password')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <div class="form-floating">
-                                    <div class="position-relative">
-                                        <input type="password" 
-                                               class="form-control" 
-                                               id="password-confirm" 
-                                               name="password_confirmation" 
-                                               placeholder="Confirm Password"
-                                               required 
-                                               autocomplete="new-password">
-                                        <label for="password-confirm">
-                                            <i class="fas fa-lock me-2 text-muted"></i>
-                                            Confirm Password
-                                        </label>
-                                        <button type="button" 
-                                                class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" 
-                                                id="togglePasswordConfirm">
-                                            <i class="fas fa-eye text-muted" id="togglePasswordConfirmIcon"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Terms and Conditions -->
-                        <div class="mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="terms" id="terms" required>
-                                <label class="form-check-label text-muted" for="terms">
-                                    I agree to the 
-                                    <a href="#" class="text-decoration-none">
-                                        <span class="text-primary fw-semibold">Terms of Service</span>
-                                    </a> 
-                                    and 
-                                    <a href="#" class="text-decoration-none">
-                                        <span class="text-primary fw-semibold">Privacy Policy</span>
-                                    </a>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Submit Button -->
-                        <div class="d-grid mb-4">
-                            <button type="submit" class="btn btn-primary btn-lg fw-semibold py-3 rounded-3">
-                                <i class="fas fa-user-plus me-2"></i>
-                                Create Account
-                            </button>
-                        </div>
-                    </form>
-
-                    <!-- Divider -->
-                    <div class="text-center mb-4">
-                        <div class="position-relative">
-                            <hr class="text-muted">
-                            <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">or</span>
-                        </div>
-                    </div>
-
-                    <!-- Login Link -->
-                    <div class="text-center">
-                        <p class="text-muted mb-0">
-                            Already have an account? 
-                            <a href="{{ route('login') }}" class="text-primary fw-semibold text-decoration-none">
-                                Sign in here
-                            </a>
-                        </p>
                     </div>
                 </div>
             </div>
+
+            <form class="auth-form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="register-fname">First Name</label>
+                            <input type="text" id="register-fname" class="form-control" placeholder="John">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="register-lname">Last Name</label>
+                            <input type="text" id="register-lname" class="form-control" placeholder="Doe">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" class="form-control" placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <div class="input-group password-toggle">
+                        <input type="password" id="register-password" class="form-control" placeholder="Create password">
+                        <button class="btn btn-outline-secondary toggle-password" type="button">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
+                    <small class="form-text">Minimum 8 characters</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-confirm">Confirm Password</label>
+                    <div class="input-group password-toggle">
+                        <input type="password" id="register-confirm" class="form-control" placeholder="Confirm password">
+                        <button class="btn btn-outline-secondary toggle-password" type="button">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="terms-agree">
+                    <label class="form-check-label" for="terms-agree">
+                        I agree to the <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="auth-btn">Create Account</button>
+
+                <div class="auth-footer">
+                    Already have an account? <a href="{{ route('login') }}">Sign in</a>
+                </div>
+            </form>
         </div>
     </div>
-</div>
 
-@push('scripts')
-<script>
-    // Show/hide password toggle
-    document.getElementById('togglePassword').addEventListener('click', function() {
-        const passwordInput = document.getElementById('password');
-        const icon = document.getElementById('togglePasswordIcon');
-        
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.toggle-password').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const input = this.closest('.password-toggle').querySelector('input');
+                        const icon = this.querySelector('i');
+
+                        if (input.type === 'password') {
+                            input.type = 'text';
+                            icon.classList.remove('bi-eye-slash');
+                            icon.classList.add('bi-eye');
+                        } else {
+                            input.type = 'password';
+                            icon.classList.remove('bi-eye');
+                            icon.classList.add('bi-eye-slash');
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
+
+    <style>
+        .title-underline {
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(172, 118, 48, 0.2);
+            z-index: 1;
+            transition: all cubic-bezier(0.165, 0.84, 0.44, 1) ease;
         }
-    });
-    
-    document.getElementById('togglePasswordConfirm').addEventListener('click', function() {
-        const passwordInput = document.getElementById('password-confirm');
-        const icon = document.getElementById('togglePasswordConfirmIcon');
-        
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            icon.classList.remove('fa-eye');
-            icon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            icon.classList.remove('fa-eye-slash');
-            icon.classList.add('fa-eye');
+
+        h2:hover .title-underline {
+            height: 40px;
+            background: rgba(172, 118, 48, 0.3);
         }
-    });
-    
-    // Password strength indicator
-    document.getElementById('password').addEventListener('input', function() {
-        const val = this.value;
-        const strength = document.getElementById('password-strength');
-        let score = 0;
-        if (val.length >= 8) score++;
-        if (/[A-Z]/.test(val)) score++;
-        if (/[0-9]/.test(val)) score++;
-        if (/[^A-Za-z0-9]/.test(val)) score++;
-        
-        let msg = '', color = '';
-        switch(score) {
-            case 0:
-            case 1:
-                msg = 'Weak'; color = 'danger'; break;
-            case 2:
-                msg = 'Fair'; color = 'warning'; break;
-            case 3:
-                msg = 'Good'; color = 'info'; break;
-            case 4:
-                msg = 'Strong'; color = 'success'; break;
+
+        .password-toggle {
+            position: relative;
         }
-        
-        if(val.length === 0) {
-            strength.innerHTML = '';
-        } else {
-            strength.innerHTML = `<span class='badge bg-${color} fs-6'>${msg}</span>`;
+
+        .toggle-password {
+            border-color: var(--border-color);
+            background-color: white;
+            border-left: none;
+            cursor: pointer;
+            transition: var(--transition);
         }
-    });
-</script>
-@endpush
 
-<style>
-.form-floating > .form-control:focus ~ label,
-.form-floating > .form-control:not(:placeholder-shown) ~ label {
-    color: #6c757d;
-}
+        .toggle-password:hover {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
 
-.form-control:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
-}
+        .input-group>.form-control:not(:first-child),
+        .input-group>.toggle-password:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
 
-.btn-primary {
-    background: var(--primary-color);
-    border: none;
-    transition: all 0.3s ease;
-}
+        .input-group>.form-control:not(:last-child),
+        .input-group>.toggle-password:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
 
-.btn-primary:hover {
-    background: var(--primary-dark);
-    transform: translateY(-1px);
-}
-
-.form-check-input:checked {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-.btn-link {
-    text-decoration: none;
-}
-
-.btn-link:hover {
-    color: var(--primary-color) !important;
-}
-
-.badge {
-    font-size: 0.75rem !important;
-    padding: 0.5rem 0.75rem;
-}
-
-@media (max-width: 768px) {
-    .card-body {
-        padding: 2rem !important;
-    }
-}
-</style>
+        /* Fix border between input and button */
+        .input-group>.form-control+.toggle-password {
+            border-left: 1px solid var(--border-color);
+            margin-left: -1px;
+        }
+    </style>
 @endsection

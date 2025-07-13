@@ -3,9 +3,6 @@
 @section('title', 'Login - MyShop')
 
 @section('content')
-
-
-
   <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
