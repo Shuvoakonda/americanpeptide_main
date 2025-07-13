@@ -3,177 +3,170 @@
 @section('title', 'Login - MyShop')
 
 @section('content')
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-7">
-                <!-- Logo/Brand Section -->
-                <div class="text-center mb-5">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-light rounded-circle mb-4"
-                        style="width: 80px; height: 80px;">
-                        <i class="fas fa-shopping-bag text-primary" style="font-size: 2rem;"></i>
-                    </div>
-                    <h2 class="fw-bold text-dark mb-2">Welcome Back</h2>
-                    <p class="text-muted mb-0">Sign in to continue your shopping journey</p>
-                </div>
 
-                <!-- Login Form Card -->
-                <div class="card border-0 shadow-sm rounded-3">
-                    <div class="card-body p-4 p-md-5">
-                        @if (session('status'))
-                            <div class="alert alert-success border-0 rounded-3 mb-4" role="alert">
-                                <i class="fas fa-check-circle me-2"></i>
-                                {{ session('status') }}
-                            </div>
-                        @endif
 
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
 
-                            <!-- Email Field -->
-                            <div class="form-floating mb-4">
-                                <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                    id="email" name="email" value="{{ old('email') }}" placeholder="name@example.com"
-                                    required autocomplete="email" autofocus>
-                                <label for="email">
-                                    <i class="fas fa-envelope me-2 text-muted"></i>
-                                    Email Address
-                                </label>
-                                @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
+  <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="cart-header-wrapper mb-4">
+                    <div class="d-flex align-items-center position-relative">
+                        <!-- Icon and Title with underline effect -->
+                        <h2 class="mb-0 pe-4 d-flex align-items-center">
+                            <span class="user-icon me-2">
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="">
+                                    <path
+                                        d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                                        stroke="#ac7630" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M20 21C20 18.8783 19.1571 16.8434 17.6569 15.3431C16.1566 13.8429 14.1217 13 12 13C9.87827 13 7.84344 13.8429 6.34315 15.3431C4.84285 16.8434 4 18.8783 4 21"
+                                        stroke="#ac7630" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                            <span class="position-relative">
+                                <span class="title-text">Welcome to American Peptides</span>
+                                <span class="title-underline"></span>
+                            </span>
+                        </h2>
 
-                            <!-- Password Field -->
-                            <div class="form-floating mb-4">
-                                <div class="position-relative">
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        id="password" name="password" placeholder="Password" required
-                                        autocomplete="current-password">
-                                    <label for="password">
-                                        <i class="fas fa-lock me-2 text-muted"></i>
-                                        Password
-                                    </label>
-                                    <button type="button"
-                                        class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" style="margin-bottom: 5px;padding-bottom: 25px;"
-                                        id="togglePassword">
-                                        <i class="fas fa-eye text-muted" id="togglePasswordIcon"></i>
-                                    </button>
-                                </div>
-                                @error('password')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-
-                            <!-- Remember Me & Forgot Password -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember"
-                                        {{ old('remember') ? 'checked' : '' }}>
-                                    <label class="form-check-label text-muted" for="remember">
-                                        Remember me
-                                    </label>
-                                </div>
-                                @if (Route::has('password.request'))
-                                    <a href="{{ route('password.request') }}" class="text-decoration-none">
-                                        <small class="text-primary fw-semibold">Forgot password?</small>
-                                    </a>
-                                @endif
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="d-grid mb-4">
-                                <button type="submit" class="btn btn-primary btn-lg fw-semibold py-3 rounded-3">
-                                    <i class="fas fa-sign-in-alt me-2"></i>
-                                    Sign In
-                                </button>
-                            </div>
-                        </form>
-
-                        <!-- Divider -->
-                        <div class="text-center mb-4">
-                            <div class="position-relative">
-                                <hr class="text-muted">
-                                <span
-                                    class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">or</span>
-                            </div>
-                        </div>
-
-                        <!-- Register Link -->
-                        <div class="text-center">
-                            <p class="text-muted mb-0">
-                                Don't have an account?
-                                <a href="{{ route('register') }}" class="text-primary fw-semibold text-decoration-none">
-                                    Sign up here
-                                </a>
-                            </p>
-                        </div>
                     </div>
                 </div>
             </div>
+
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                     <input 
+                     type="email" 
+                     class="form-control @error('email') is-invalid @enderror"               
+                     id="login-email" 
+                     name="email" 
+                     value="{{ old('email') }}" 
+                     placeholder="name@example.com"               
+                     required autocomplete="email" 
+                     autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="input-group password-toggle">
+                        <input type="password" id="login-password" class="form-control"
+                            placeholder="Enter your password">
+                        <button class="btn btn-outline-secondary toggle-password" type="button">
+                            <i class="bi bi-eye-slash"></i>
+                        </button>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <a href="#forgot-password" class="forgot-link">Forgot password?</a>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">Sign In</button>
+
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+
+                <button type="button" class="social-btn google-btn">
+                    <i class="bi bi-google"></i> Continue with Google
+                </button>
+
+                <div class="auth-footer">
+                    Don't have an account? <a href="{{ route('register') }}">Create one</a>
+                </div>
+            </form>
         </div>
     </div>
 
+
     @push('scripts')
         <script>
-            document.getElementById('togglePassword').addEventListener('click', function() {
-                const passwordInput = document.getElementById('password');
-                const icon = document.getElementById('togglePasswordIcon');
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.toggle-password');
 
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
-                } else {
-                    passwordInput.type = 'password';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
-                }
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.closest('.password-toggle').querySelector('input');
+                    const icon = this.querySelector('i');
+
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.replace('bi-eye-slash', 'bi-eye');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.replace('bi-eye', 'bi-eye-slash');
+                    }
+                });
             });
-        </script>
+        });
+    </script>
     @endpush
 
-    <style>
-        .form-floating>.form-control:focus~label,
-        .form-floating>.form-control:not(:placeholder-shown)~label {
-            color: #6c757d;
+     <style>
+        .cart-header-wrapper {
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(172, 118, 48, 0.2);
         }
 
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.2rem rgba(99, 102, 241, 0.15);
+        .cart-icon {
+            transition: transform 0.3s ease;
         }
 
-        .btn-primary {
-            background: var(--primary-color);
-            border: none;
-            transition: all 0.3s ease;
+        .cart-icon:hover {
+            transform: translateY(-3px);
         }
 
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
+        h2 {
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: #333;
+            position: relative;
         }
 
-        .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+        .title-text {
+            position: relative;
+            z-index: 2;
         }
 
-        .btn-link {
-            text-decoration: none;
+        .title-underline {
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: rgba(172, 118, 48, 0.2);
+            z-index: 1;
+            transition: all 0.7s ease;
         }
 
-        .btn-link:hover {
-            color: var(--primary-color) !important;
+        h2:hover .title-underline {
+            height: 40px;
+            background: rgba(172, 118, 48, 0.3);
         }
 
-        @media (max-width: 768px) {
-            .card-body {
-                padding: 2rem !important;
+
+
+        @media (max-width: 576px) {
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .cart-header-wrapper {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .ms-auto {
+                margin-top: 10px;
+                margin-left: 0 !important;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
             }
         }
     </style>
