@@ -1,110 +1,117 @@
 [
     {
         "id": 1,
-        "title": "Majestic Mountain Graphic T-Shirt 123",
-        "slug": "majestic-mountain-graphic-t-shirt-123",
-        "price": 44343,
-        "description": "Elevate your wardrobe with this stylish black t-shirt featuring a striking monochrome mountain range graphic. Perfect for those who love the outdoors or want to add a touch of nature-inspired design to their look, this tee is crafted from soft, breathable fabric ensuring all-day comfort. Ideal for casual outings or as a unique gift, this t-shirt is a versatile addition to any collection.",
+        "title": "ABP-7 (10mg)",
+        "slug": "abp-7-10mg",
+        "price": 92,
+        "description": "ABP-7 (actin binding peptide-7) is a heptapeptide made of seven amino acids, which bears the sequence Acetyl-LKKTETQ. This peptide appears to be an N-acylated 17-23 fragment from a bigger molecule, Thymosin Beta 4. Consequently, this fragment is also sometimes termed a TB-500 Fragment.
+
+ABP-7 is a synthetic peptide, produced via solid-phase peptide synthesis.(1) Some researchers consider its LKKTETQ sequence to be the central actin-binding domain in Thymosin Beta 4. Therefore, ABP-7 is expected to have similar potential actions regarding actin binding, as its Thymosin Beta 4 counterpart.(2) Thymosin Beta 4 is posited to function as an actin-binding protein, particularly through its domain ABP-7. This domain notably inhibits the polymerization of globular actin (G-actin) into filamentous actin (F-actin), a process termed actin sequestration. This inhibition may result in elevated levels of G-actin within the cell.
+
+Actin, a pivotal component of the cellular cytoskeleton, is considered to not only provide structural integrity but may also play an essential role in various cellular activities, including cell motility and shape alteration. The mechanism by which ABP-7 may potentially prevent the polymerization of G-actin into F-actin appears to involve the stabilization of actin in its monomeric form, thereby limiting its availability to form the polymeric filaments necessary for a functional cytoskeleton. This alteration in the cytoskeletal architecture may impact the cell's ability to migrate and adapt its shape, which are considered to be critical functions in numerous biological processes.
+
+For instance, studies in wound healing and tissue regeneration suggest that cell motility may enable cells to move into and populate damaged areas to facilitate repair and restoration. Moreover, the possible disruption of actin polymerization by ABP-7 may influence other cellular mechanisms tied to actin dynamics, including intracellular transport and signal transduction pathways that rely on the actin cytoskeleton. The broader implications of these actions suggest that ABP-7's potential role in modulating actin polymerization could be significant in understanding and potentially manipulating cellular behaviors.",
+
         "category": {
             "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "name": "ABP-7 Peptide",
+            "slug": "abp-7-10mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2024/05/ABP-7-10mg-100x100.jpg.webp",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/QkIa5tT.jpeg",
-            "https://i.imgur.com/jb5Yu0h.jpeg",
-            "https://i.imgur.com/UlxxXyG.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2024/05/ABP-7-10mg-100x100.jpg.webp",
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-10T00:09:54.000Z"
     },
     {
         "id": 2,
-        "title": "Classic Red Pullover Hoodie",
-        "slug": "classic-red-pullover-hoodie",
-        "price": 10,
-        "description": "Elevate your casual wardrobe with our Classic Red Pullover Hoodie. Crafted with a soft cotton blend for ultimate comfort, this vibrant red hoodie features a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs for a snug fit. The timeless design ensures easy pairing with jeans or joggers for a relaxed yet stylish look, making it a versatile addition to your everyday attire.",
+        "title": "ACE-031 (1mg)",
+        "slug": "ace-031-1mg",
+        "price": 173,
+        "description": "ACE-031 peptide, also known as ActRIIB-IgG1 peptide, appears to be a myostatin inhibitor. In terms of structure, it is a fusion compound consisting of the activin receptor type IIB (ACV2RB) and recombinant immunoglobulin IgG1 FC, which is a form of antibody.(1) Research suggests that this soluble peptide may block the action of circulating myostatin to potentially prevent myostatin from apparently inhibiting the native ACV2RB receptors and thus reducing muscle growth. Myostatin, also known as growth and differentiation factor 8 (GDF8), apparently may be blocked by certain substances termed inhibitors. These inhibitors may target the actions of naturally occurring myostatin, a possible negative regulator of muscle growth primarily found in skeletal muscle tissues. Interestingly, myostatin seemingly has no impact on cardiac or smooth muscle tissues. The discovery of myostatin dates back to 1997, when it was reportedly identified due to its potential inhibitory action on muscle growth, as observed in comparative murine studies.(2) Myostatin may inhibit the activation of murine satellite cells, which are partially committed stem cells within muscle tissue. Additionally, overexpression of myostatin has been suggested to lead to muscle mass reduction in experimental models. Myostatin is thought to bind with the ActR2B receptors with a high affinity, potentially initiating a signaling cascade involving Smad2/3, which is crucial for muscle mass regulation. Other ligands, such as other GDFs and activins, might also bind to ActR2B and potentially regulate muscle growth. These ligands, along with activin receptors, are part of the transforming growth factor-beta (TGF-β) superfamily, which is implicated in controlling tissue growth and differentiation. ACE-031 appears to work by binding with any circulating members from the TGF-β superfamily and, most notably, myostatin. Thus, the ACV2RB receptors in muscle cells remain uninhibited, which is posited to result in the activation of muscle hypertrophy and increase in skeletal muscle tissue size. Besides this, the peptide may have a positive potential for metabolism, fat storage, and bone density.",
         "category": {
-            "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "id": 2,
+            "name": "ACE-031 Peptide",
+            "slug": "ace-031-1mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2022/01/ACE-031-1mg-100x100.jpg.webp",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/1twoaDy.jpeg",
-            "https://i.imgur.com/FDwQgLy.jpeg",
-            "https://i.imgur.com/kg1ZhhH.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2022/01/ACE-031-1mg-100x100.jpg.webp",
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-09T22:26:34.000Z"
     },
     {
         "id": 3,
-        "title": "Classic Heather Gray Hoodie",
-        "slug": "classic-heather-gray-hoodie",
-        "price": 69,
-        "description": "Stay cozy and stylish with our Classic Heather Gray Hoodie. Crafted from soft, durable fabric, it features a kangaroo pocket, adjustable drawstring hood, and ribbed cuffs. Perfect for a casual day out or a relaxing evening in, this hoodie is a versatile addition to any wardrobe.",
+        "title": "Acetyl Hexapeptide-3 (Argireline) (200mg)",
+        "slug": "acetyl-hexapeptide-3-(Argireline)-200mg",
+        "price": 226,
+        "description": "Acetyl Hexapeptide-3 is a synthetic peptide commonly researched for its potential action in reducing wrinkle formation in skin tissues. Researchers developed Acetyl Hexapeptide-3 as a competitive SNAP25 (synaptosome-associated protein 25 kDa) inhibitor. SNAP-25 is a component of the SNARE (soluble N-ethylmaleimide sensitive factor attachment protein receptor) complex, which is posited to be a central regulator of synaptic vesicle Ca(2+)-dependent exocytosis - a key process in the release of signaling molecules and cellular communication. This inhibition is thought to occur due to the apparent similarity between the amino acid sequence pattern from the N-terminal end of SNAP-25 and Acetyl Hexapeptide-3. This is hypothesized to prevent the formation of the SNARE complex and inhibit the exocytosis of messengers. By apparently inhibiting exocytosis, Acetyl Hexapeptide-3 may potentially block the release of acetylcholine, a neurotransmitter involved in muscle contractions that mediates the communication between nerve and muscle cells.
+
+Conducting research with Acetyl Hexapeptide-3 is considered a milder and less invasive alternative to bacterial toxins because the peptide may have the potential to act directly through the skin tissues and reach any superficially underlying muscle cells.(2) The peptide may also have research applications in other areas related to skin tissue and muscle tissue studies, such as collagen synthesis, muscle spasms, and scarring. Furthermore, palmitoylated peptide versions have been posited to block the function of pain-mediating neurons.",
         "category": {
-            "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "id": 3,
+            "name": "Acetyl Hexapeptide-3",
+            "slug": "acetyl-hexapeptide-3-(Argireline)-200mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2023/04/ACETYL-HEXAPEPTIDE-3-200mg-100x100.jpg.webp",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/cHddUCu.jpeg",
-            "https://i.imgur.com/CFOjAgK.jpeg",
-            "https://i.imgur.com/wbIMMme.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2023/04/ACETYL-HEXAPEPTIDE-3-200mg-100x100.jpg.webp",
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-09T22:26:34.000Z"
     },
     {
         "id": 4,
-        "title": "Classic Grey Hooded Sweatshirt",
-        "slug": "classic-grey-hooded-sweatshirt",
-        "price": 90,
-        "description": "Elevate your casual wear with our Classic Grey Hooded Sweatshirt. Made from a soft cotton blend, this hoodie features a front kangaroo pocket, an adjustable drawstring hood, and ribbed cuffs for a snug fit. Perfect for those chilly evenings or lazy weekends, it pairs effortlessly with your favorite jeans or joggers.",
+        "title": "Adipotide (FTPP) (10mg)",
+        "slug": "adipotide-ftpp-10mg",
+        "price": 78,
+        "description": "Adipotide Peptide, also known as FTPP (Fat-Targeted Proapoptotic Peptide), fat-targeted proapoptotic peptide, or proapoptotic peptide, has been widely researched and is posited by scientists to be a proapoptotic peptide that may contribute to cell apoptosis. Adipotide may possibly act as a peptide targeting prohibitin, which is why it also bears the name Prohibitin-targeting peptide 1 (Prohibitin-TP01). Current research is still exploring Adipotide’s potential in this area and its potential actions related to its targeting properties.(1) Prohibitins are natural proteins considered by scientists to regulate such functions as cell formation, metabolism, and inflammation.
+
+Research teams initially considered Adipotide for its supposed potential to mitigate the action of cancer cells. Still, the peptide indicated it may have research potential for experiments investigating lipolysis and obesity mitigation, leaving the research pioneers “at a loss of words.”(2) It was presumed that Adipotide might prevent blood supply to the cancer cells, resulting in cell death and malignant cell growth inhibition. Upon further research, it was suggested by the scientists that the peptide appeared to exhibit the same mechanism of action but on fat cells instead. This “proof of concept” study was an early-stage experiment suggesting that the peptide may have significant potential. Yet, the compound has to be studied further to understand its full potential and impact on cells.",
         "category": {
-            "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "id": 4,
+            "name": "Adipotide (FTPP) (10mg)",
+            "slug": "adipotide-ftpp-10mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2020/04/Adipotide-FTPP-10MG-100x100.jpg.webp",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/R2PN9Wq.jpeg",
-            "https://i.imgur.com/IvxMPFr.jpeg",
-            "https://i.imgur.com/7eW9nXP.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2020/04/Adipotide-FTPP-10MG-100x100.jpg.webp",
+     
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-09T22:26:34.000Z"
     },
     {
         "id": 5,
-        "title": "Classic Black Hooded Sweatshirt",
-        "slug": "classic-black-hooded-sweatshirt",
+        "title": "AHK-Cu (200mg)",
+        "slug": "ahk-cu-200mg",
         "price": 79,
-        "description": "Elevate your casual wardrobe with our Classic Black Hooded Sweatshirt. Made from high-quality, soft fabric that ensures comfort and durability, this hoodie features a spacious kangaroo pocket and an adjustable drawstring hood. Its versatile design makes it perfect for a relaxed day at home or a casual outing.",
+        "description": "AHK-Cu is a peptide composed of amino acids alanine, histidine, and lysine, with a copper ion coordinated by various parts of these three amino acids.(1) This peptide appears to be naturally present in the bloodstream and has been suggested as a potential element in regulating the growth, development, and apoptosis of vascular endothelial cells.
+
+AHK-Cu, also known as copper AHK, has been researched for its potential in hair growth and supporting skin tissue integrity. This peptide has been suggested to exhibit its potential primarily on fibroblasts, responsible for maintaining and growing the extracellular matrix (ECM) components surrounding the cells. Fibroblasts also appear to secrete various biological substances, including the Vascular Endothelial Growth Factor (VEGF), which is suggested to promote the formation of new blood vessels.
+
+The copper ion in AHK-Cu is suggested to be involved in enzyme activity related to collagen and elastin synthesis. These two proteins are critical components of the extracellular matrix and play a role in maintaining the skin tissues' structural integrity. Copper ions are also suggested to exhibit antioxidant properties.",
         "category": {
             "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "name": "AHK-Cu",
+            "slug": "ahk-cu-200mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2023/04/AHK-Cu-200mg-100x100.jpg.webp",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/cSytoSD.jpeg",
-            "https://i.imgur.com/WwKucXb.jpeg",
-            "https://i.imgur.com/cE2Dxh9.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2023/04/AHK-Cu-200mg-100x100.jpg.webp",
+   
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-09T22:26:34.000Z"
@@ -112,108 +119,119 @@
     {
         "id": 6,
         "title": "Classic Comfort Fit Joggers",
-        "slug": "classic-comfort-fit-joggers",
+        "slug": "bpc-157-5mg/10mg",
         "price": 25,
-        "description": "Discover the perfect blend of style and comfort with our Classic Comfort Fit Joggers. These versatile black joggers feature a soft elastic waistband with an adjustable drawstring, two side pockets, and ribbed ankle cuffs for a secure fit. Made from a lightweight and durable fabric, they are ideal for both active days and relaxed lounging.",
+        "description": "BPC-157 has been steadily researched for its potential in wound healing. Presentation of BPC-157 may stimulate the growth hormone (GH) receptors, thereby inducing similar GH potential. BPC-157 peptide appears to bind with growth hormone receptors, possibly stimulating cell proliferation. This may lead to the development of new tissue composed of collagen and the development of a network of blood vessels in a process also called ‘angiogenesis.’ Consequently, the wound is ‘rebuilt’ and healed faster than the usual rate.(1)
+
+BPC-157 has also been studied in correlation to gastrointestinal function. Serotonin, an enteric neurotransmitter, is localized in the GI tract and GI mucosa. Altered serotonin levels may inhibit gastric acid secretion, affecting gut mucosal function and influencing gastric blood flow.(2) BPC-157 appears to have a particular antidepressant activity, which may counteract serotonin-induced action. The peptide may counteract the 5-HT2A receptors, restricting the serotonin binding with these receptors and thereby inhibiting its action.(3) The peptide has been researched for its potential action across diverse functions, including tissue repair, pain perception, gastrointestinal regulation, and tendon, ligament, muscle, and bone cell reparations.
+
+Multiple studies have since been conducted to understand the full action of the peptide, especially in the area of healing gastrointestinal ulceration, which is elaborated on below. Studies have suggested the peptide may increase the build-up of the blood vessels and induce anti-inflammation potential via improving functional recovery.",
         "category": {
-            "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "id": 6,
+            "name": "BPC-157 Peptide",
+            "slug": "bpc-157-5mg/10mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2020/04/BPC-157-100x100.jpg.webp",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/ZKGofuB.jpeg",
-            "https://i.imgur.com/GJi73H0.jpeg",
-            "https://i.imgur.com/633Fqrz.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2020/04/BPC-157-100x100.jpg.webp",
+      
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-09T22:26:34.000Z"
     },
     {
         "id": 7,
-        "title": "Classic Comfort Drawstring Joggers",
-        "slug": "classic-comfort-drawstring-joggers",
-        "price": 79,
-        "description": "Experience the perfect blend of comfort and style with our Classic Comfort Drawstring Joggers. Designed for a relaxed fit, these joggers feature a soft, stretchable fabric, convenient side pockets, and an adjustable drawstring waist with elegant gold-tipped detailing. Ideal for lounging or running errands, these pants will quickly become your go-to for effortless, casual wear.",
+        "title": "AICAR (50mg)",
+        "slug": "aicar-50mg",
+        "price": 62,
+        "description": "AICAR is an analog of adenosine monophosphate (AMP), a nucleotide that is considered to play an important role in cellular energy metabolism. It has been studied for its potential applications in research, particularly in reducing reperfusion injury after tissue ischemia and mitigating metabolic disorders. AICAR has been suggested to exert this potential by apparently activating AMP-activated protein kinase (AMPK), an enzyme that regulates various metabolic processes. AMPK potentially plays a role in restoring energy balance. It might do this by inhibiting anabolic processes: energy-consuming pathways like protein and fatty acid synthesis. Simultaneously, it might activate catabolic processes, such as the breakdown of glucose and fats, which generate ATP, thereby increasing the energy supply. There is also a possibility that AMPK influences various other cellular processes, including autophagy (the process by which cells clean out damaged components), mitochondrial biogenesis (the creation of new mitochondria), and the regulation of inflammation and stress responses. This broad range of actions suggests that AMPK might be involved in regulating several aspects of cellular and organismal function.
+
+By potentially activating AMPK, AICAR is posited to possibly increase glucose uptake in skeletal muscle, enhance insulin sensitivity, and improve glucose tolerance. AICAR has also been suggested by researchers to have anti-inflammatory potential and may improve physical performance in certain experimental models.",
         "category": {
-            "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "id": 7,
+            "name": "AICAR Peptide",
+            "slug": "aicar-50mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2023/03/AICAR-50mg-100x100.jpg.webp",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/mp3rUty.jpeg",
-            "https://i.imgur.com/JQRGIc2.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2023/03/AICAR-50mg-100x100.jpg.webp",
+        
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-09T22:26:34.000Z"
     },
     {
         "id": 8,
-        "title": "Classic Red Jogger Sweatpants",
-        "slug": "classic-red-jogger-sweatpants",
-        "price": 98,
-        "description": "Experience ultimate comfort with our red jogger sweatpants, perfect for both workout sessions and lounging around the house. Made with soft, durable fabric, these joggers feature a snug waistband, adjustable drawstring, and practical side pockets for functionality. Their tapered design and elastic cuffs offer a modern fit that keeps you looking stylish on the go.",
+        "title": "AOD 9604 (5mg)",
+        "slug": "aod-9604-5mg",
+        "price": 41,
+        "description": "AOD 9604 peptide is a synthetic analog of growth hormone designed with the intention of mitigating obesity and aiding weight loss. The peptide is a modified fragment of the growth hormone where the last 16 amino acids (176-191) have been reproduced as a specific peptide, called GH Fragment 176-191 or simply AOD 9604. It also has a tyrosine residue to replace the first amino acid at the N-terminus, which researchers consider to help increase the stability of the peptide.(1)
+
+More specifically, AOD 9604 is considered the lipolytic fragment of GH as different parts of the GH molecule appease to have different potentials. For instance, studies suggest that out of its 191 amino acid structure “the N-terminal region exhibits an insulin-potentiating action, while amino acids 108 - 129 of hGH were found to evoke high mitogenic responses.”",
         "category": {
-            "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "id": 8,
+            "name": "AOD 9604 Peptide",
+            "slug": "aod-9604-5mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2020/04/AOD-9604-5MG-100x100.jpg",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/9LFjwpI.jpeg",
-            "https://i.imgur.com/vzrTgUR.jpeg",
-            "https://i.imgur.com/p5NdI6n.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2020/04/AOD-9604-5MG-100x100.jpg",
+         
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-09T22:26:34.000Z"
     },
     {
         "id": 9,
-        "title": "Classic Navy Blue Baseball Cap",
-        "slug": "classic-navy-blue-baseball-cap",
-        "price": 61,
-        "description": "Step out in style with this sleek navy blue baseball cap. Crafted from durable material, it features a smooth, structured design and an adjustable strap for the perfect fit. Protect your eyes from the sun and complement your casual looks with this versatile and timeless accessory.",
+        "title": "ARA-290 (16mg)",
+        "slug": "ara-290-16mg",
+        "price": 92,
+        "description": "ARA-290 peptide, also known as cibinetide and helix B surface peptide (HBSP) in scientific literature, is an 11 amino acid chain derived from the beta domain of the naturally-occurring protein erythropoietin (EPO). This part of the EPO sequence is considered to assist in tissue regeneration and repair without exerting stimulus on the production of red blood cells.(1) Scientists consider the primary function of the EPO is to stimulate tissues to produce red blood cells. Still, the beta domain of the protein, and consequently ARA-290, do not appear to possess this property. Instead, they may possess certain potential regenerative, anti-inflammatory, anti-nociceptive, and other lesser-known properties of the original naturally occurring EPO protein.",
         "category": {
-            "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "id": 8,
+            "name": "ARA-290 Peptide",
+            "slug": "ara-290-16mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2021/12/ARA-290-16mg-100x100.jpg",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/R3iobJA.jpeg",
-            "https://i.imgur.com/Wv2KTsf.jpeg",
-            "https://i.imgur.com/76HAxcA.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2021/12/ARA-290-16mg-100x100.jpg",
+          
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-09T22:26:34.000Z"
     },
     {
         "id": 10,
-        "title": "Classic Blue Baseball Cap",
-        "slug": "classic-blue-baseball-cap",
+        "title": "B7-33 (6mg)",
+        "slug": "b7-33-6mg",
         "price": 86,
-        "description": "Top off your casual look with our Classic Blue Baseball Cap, made from high-quality materials for lasting comfort. Featuring a timeless six-panel design with a pre-curved visor, this adjustable cap offers both style and practicality for everyday wear.",
+        "description": "H2-relaxin is a naturally occurring, endogenous protein compound, which was synthetically mimicked and named the “B7-33” peptide. The H2-relaxin protein class comprises relaxin, H3-relaxin, insulin-like peptide-3, and insulin-like peptide-5. All these proteins have been suggested to exhibit a variety of biological actions, including possibly affecting genetic functions and the reproductive, musculoskeletal, and cardiovascular systems.(2) Considered structurally similar to H2-relaxin, the synthetic equivalent B7-33 may possess anti-fibrotic potential.
+
+There are four different receptors that these naturally produced relaxin proteins are speculated to bind with, namely RXFP-1, RXFP-2, RXFP-3, and RXFP-4. Each receptor has a different action, as outlined below:(2)
+
+RXFP-1 receptor is suggested to influence sperm motility
+RXFP-2 receptor appears to impact testicular development
+RXFP-3 receptor may play a role in circadian rhythm and sleep cycle regulation
+RXFP-4 receptor has shown indications of affecting hunger hormone signaling cycles
+Due to the variety of receptors involved and a wide range of biological impact, extensive research has been conducted on the relaxin protein and its analogs, such as the B7-33 peptide, to fully understand their potential.",
         "category": {
-            "id": 1,
-            "name": "Clothes",
-            "slug": "clothes",
-            "image": "https://i.imgur.com/QkIa5tT.jpeg",
+            "id": 10,
+            "name": "B7-33 Peptide",
+            "slug": "b7-33-6mg",
+            "image": "https://www.corepeptides.com/wp-content/uploads/2022/01/B7-33-100x100.jpg",
             "creationAt": "2025-07-09T22:26:34.000Z",
             "updatedAt": "2025-07-09T22:26:34.000Z"
         },
         "images": [
-            "https://i.imgur.com/wXuQ7bm.jpeg",
-            "https://i.imgur.com/BZrIEmb.jpeg",
-            "https://i.imgur.com/KcT6BE0.jpeg"
+            "https://www.corepeptides.com/wp-content/uploads/2022/01/B7-33-100x100.jpg",
         ],
         "creationAt": "2025-07-09T22:26:34.000Z",
         "updatedAt": "2025-07-09T22:26:34.000Z"
