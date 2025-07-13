@@ -30,14 +30,15 @@ class CartController extends Controller
      */
     public function add(Request $request): JsonResponse
     {
-       
+        
         $request->validate([
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
             'variant' => 'nullable|array',
             'options' => 'nullable|array',
         ]);
-
+        
+       
         try {
             $result = Cart::add(
                 $request->product_id,
@@ -46,6 +47,7 @@ class CartController extends Controller
                 $request->variant
             );
 
+           
             if ($result['success']) {
                 return response()->json([
                     'success' => true,

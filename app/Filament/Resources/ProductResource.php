@@ -10,6 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ResourcePermissionTrait;
+use Illuminate\Support\Str;
 
 class ProductResource extends Resource
 {
@@ -37,9 +38,13 @@ class ProductResource extends Resource
                                 ->visible(fn($get) => !$get('has_variants'))
                                 ->helperText('Enable if this product is digital.')->columnSpanFull(),
                             Forms\Components\TextInput::make('name')->required()->maxLength(255)
+                                ->live(onBlur: true)
+                                ->afterStateUpdated(function (string $state, callable $set) {
+                                    $set('slug', Str::slug($state));
+                                })
                                 ->helperText('Enter the product name as it will appear to customers.'),
                             Forms\Components\TextInput::make('slug')->required()->maxLength(255)
-                                ->helperText('Unique URL slug for the product.'),
+                                ->helperText('Unique URL slug for the product. Auto-generated from the name.'),
 
 
                             Forms\Components\Textarea::make('description')
@@ -213,6 +218,8 @@ class ProductResource extends Resource
                         return '<span class="inline-badge badge badge-success">Digital</span>';
                     } elseif ($record->hasVariants()) {
                         return '<span class="inline-badge badge badge-success">' . $stock . '</span>';
+                    } elseif ($record->hasVariants() == false && $record->getStock() > 0) {
+                        return '<span class="inline-badge badge badge-danger">'.$stock.'</span>';
                     } else {
                         return '<span class="inline-badge badge badge-danger">Out of Stock</span>';
                     }

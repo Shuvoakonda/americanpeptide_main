@@ -10,6 +10,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use App\Filament\Resources\BrandResource\Pages;
 use App\Filament\Resources\ResourcePermissionTrait;
+use Illuminate\Support\Str;
 
 class BrandResource extends Resource
 {
@@ -26,11 +27,15 @@ class BrandResource extends Resource
             Forms\Components\TextInput::make('name')
                 ->required()
                 ->maxLength(255)
+                ->live(onBlur: true)
+                ->afterStateUpdated(function (string $state, callable $set) {
+                    $set('slug', Str::slug($state));
+                })
                 ->helperText('Enter the brand name as it will appear to customers.'),
             Forms\Components\TextInput::make('slug')
                 ->required()
                 ->maxLength(255)
-                ->helperText('Unique URL slug for the brand.'),
+                ->helperText('Unique URL slug for the brand. Auto-generated from the name.'),
             Forms\Components\Textarea::make('description')
                 ->helperText('Optional: Add a description for this brand.'),
         ]);

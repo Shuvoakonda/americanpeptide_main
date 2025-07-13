@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Order;
 use App\Models\OrderHistory;
 use App\Services\OrderEmailService;
+use Illuminate\Support\Facades\Log;
 
 class OrderObserver
 {
@@ -36,17 +37,10 @@ class OrderObserver
             ]);
 
             // Grant audiobook access if order is now paid or completed
-            if (in_array($order->status, ['paid', 'completed']) && $order->user) {
-                foreach ($order->lines as $line) {
-                    $product = $line->product;
-                    if ($product) {
-                        foreach ($product->audioBooks as $audioBook) {
-                            $order->user->audioBooks()->syncWithoutDetaching([
-                                $audioBook->id => ['unlocked_at' => now()]
-                            ]);
-                        }
-                    }
-                }
+            // Note: Digital products are handled immediately after payment in CheckoutService and PayPalController
+            // This is a fallback for orders that might be updated through admin panel
+            if (in_array($order->status, ['paid', 'completed', 'confirmed']) && $order->user) {
+                $this->grantAudiobookAccessIfNeeded($order);
             }
         }
 
@@ -60,6 +54,72 @@ class OrderObserver
                 'old_value' => ['shipping_method' => $originalShipping],
                 'new_value' => ['shipping_method' => $order->shipping_method],
                 'description' => "Shipping method changed from $originalShipping to {$order->shipping_method}.",
+            ]);
+        }
+    }
+
+    /**
+     * Grant audiobook access if needed (fallback method)
+     * 
+     * @param Order $order
+     */
+    protected function grantAudiobookAccessIfNeeded($order)
+    {
+        try {
+            $user = $order->user;
+            $grantedAudiobooks = [];
+
+            foreach ($order->lines as $line) {
+                $product = $line->product;
+                if (!$product) continue;
+
+                // Only process digital products
+                if (!$product->isDigital()) continue;
+
+                // Get all audiobooks associated with this product
+                $audioBooks = $product->audioBooks()->get();
+                
+                foreach ($audioBooks as $audioBook) {
+                    // Check if user already has access
+                    $existingAccess = $user->audioBooks()
+                        ->where('audio_book_id', $audioBook->id)
+                        ->first();
+
+                    if (!$existingAccess) {
+                        // Grant access
+                        $user->audioBooks()->attach($audioBook->id, [
+                            'unlocked_at' => now()
+                        ]);
+                        
+                        $grantedAudiobooks[] = [
+                            'product_name' => $product->name,
+                            'audiobook_title' => $audioBook->title
+                        ];
+
+                        Log::info('Audiobook access granted via OrderObserver fallback', [
+                            'user_id' => $user->id,
+                            'order_id' => $order->id,
+                            'product_id' => $product->id,
+                            'audiobook_id' => $audioBook->id,
+                            'audiobook_title' => $audioBook->title
+                        ]);
+                    }
+                }
+            }
+
+            if (count($grantedAudiobooks) > 0) {
+                Log::info('Audiobook access granted via OrderObserver fallback', [
+                    'order_id' => $order->id,
+                    'user_id' => $user->id,
+                    'granted_audiobooks' => $grantedAudiobooks
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Failed to grant audiobook access via OrderObserver fallback', [
+                'order_id' => $order->id,
+                'user_id' => $user->id ?? null,
+                'error' => $e->getMessage()
             ]);
         }
     }

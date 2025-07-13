@@ -169,4 +169,25 @@ class User extends Authenticatable implements FilamentUser
         $counts = $pivot->download_count ? json_decode($pivot->download_count, true) : [];
         return $counts[$file] ?? 0;
     }
+
+    /**
+     * Check if user has access to a specific audiobook
+     * 
+     * @param int $audioBookId
+     * @return bool
+     */
+    public function hasAudioBookAccess($audioBookId): bool
+    {
+        return $this->audioBooks()->where('audio_book_id', $audioBookId)->exists();
+    }
+
+    /**
+     * Get all audiobooks the user has access to
+     * 
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAccessibleAudioBooks()
+    {
+        return $this->audioBooks()->with('products')->get();
+    }
 }

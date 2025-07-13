@@ -81,38 +81,51 @@ class CheckoutController extends Controller
             // Process checkout
             $result = Checkout::processCheckout($checkoutData, $request->payment_method);
 
+            // Ensure result has the expected structure
+            if (!is_array($result) || !isset($result['success'])) {
+                Log::error('Invalid checkout result structure', [
+                    'result' => $result,
+                    'user_id' => Auth::id(),
+                    'request_data' => $request->all()
+                ]);
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Checkout processing failed due to invalid response.'
+                ], 500);
+            }
+
             if ($result['success']) {
                 Log::info('Checkout successful', [
-                    'order_id' => $result['order_id'],
-                    'order_number' => $result['order_number'],
+                    'order_id' => $result['order_id'] ?? 'unknown',
+                    'order_number' => $result['order_number'] ?? 'unknown',
                     'user_id' => Auth::id()
                 ]);
 
-          
                 // Check if PayPal redirect is required
                 if (isset($result['redirect_required']) && $result['redirect_required']) {
                     return response()->json([
                         'success' => true,
-                        'order_id' => $result['order_id'],
-                        'order_number' => $result['order_number'],
-                        'message' => $result['message'],
+                        'order_id' => $result['order_id'] ?? null,
+                        'order_number' => $result['order_number'] ?? null,
+                        'message' => $result['message'] ?? 'Order placed successfully!',
                         'redirect_required' => true,
-                        'redirect_url' => $result['redirect_url']
+                        'redirect_url' => $result['redirect_url'] ?? null
                     ]);
                 }
 
                 return response()->json([
                     'success' => true,
-                    'order_id' => $result['order_id'],
-                    'order_number' => $result['order_number'],
-                    'message' => $result['message'],
-                    'redirect_url' => route('checkout.confirmation', $result['order_id'])
+                    'order_id' => $result['order_id'] ?? null,
+                    'order_number' => $result['order_number'] ?? null,
+                    'message' => $result['message'] ?? 'Order placed successfully!',
+                    'redirect_url' => route('checkout.confirmation', $result['order_id'] ?? 0)
                 ]);
             }
 
             return response()->json([
                 'success' => false,
-                'message' => $result['message']
+                'message' => $result['message'] ?? 'Checkout failed. Please try again.'
             ], 400);
 
         } catch (\Exception $e) {
@@ -140,6 +153,19 @@ class CheckoutController extends Controller
 
         $result = Checkout::applyCoupon($request->coupon_code);
 
+        // Ensure result has the expected structure
+        if (!is_array($result) || !isset($result['success'])) {
+            Log::error('Invalid coupon result structure', [
+                'result' => $result,
+                'coupon_code' => $request->coupon_code
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Coupon processing failed due to invalid response.'
+            ], 500);
+        }
+
         return response()->json($result);
     }
 
@@ -149,6 +175,19 @@ class CheckoutController extends Controller
     public function removeCoupon()
     {
         $result = Checkout::removeCoupon();
+        
+        // Ensure result has the expected structure
+        if (!is_array($result) || !isset($result['success'])) {
+            Log::error('Invalid remove coupon result structure', [
+                'result' => $result
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Coupon removal failed due to invalid response.'
+            ], 500);
+        }
+
         return response()->json($result);
     }
 

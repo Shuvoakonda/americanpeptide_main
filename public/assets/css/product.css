@@ -184,7 +184,7 @@
    .add-to-cart {
        color: #222;
        padding: 6px 10px;
-       font-size: 16px;
+       font-size: 10px;
        text-decoration: none;
        cursor: pointer;
        border: 2px solid var(--primary-color);

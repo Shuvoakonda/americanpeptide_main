@@ -156,9 +156,11 @@ class CartService
 
         // Handle variants
         $variant = null;
-        $sku = $product->sku;
+        $sku = $product->is_digital ? 'digital-'.$product->id : $product->sku;
         $price = $product->price;
         $productName = $product->name;
+
+        $isDigital = $product->is_digital ?? false;
 
         if ($product->hasVariants() && $variantData) {
             // Use the variant data directly from frontend
@@ -179,14 +181,19 @@ class CartService
             $productName = $product->name . ' - ' . $this->formatVariantName($variant);
         }
 
-        // Check stock for variant
-        if ($product->track_quantity && $variant && isset($variant['stock'])) {
-            if ($variant['stock'] < $quantity) {
-                $variantLabel = implode(', ', array_values($variant['attributes']));
-                return ['success' => false, 'message' => "Insufficient stock for variant: {$variantLabel} (Available: {$variant['stock']})"];
+        // DIGITAL PRODUCT: Always quantity 1, skip stock checks
+        if ($isDigital) {
+            $quantity = 1;
+        } else {
+            // Check stock for variant
+            if ($product->track_quantity && $variant && isset($variant['stock'])) {
+                if ($variant['stock'] < $quantity) {
+                    $variantLabel = implode(', ', array_values($variant['attributes']));
+                    return ['success' => false, 'message' => "Insufficient stock for variant: {$variantLabel} (Available: {$variant['stock']})"];
+                }
+            } elseif ($product->track_quantity && $product->stock < $quantity) {
+                return ['success' => false, 'message' => 'Insufficient stock'];
             }
-        } elseif ($product->track_quantity && $product->stock < $quantity) {
-            return ['success' => false, 'message' => 'Insufficient stock'];
         }
 
         // Create unique item key based on product and variant
@@ -194,7 +201,11 @@ class CartService
         
         if (isset($this->items[$itemKey])) {
             // Update existing item
-            $this->items[$itemKey]['quantity'] += $quantity;
+            if($product->is_digital){
+                $this->items[$itemKey]['quantity'] = 1;
+            }else{
+                $this->items[$itemKey]['quantity'] += $quantity;
+            }
             $this->items[$itemKey]['total'] = $price * $this->items[$itemKey]['quantity'];
             $this->items[$itemKey]['image_url'] = $product->image_url; // Update image URL in case it changed
         } else {
@@ -239,23 +250,27 @@ class CartService
             return ['success' => false, 'message' => 'Item not found in cart'];
         }
 
-        if ($quantity <= 0) {
-            return $this->remove($productId, $options);
-        }
-
         $product = Product::find($productId);
         if (!$product) {
             return ['success' => false, 'message' => 'Product not found'];
         }
 
-        // Check stock for variant
-        $item = $this->items[$itemKey];
-        if ($product->track_quantity && $item['variant'] && isset($item['variant']['stock'])) {
-            if ($item['variant']['stock'] < $quantity) {
-                return ['success' => false, 'message' => 'Insufficient stock for selected variant'];
+        $isDigital = $product->is_digital ?? false;
+        if ($isDigital) {
+            $quantity = 1;
+        } else {
+            if ($quantity <= 0) {
+                return $this->remove($productId, $options);
             }
-        } elseif ($product->track_quantity && $product->stock < $quantity) {
-            return ['success' => false, 'message' => 'Insufficient stock'];
+            // Check stock for variant
+            $item = $this->items[$itemKey];
+            if ($product->track_quantity && $item['variant'] && isset($item['variant']['stock'])) {
+                if ($item['variant']['stock'] < $quantity) {
+                    return ['success' => false, 'message' => 'Insufficient stock for selected variant'];
+                }
+            } elseif ($product->track_quantity && $product->stock < $quantity) {
+                return ['success' => false, 'message' => 'Insufficient stock'];
+            }
         }
 
         $this->items[$itemKey]['quantity'] = $quantity;
@@ -287,10 +302,6 @@ class CartService
             return ['success' => false, 'message' => 'Item not found in cart'];
         }
 
-        if ($quantity <= 0) {
-            return $this->removeByItemId($itemId);
-        }
-
         $item = $this->items[$itemId];
         $product = Product::find($item['product_id']);
         
@@ -298,9 +309,23 @@ class CartService
             return ['success' => false, 'message' => 'Product not found'];
         }
 
-        // Check stock
-        if ($product->track_quantity && $product->stock < $quantity) {
-            return ['success' => false, 'message' => 'Insufficient stock'];
+        $isDigital = $product->is_digital ?? false;
+        if ($isDigital) {
+            $quantity = 1;
+        } else {
+            if ($quantity <= 0) {
+                return $this->removeByItemId($itemId);
+            }
+            
+            // Check stock for variant products
+            if ($product->track_quantity && $product->hasVariants() && $item['variant'] && isset($item['variant']['stock'])) {
+                if ($item['variant']['stock'] < $quantity) {
+                    $variantLabel = implode(', ', array_values($item['variant']['attributes'] ?? []));
+                    return ['success' => false, 'message' => "Insufficient stock for variant: {$variantLabel} (Available: {$item['variant']['stock']})"];
+                }
+            } elseif ($product->track_quantity && $product->stock < $quantity) {
+                return ['success' => false, 'message' => 'Insufficient stock'];
+            }
         }
 
         $this->items[$itemId]['quantity'] = $quantity;

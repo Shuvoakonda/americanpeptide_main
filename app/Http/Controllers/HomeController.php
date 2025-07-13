@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
@@ -23,6 +22,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        // $products = Product::latest()->take(8)->get(); // or however you want to fetch
+        // return view('home', compact('products'));
     }
 }

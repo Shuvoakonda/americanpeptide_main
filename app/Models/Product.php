@@ -47,6 +47,7 @@ class Product extends Model
         'variants' => 'array',
         'published_at' => 'datetime',
         'has_variants' => 'boolean',
+        'is_digital' => 'boolean',
     ];
 
     public function category()
@@ -67,6 +68,14 @@ class Product extends Model
     public function hasVariants(): bool
     {
         return $this->has_variants;
+    }
+
+    /**
+     * Check if product is digital
+     */
+    public function isDigital(): bool
+    {
+        return (bool) $this->is_digital;
     }
 
     public function getStock(): int

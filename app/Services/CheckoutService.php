@@ -49,20 +49,63 @@ class CheckoutService
      */
     public function processCheckout($checkoutData, $paymentMethod = 'stripe')
     {
+        Log::info('Starting checkout process', [
+            'payment_method' => $paymentMethod,
+            'user_id' => Auth::check() ? Auth::id() : null,
+            'cart_items_count' => Cart::getItemCount()
+        ]);
+
         try {
             DB::beginTransaction();
 
             // 1. Validate cart and checkout data
             $validation = $this->validateCheckout($checkoutData);
+            Log::info('Checkout validation result', [
+                'valid' => $validation['valid'] ?? 'unknown',
+                'message' => $validation['message'] ?? 'no message'
+            ]);
+            
             if (!$validation['valid']) {
-                return $validation;
+                // Convert validation result to expected format
+                return [
+                    'success' => false,
+                    'message' => $validation['message']
+                ];
             }
 
             // 2. Create order
             $order = $this->createOrder($checkoutData);
+            Log::info('Order created', [
+                'order_id' => $order->id ?? 'unknown',
+                'total' => $order->total ?? 'unknown'
+            ]);
 
             // 3. Process payment
+            Log::info('Starting payment processing', [
+                'payment_method' => $paymentMethod,
+                'order_id' => $order->id
+            ]);
+            
             $paymentResult = $this->processPayment($order, $checkoutData, $paymentMethod);
+            
+            Log::info('Payment processing completed', [
+                'payment_result' => $paymentResult,
+                'payment_method' => $paymentMethod
+            ]);
+            
+            // Ensure payment result has the expected structure
+            if (!is_array($paymentResult) || !isset($paymentResult['success'])) {
+                DB::rollBack();
+                Log::error('Invalid payment result structure', [
+                    'payment_result' => $paymentResult,
+                    'payment_method' => $paymentMethod
+                ]);
+                return [
+                    'success' => false,
+                    'message' => 'Payment processing failed due to invalid response.'
+                ];
+            }
+            
             if (!$paymentResult['success']) {
                 DB::rollBack();
                 return $paymentResult;
@@ -74,6 +117,9 @@ class CheckoutService
                     'payment_id' => $paymentResult['payment_id'] ?? null,
                     'payment_status' => Order::PAYMENT_PAID
                 ]);
+                
+                // Handle digital products immediately after payment
+                $this->handleDigitalProductsAfterPayment($order);
             } elseif (isset($paymentResult['redirect_required']) && $paymentResult['redirect_required']) {
                 $this->updateOrderPaymentInfo($order, $paymentResult);
             }
@@ -206,6 +252,17 @@ class CheckoutService
                     'available' => false,
                     'message' => 'Product not found: ' . ($item['product_name'] ?? 'Unknown Product')
                 ];
+            }
+
+            // Skip stock check for digital products
+            if ($product->isDigital()) {
+                Log::info('Skipping stock check for digital product', [
+                    'product_id' => $product->id,
+                    'product_name' => $product->name,
+                    'is_digital' => $product->is_digital,
+                    'isDigital_method' => $product->isDigital()
+                ]);
+                continue;
             }
 
             // Check stock for products with variants
@@ -449,6 +506,15 @@ class CheckoutService
             return;
         }
 
+        // Skip quantity reduction for digital products
+        if ($product->isDigital()) {
+            Log::info('Skipping quantity reduction for digital product', [
+                'product_id' => $product->id,
+                'product_name' => $product->name
+            ]);
+            return;
+        }
+
         // Only reduce quantity if tracking is enabled
         if (!$product->track_quantity) {
             return;
@@ -681,18 +747,46 @@ class CheckoutService
      */
     protected function processPayment($order, $checkoutData, $paymentMethod)
     {
-        switch ($paymentMethod) {
-            case 'stripe':
-                return $this->processStripePayment($order, $checkoutData);
+        try {
+            switch ($paymentMethod) {
+                case 'stripe':
+                    $result = $this->processStripePayment($order, $checkoutData);
+                    break;
 
-            case 'paypal':
-                return $this->processPayPalPayment($order, $checkoutData);
+                case 'paypal':
+                    $result = $this->processPayPalPayment($order, $checkoutData);
+                    break;
 
-            default:
+                default:
+                    $result = [
+                        'success' => false,
+                        'message' => 'Unsupported payment method.'
+                    ];
+                    break;
+            }
+
+            // Ensure result has the expected structure
+            if (!is_array($result) || !isset($result['success'])) {
+                Log::error('Payment method returned invalid result structure', [
+                    'payment_method' => $paymentMethod,
+                    'result' => $result
+                ]);
                 return [
                     'success' => false,
-                    'message' => 'Unsupported payment method.'
+                    'message' => 'Payment processing failed due to invalid response from payment gateway.'
                 ];
+            }
+
+            return $result;
+        } catch (Exception $e) {
+            Log::error('Payment processing exception: ' . $e->getMessage(), [
+                'payment_method' => $paymentMethod,
+                'order_id' => $order->id
+            ]);
+            return [
+                'success' => false,
+                'message' => 'Payment processing failed: ' . $e->getMessage()
+            ];
         }
     }
 
@@ -707,14 +801,24 @@ class CheckoutService
     {
         try {
             if (!$this->stripe) {
+                Log::error('Stripe client not initialized');
                 return [
                     'success' => false,
                     'message' => 'Stripe is not configured.'
                 ];
             }
 
+            // Validate required checkout data
+            if (empty($checkoutData['payment_token'])) {
+                Log::error('Payment token missing in checkout data');
+                return [
+                    'success' => false,
+                    'message' => 'Payment token is required.'
+                ];
+            }
+
             // Create payment intent
-            $paymentIntent = $this->stripe->paymentIntents->create([
+            $paymentIntentData = [
                 'amount' => (int)($order->total * 100), // Convert to cents
                 'currency' => 'usd',
                 'payment_method' => $checkoutData['payment_token'], // This is now a PaymentMethod ID
@@ -727,6 +831,20 @@ class CheckoutService
                     'order_number' => 'ORD-' . str_pad($order->id, 6, '0', STR_PAD_LEFT),
                     'customer_email' => $checkoutData['billing_address']['email']
                 ]
+            ];
+
+            Log::info('Creating Stripe payment intent', [
+                'order_id' => $order->id,
+                'amount' => $paymentIntentData['amount'],
+                'currency' => $paymentIntentData['currency']
+            ]);
+
+            $paymentIntent = $this->stripe->paymentIntents->create($paymentIntentData);
+
+            Log::info('Stripe payment intent created', [
+                'payment_intent_id' => $paymentIntent->id,
+                'status' => $paymentIntent->status,
+                'order_id' => $order->id
             ]);
 
             if ($paymentIntent->status === 'succeeded') {
@@ -736,9 +854,16 @@ class CheckoutService
                     'payment_status' => 'succeeded'
                 ];
             } else {
+                $errorMessage = $paymentIntent->last_payment_error?->message ?? 'Unknown error';
+                Log::error('Stripe payment failed', [
+                    'payment_intent_id' => $paymentIntent->id,
+                    'status' => $paymentIntent->status,
+                    'error' => $errorMessage,
+                    'order_id' => $order->id
+                ]);
                 return [
                     'success' => false,
-                    'message' => 'Payment failed: ' . $paymentIntent->last_payment_error?->message ?? 'Unknown error'
+                    'message' => 'Payment failed: ' . $errorMessage
                 ];
             }
         } catch (\Stripe\Exception\CardException $e) {
@@ -752,6 +877,10 @@ class CheckoutService
                 'message' => 'Invalid request: ' . $e->getMessage()
             ];
         } catch (Exception $e) {
+            Log::error('Stripe payment processing failed: ' . $e->getMessage(), [
+                'order_id' => $order->id,
+                'checkout_data' => $checkoutData
+            ]);
             return [
                 'success' => false,
                 'message' => 'Payment processing failed: ' . $e->getMessage()
@@ -788,6 +917,18 @@ class CheckoutService
 
             Log::info('PayPal payment result:', $result);
 
+            // Ensure PayPal result has the expected structure
+            if (!is_array($result) || !isset($result['success'])) {
+                Log::error('PayPal service returned invalid result structure', [
+                    'result' => $result,
+                    'order_id' => $order->id
+                ]);
+                return [
+                    'success' => false,
+                    'message' => 'PayPal payment creation failed due to invalid response.'
+                ];
+            }
+
             if ($result['success']) {
                 // Store PayPal payment ID in session for later execution
                 // Store PayPal order ID in session for callback
@@ -798,7 +939,7 @@ class CheckoutService
                 return [
                     'success' => true,
                     'order_id' => $order->id,
-                    'order_number' => $order->order_number,
+                    'order_number' => 'ORD-' . str_pad($order->id, 6, '0', STR_PAD_LEFT),
                     'payment_id' => $result['payment_id'],
                     'approval_url' => $result['approval_url'],
                     'payment_status' => 'pending',
@@ -834,6 +975,133 @@ class CheckoutService
             'payment_status' => $paymentResult['payment_status'] ?? Order::PAYMENT_PAID,
             'status' => Order::STATUS_CONFIRMED
         ]);
+
+        // Handle digital products for PayPal payments (when payment is confirmed)
+        if ($paymentResult['payment_status'] === 'succeeded' || $paymentResult['payment_status'] === Order::PAYMENT_PAID) {
+            $this->handleDigitalProductsAfterPayment($order);
+        }
+    }
+
+    /**
+     * Handle digital products immediately after payment
+     * 
+     * @param Order $order
+     */
+    protected function handleDigitalProductsAfterPayment($order)
+    {
+        try {
+            // Check if order contains only digital products
+            $orderLines = $order->lines()->with('product')->get();
+            $digitalProducts = [];
+            $physicalProducts = [];
+
+            foreach ($orderLines as $line) {
+                if ($line->product && $line->product->isDigital()) {
+                    $digitalProducts[] = $line;
+                } else {
+                    $physicalProducts[] = $line;
+                }
+            }
+
+            Log::info('Order product analysis', [
+                'order_id' => $order->id,
+                'digital_products_count' => count($digitalProducts),
+                'physical_products_count' => count($physicalProducts),
+                'total_products' => count($orderLines)
+            ]);
+
+            // If order contains only digital products, mark as completed
+            if (count($digitalProducts) > 0 && count($physicalProducts) === 0) {
+                Log::info('Order contains only digital products, marking as completed', [
+                    'order_id' => $order->id
+                ]);
+                
+                $order->update([
+                    'status' => Order::STATUS_COMPLETED
+                ]);
+            }
+
+            // Grant audiobook access for all digital products
+            if (count($digitalProducts) > 0 && $order->user) {
+                $this->grantAudiobookAccess($order, $digitalProducts);
+            }
+
+        } catch (Exception $e) {
+            Log::error('Failed to handle digital products after payment', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Grant audiobook access to user for digital products
+     * 
+     * @param Order $order
+     * @param array $digitalProducts
+     */
+    protected function grantAudiobookAccess($order, $digitalProducts)
+    {
+        try {
+            $user = $order->user;
+            $grantedAudiobooks = [];
+
+            foreach ($digitalProducts as $line) {
+                $product = $line->product;
+                if (!$product) continue;
+
+                // Get all audiobooks associated with this product
+                $audioBooks = $product->audioBooks()->get();
+                
+                foreach ($audioBooks as $audioBook) {
+                    // Check if user already has access
+                    $existingAccess = $user->audioBooks()
+                        ->where('audio_book_id', $audioBook->id)
+                        ->first();
+
+                    if (!$existingAccess) {
+                        // Grant access
+                        $user->audioBooks()->attach($audioBook->id, [
+                            'unlocked_at' => now()
+                        ]);
+                        
+                        $grantedAudiobooks[] = [
+                            'product_name' => $product->name,
+                            'audiobook_title' => $audioBook->title
+                        ];
+
+                        Log::info('Audiobook access granted', [
+                            'user_id' => $user->id,
+                            'order_id' => $order->id,
+                            'product_id' => $product->id,
+                            'audiobook_id' => $audioBook->id,
+                            'audiobook_title' => $audioBook->title
+                        ]);
+                    } else {
+                        Log::info('User already has access to audiobook', [
+                            'user_id' => $user->id,
+                            'audiobook_id' => $audioBook->id,
+                            'audiobook_title' => $audioBook->title
+                        ]);
+                    }
+                }
+            }
+
+            if (count($grantedAudiobooks) > 0) {
+                Log::info('Audiobook access granted for order', [
+                    'order_id' => $order->id,
+                    'user_id' => $user->id,
+                    'granted_audiobooks' => $grantedAudiobooks
+                ]);
+            }
+
+        } catch (Exception $e) {
+            Log::error('Failed to grant audiobook access', [
+                'order_id' => $order->id,
+                'user_id' => $user->id ?? null,
+                'error' => $e->getMessage()
+            ]);
+        }
     }
 
     /**

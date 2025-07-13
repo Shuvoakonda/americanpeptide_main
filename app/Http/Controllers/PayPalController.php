@@ -63,6 +63,9 @@ class PayPalController extends Controller
                         'status' => 'confirmed'
                     ]);
 
+                    // Handle digital products immediately after payment
+                    $this->handleDigitalProductsAfterPayment($order);
+
                     // Send confirmation emails
                     $emailService = new OrderEmailService();
                     $emailService->sendNewOrderEmails($order);
@@ -206,6 +209,9 @@ class PayPalController extends Controller
                     'status' => 'confirmed'
                 ]);
 
+                // Handle digital products for webhook payments
+                $this->handleDigitalProductsAfterPayment($order);
+
                 Log::info('Order payment confirmed via PayPal webhook', [
                     'order_id' => $order->id,
                     'payment_id' => $paymentId
@@ -259,6 +265,128 @@ class PayPalController extends Controller
                     'payment_id' => $paymentId
                 ]);
             }
+        }
+    }
+
+    /**
+     * Handle digital products immediately after payment
+     * 
+     * @param Order $order
+     */
+    protected function handleDigitalProductsAfterPayment($order)
+    {
+        try {
+            // Check if order contains only digital products
+            $orderLines = $order->lines()->with('product')->get();
+            $digitalProducts = [];
+            $physicalProducts = [];
+
+            foreach ($orderLines as $line) {
+                if ($line->product && $line->product->isDigital()) {
+                    $digitalProducts[] = $line;
+                } else {
+                    $physicalProducts[] = $line;
+                }
+            }
+
+            Log::info('PayPal order product analysis', [
+                'order_id' => $order->id,
+                'digital_products_count' => count($digitalProducts),
+                'physical_products_count' => count($physicalProducts),
+                'total_products' => count($orderLines)
+            ]);
+
+            // If order contains only digital products, mark as completed
+            if (count($digitalProducts) > 0 && count($physicalProducts) === 0) {
+                Log::info('PayPal order contains only digital products, marking as completed', [
+                    'order_id' => $order->id
+                ]);
+                
+                $order->update([
+                    'status' => Order::STATUS_COMPLETED
+                ]);
+            }
+
+            // Grant audiobook access for all digital products
+            if (count($digitalProducts) > 0 && $order->user) {
+                $this->grantAudiobookAccess($order, $digitalProducts);
+            }
+
+        } catch (Exception $e) {
+            Log::error('Failed to handle digital products after PayPal payment', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Grant audiobook access to user for digital products
+     * 
+     * @param Order $order
+     * @param array $digitalProducts
+     */
+    protected function grantAudiobookAccess($order, $digitalProducts)
+    {
+        try {
+            $user = $order->user;
+            $grantedAudiobooks = [];
+
+            foreach ($digitalProducts as $line) {
+                $product = $line->product;
+                if (!$product) continue;
+
+                // Get all audiobooks associated with this product
+                $audioBooks = $product->audioBooks()->get();
+                
+                foreach ($audioBooks as $audioBook) {
+                    // Check if user already has access
+                    $existingAccess = $user->audioBooks()
+                        ->where('audio_book_id', $audioBook->id)
+                        ->first();
+
+                    if (!$existingAccess) {
+                        // Grant access
+                        $user->audioBooks()->attach($audioBook->id, [
+                            'unlocked_at' => now()
+                        ]);
+                        
+                        $grantedAudiobooks[] = [
+                            'product_name' => $product->name,
+                            'audiobook_title' => $audioBook->title
+                        ];
+
+                        Log::info('Audiobook access granted via PayPal', [
+                            'user_id' => $user->id,
+                            'order_id' => $order->id,
+                            'product_id' => $product->id,
+                            'audiobook_id' => $audioBook->id,
+                            'audiobook_title' => $audioBook->title
+                        ]);
+                    } else {
+                        Log::info('User already has access to audiobook via PayPal', [
+                            'user_id' => $user->id,
+                            'audiobook_id' => $audioBook->id,
+                            'audiobook_title' => $audioBook->title
+                        ]);
+                    }
+                }
+            }
+
+            if (count($grantedAudiobooks) > 0) {
+                Log::info('Audiobook access granted for PayPal order', [
+                    'order_id' => $order->id,
+                    'user_id' => $user->id,
+                    'granted_audiobooks' => $grantedAudiobooks
+                ]);
+            }
+
+        } catch (Exception $e) {
+            Log::error('Failed to grant audiobook access via PayPal', [
+                'order_id' => $order->id,
+                'user_id' => $user->id ?? null,
+                'error' => $e->getMessage()
+            ]);
         }
     }
 } 

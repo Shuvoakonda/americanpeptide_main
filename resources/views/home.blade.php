@@ -122,57 +122,22 @@
 
         <!-- Products Grid (4 per row) -->
         <div class="row px-5">
-            <!-- Product 1 -->
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product />
-            </div>
+            @foreach ($products as $product)
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                    <x-product.product :product="$product" />
+                </div>
+            @endforeach
+            @foreach ($products as $product)
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                    <x-product.product-2 :product="$product" />
+                </div>
+            @endforeach
 
-            <!-- Product 2 -->
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product />
-            </div>
-
-            <!-- Product 3 -->
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product />
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product />
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product-3 />
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product-3 />
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product-3 />
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product-3 />
-            </div>
-
-            <!-- Product 4 -->
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product-2 />
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product-2 />
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product-2 />
-            </div>
-
-            <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                <x-product.product-2 />
-            </div>
+            @foreach ($products as $product)
+                <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
+                    <x-product.product-3 :product="$product" />
+                </div>
+            @endforeach
 
         </div>
 

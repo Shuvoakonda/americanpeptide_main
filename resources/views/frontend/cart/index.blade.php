@@ -3,525 +3,336 @@
 @section('title', 'Shopping Cart - MyShop')
 
 @section('content')
-<div class="container py-5">
-    <!-- Page Header -->
-    <div class="section-header text-center mb-5">
-        <h1 class="section-title display-4 fw-bold" style="font-family: 'Playfair Display', serif; color: var(--primary-color); letter-spacing: 1px;">
-            <i class="bi bi-cart3 me-3"></i>Shopping Cart
-        </h1>
-        <p class="section-subtitle lead" style="font-family: 'Inter', sans-serif; color: var(--text-muted);">Review your items and proceed to checkout</p>
-    </div>
+    <div class="container p-5">
+        <div class="cart-header-wrapper mb-4">
+            <div class="d-flex align-items-center position-relative">
+                <h2 class="mb-0 pe-4 d-flex align-items-center">
+                    <span class="cart-icon me-2">
+                        <!-- SVG icon same as before -->
+                    </span>
+                    <span class="position-relative">
+                        <span class="title-text">Your Shopping Cart</span>
+                        <span class="title-underline"></span>
+                    </span>
+                </h2>
 
-    @if(!empty($cartItems) && count($cartItems) > 0)
+                <div class="ms-auto step-indicator">
+                    <div class="steps">
+                        <div class="step active" data-step="1">
+                            <div class="step-circle">1</div>
+                            <div class="step-label d-none d-sm-inline">Cart</div>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step" data-step="2">
+                            <div class="step-circle">2</div>
+                            <div class="step-label d-none d-sm-inline">Checkout</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <!-- Cart Items -->
-            <div class="col-lg-8 mb-4">
-                <div class="card shadow-lg border-0 premium-cart-card p-4">
-                    <div class="card-header bg-white border-bottom-0 pb-0">
-                        <h5 class="mb-0 fw-bold" style="font-family: 'Playfair Display', serif; color: var(--primary-color);">
-                            <i class="bi bi-bag me-2"></i>Cart Items ({{ count($cartItems) }})
-                        </h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive d-none d-md-block">
-                            <table class="table align-middle mb-0 cart-table">
-                                <thead class="table-light">
+            <div class="col-lg-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <th style="min-width:180px;">Product</th>
-                                        <th class="text-center" style="min-width:120px;">Quantity</th>
-                                        <th class="text-end" style="min-width:90px;">Price</th>
-                                        <th class="text-end" style="min-width:90px;">Total</th>
-                                        <th class="text-end" style="min-width:40px;"></th>
+                                        <th scope="col">Product</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($cartItems as $itemKey => $item)
-                                    <tr class="cart-item-table-row" data-item-id="{{ $itemKey }}">
-                                        <!-- Product -->
-                                        <td class="d-flex align-items-center gap-3 py-3">
-                                            <img src="{{ $item['image_url'] ?? ($item['product']['image_url'] ?? 'https://via.placeholder.com/64x64?text=No+Image') }}"
-                                                 class="img-fluid rounded" 
-                                                 alt="{{ $item['product_name'] }}"
-                                                 style="width: 56px; height: 56px; object-fit: cover;">
-                                            <div>
-                                                <div class="fw-semibold" style="font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--primary-color);">{{ $item['product_name'] }}</div>
-                                                @if(isset($item['variant']) && $item['variant'])
-                                                <small class="text-muted">Variant: {{ implode(', ', array_values($item['variant']['attributes'] ?? [])) }}</small>
-                                                @endif
+                                    <tr>
+                                        <td data-label="Product">
+                                            <div class="d-flex align-items-center">
+                                                <img src="/assets/images/product/ABP-7-10mg-300x300.jpg.webp"
+                                                    class="img-fluid rounded-3 me-3" alt="Product">
+                                                <div>
+                                                    <h6 class="mb-0">Premium Leather Wallet</h6>
+                                                    <p class="mb-0 text-muted">SKU: 12345</p>
+                                                </div>
                                             </div>
                                         </td>
-                                        <!-- Quantity -->
-                                        <td class="text-center">
-                                            <div class="d-flex align-items-center justify-content-center gap-2">
-                                                <button class="btn btn-outline-secondary btn-sm quantity-btn px-2" data-action="decrease" data-item-id="{{ $itemKey }}"><i class="bi bi-dash"></i></button>
-                                                <input type="number" class="form-control form-control-sm text-center mx-1 quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{ $item['product']['stock'] ?? 999 }}" data-item-id="{{ $itemKey }}" style="width: 48px;">
-                                                <button class="btn btn-outline-secondary btn-sm quantity-btn px-2" data-action="increase" data-item-id="{{ $itemKey }}"><i class="bi bi-plus"></i></button>
+                                        <td class="align-middle price" data-label="Price">$49.99</td>
+                                        <td class="align-middle" data-label="Quantity">
+                                            <div class="input-group quantity-selector">
+                                                <button class="btn btn-outline-secondary minus-btn"
+                                                    type="button">-</button>
+                                                <input type="text" class="form-control text-center quantity-input"
+                                                    value="1">
+                                                <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
                                             </div>
                                         </td>
-                                        <!-- Price -->
-                                        <td class="text-end">
-                                            <div class="fw-semibold" style="font-size: 1rem;">${{ number_format($item['price'], 2) }}</div>
-                                        </td>
-                                        <!-- Total -->
-                                        <td class="text-end">
-                                            <div class="fw-bold" style="font-size: 1.1rem; color: var(--primary-color);">${{ number_format($item['total'], 2) }}</div>
-                                        </td>
-                                        <!-- Remove -->
-                                        <td class="text-end">
-                                            <button class="btn btn-link text-danger p-0 remove-item" data-item-id="{{ $itemKey }}" title="Remove item">
-                                                <i class="bi bi-trash fs-5"></i>
+                                        <td class="align-middle price" data-label="Total">$49.99</td>
+                                        <td class="align-middle" data-label="Remove">
+                                            <button class="btn btn-sm btn-outline-danger remove-btn">
+                                                <i class="bi bi-trash"></i>
                                             </button>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                    <tr>
+                                        <td data-label="Product">
+                                            <div class="d-flex align-items-center">
+                                                <img src="/assets/images/product/ABP-7-10mg-300x300.jpg.webp"
+                                                    class="img-fluid rounded-3 me-3" alt="Product">
+                                                <div>
+                                                    <h6 class="mb-0">Wireless Earbuds</h6>
+                                                    <p class="mb-0 text-muted">SKU: 67890</p>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle price" data-label="Price">$29.99</td>
+                                        <td class="align-middle" data-label="Quantity">
+                                            <div class="input-group quantity-selector">
+                                                <button class="btn btn-outline-secondary minus-btn"
+                                                    type="button">-</button>
+                                                <input type="text" class="form-control text-center quantity-input"
+                                                    value="2">
+                                                <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle price" data-label="Total">$59.98</td>
+                                        <td class="align-middle" data-label="Remove">
+                                            <button class="btn btn-sm btn-outline-danger remove-btn">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <!-- Mobile Card List -->
-                        <div class="d-block d-md-none">
-                            @foreach($cartItems as $itemKey => $item)
-                            <div class="cart-mobile-card mb-3 p-3 shadow-sm rounded-4 position-relative" data-item-id="{{ $itemKey }}">
-                                <div class="d-flex align-items-center gap-3 mb-2">
-                                    <img src="{{ $item['image_url'] ?? ($item['product']['image_url'] ?? 'https://via.placeholder.com/64x64?text=No+Image') }}"
-                                         class="img-fluid rounded cart-mobile-img"
-                                         alt="{{ $item['product_name'] }}">
-                                    <div class="flex-grow-1">
-                                        <div class="fw-semibold mb-1" style="font-family: 'Playfair Display', serif; color: var(--primary-color);">{{ $item['product_name'] }}</div>
-                                        @if(isset($item['variant']) && $item['variant'])
-                                        <small class="text-muted">Variant: {{ implode(', ', array_values($item['variant']['attributes'] ?? [])) }}</small>
-                                        @endif
-                                    </div>
-                                    <button class="btn btn-link text-danger p-0 remove-item position-absolute top-0 end-0 mt-2 me-2" data-item-id="{{ $itemKey }}" title="Remove item">
-                                        <i class="bi bi-trash fs-5"></i>
-                                    </button>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between mt-2">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <button class="btn btn-outline-secondary btn-sm quantity-btn px-2" data-action="decrease" data-item-id="{{ $itemKey }}"><i class="bi bi-dash"></i></button>
-                                        <input type="number" class="form-control form-control-sm text-center mx-1 quantity-input" value="{{ $item['quantity'] }}" min="1" max="{{ $item['product']['stock'] ?? 999 }}" data-item-id="{{ $itemKey }}" style="width: 48px;">
-                                        <button class="btn btn-outline-secondary btn-sm quantity-btn px-2" data-action="increase" data-item-id="{{ $itemKey }}"><i class="bi bi-plus"></i></button>
-                                    </div>
-                                    <div class="text-end">
-                                        <div class="fw-semibold small">Price: ${{ number_format($item['price'], 2) }}</div>
-                                        <div class="fw-bold small" style="color: var(--primary-color);">Total: ${{ number_format($item['total'], 2) }}</div>
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
+
+                        <div class="d-flex justify-content-between pt-2">
+                            <button class="btn btn-light">Continue Shopping</button>
+                            <button class="btn btn-warning">Update Cart</button>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Cart Summary -->
-            <div class="col-lg-4">
-                <div class="card shadow-lg border-0 sticky-top premium-summary-card" style="top: 2rem; background: linear-gradient(135deg, #fff 80%, var(--light-bg) 100%); border-radius: 1.5rem;">
-                    <div class="card-header bg-white border-bottom-0 pb-0">
-                        <h5 class="mb-0 fw-bold" style="font-family: 'Playfair Display', serif; color: var(--success-color);">
-                            <i class="bi bi-calculator me-2"></i>Order Summary
-                        </h5>
-                    </div>
+                <!-- Coupon Code -->
+                <div class="card mb-4">
                     <div class="card-body">
-                        <!-- Coupon Section -->
-                        <div class="mb-4 premium-coupon-box p-3 rounded-4" style="background: var(--light-bg);">
-                            <h6 class="fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--primary-color);">
-                                <i class="bi bi-ticket-perforated me-2"></i>Apply Coupon
-                            </h6>
-                            <div class="input-group mb-2">
-                                <input type="text" 
-                                       class="form-control" 
-                                       id="couponCode" 
-                                       placeholder="Enter coupon code">
-                                <button class="btn btn-premium" id="applyCoupon">
-                                    <i class="bi bi-check-lg"></i>
-                                </button>
-                            </div>
-                            <div id="couponMessage"></div>
-                        </div>
+                        <h5 class="card-title">Discount Code</h5>
+                        <p class="card-text text-muted">Apply promo code for instant savings</p>
 
-                        <!-- Summary Details -->
-                        <div class="summary-details premium-summary-details">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Subtotal:</span>
-                                <span class="fw-bold">${{ number_format($subtotal, 2) }}</span>
+                        <div class="coupon-container">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="couponCode" placeholder="Enter promo code">
+                                <button class="btn btn-primary" id="applyCoupon">Apply</button>
                             </div>
-                            @if($discount > 0)
-                            <div class="d-flex justify-content-between mb-2 text-success">
-                                <span>Discount:</span>
-                                <span class="fw-bold">-${{ number_format($discount, 2) }}</span>
-                            </div>
-                            @endif
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Shipping:</span>
-                                <span class="fw-bold">${{ number_format($shipping, 2) }}</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="text-muted">Tax:</span>
-                                <span class="fw-bold">${{ number_format($tax, 2) }}</span>
-                            </div>
-                            <hr class="my-3">
-                            <div class="d-flex justify-content-between mb-4">
-                                <span class="fw-bold fs-5" style="font-family: 'Playfair Display', serif;">Total:</span>
-                                <span class="fw-bold fs-4 price premium-price" style="font-family: 'Playfair Display', serif; color: var(--primary-color);">${{ number_format($total, 2) }}</span>
-                            </div>
+                            <div id="couponMessage" class="d-none alert mt-3"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
 
-                        <!-- Action Buttons -->
-                        <div class="d-grid gap-2">
-                            <a href="{{ route('checkout.index') }}" 
-                               class="btn btn-premium btn-lg fw-bold">
-                                <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
-                            </a>
-                            <a href="{{ route('products.index') }}" 
-                               class="btn btn-outline-primary btn-lg">
-                                <i class="bi bi-arrow-left me-2"></i>Continue Shopping
-                            </a>
+            <!-- Order Summary -->
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Summary</h5>
+
+                        <ul class="list-group list-group-flush">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-2">
+                                Subtotal
+                                <span class="price">$109.97</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 pb-2">
+                                Shipping
+                                <span>Free</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0 pb-2 mb-3">
+                                <div>
+                                    <strong>Discount</strong>
+                                    <small class="text-success d-none" id="discountLabel">(SUMMER10)</small>
+                                </div>
+                                <span class="text-success" id="discountAmount">$0.00</span>
+                            </li>
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3 pt-3">
+                                <div>
+                                    <strong>Total</strong>
+                                    <small class="text-muted d-block">Includes tax</small>
+                                </div>
+                                <span><strong class="price" id="totalAmount">$109.97</strong></span>
+                            </li>
+                        </ul>
+
+                        <button class="btn btn-primary btn-lg w-100 mt-3" href={{ route('checkout.index') }}>
+                            <i class="bi bi-lock-fill me-2"></i>Proceed to Checkout
+                        </button>
+                        
+                        <div class="text-center mt-3">
+                            <small class="text-muted">
+                                <i class="bi bi-shield-check me-1"></i>Secure checkout
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="mb-3">We Accept</h6>
+                        <div class="d-flex justify-content-between">
+                            <img src="https://via.placeholder.com/40x25?text=Visa" alt="Visa" class="img-fluid">
+                            <img src="https://via.placeholder.com/40x25?text=MC" alt="Mastercard" class="img-fluid">
+                            <img src="https://via.placeholder.com/40x25?text=Amex" alt="Amex" class="img-fluid">
+                            <img src="https://via.placeholder.com/40x25?text=PayPal" alt="PayPal" class="img-fluid">
+                            <img src="https://via.placeholder.com/40x25?text=Apple" alt="Apple Pay" class="img-fluid">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    @else
-        <!-- Empty Cart -->
-        <div class="text-center py-5">
-            <div class="card shadow-lg border-0" style="max-width: 500px; margin: 0 auto;">
-                <div class="card-body p-5">
-                    <i class="bi bi-cart-x display-1 text-muted mb-4"></i>
-                    <h3 class="fw-bold mb-3" style="font-family: 'Playfair Display', serif; color: var(--primary-color);">Your cart is empty</h3>
-                    <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
-                    <a href="{{ route('products.index') }}" class="btn btn-premium btn-lg">
-                        <i class="bi bi-shop me-2"></i>Start Shopping
-                    </a>
-                </div>
-            </div>
-        </div>
-    @endif
-</div>
+    </div>
 
-<style>
-.premium-cart-card {
-    border-radius: 1.5rem;
-    background: linear-gradient(135deg, #fff 80%, var(--light-bg) 100%);
-    padding: 2rem !important;
-}
-.premium-cart-item {
-    border-radius: 1.25rem;
-    margin-bottom: 0.5rem;
-    box-shadow: 0 2px 12px rgba(155,139,122,0.07);
-    background: #fff;
-    transition: box-shadow 0.2s, background 0.2s;
-}
-.premium-cart-item:hover {
-    box-shadow: 0 8px 32px rgba(155,139,122,0.13);
-    background: var(--light-bg);
-}
-.premium-cart-img {
-    border-radius: 1rem;
-    box-shadow: 0 2px 8px rgba(155,139,122,0.08);
-    }
-.premium-summary-card {
-    border-radius: 1.5rem;
-    box-shadow: 0 8px 32px rgba(155,139,122,0.13);
-    border: 1.5px solid var(--border-color);
-}
-.premium-summary-details {
-    background: #fff;
-    border-radius: 1rem;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 8px rgba(155,139,122,0.07);
-}
-.premium-coupon-box {
-    border: 1.5px solid var(--border-color);
-    box-shadow: 0 2px 8px rgba(155,139,122,0.07);
-    }
-.premium-remove-btn {
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    transition: background 0.2s, transform 0.2s;
-    }
-.premium-remove-btn:hover {
-    background: rgba(239, 68, 68, 0.08);
-        transform: scale(1.1);
-    }
-.premium-qty-group .btn-premium {
-    padding: 0.35rem 0.9rem;
-    font-size: 1.1rem;
-    border-radius: 1rem;
-}
-.premium-cart-item-elegant {
-    background: #fff;
-    border-radius: 1.25rem;
-    box-shadow: 0 2px 12px rgba(155,139,122,0.07);
-    transition: box-shadow 0.2s, background 0.2s;
-    min-height: 120px;
-    margin-bottom: 2rem !important;
-    border: 1.5px solid var(--border-color);
-    }
-.premium-cart-item-elegant:hover {
-    box-shadow: 0 8px 32px rgba(155,139,122,0.13);
-    background: var(--light-bg);
-}
-.premium-cart-img-elegant {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 1rem;
-    box-shadow: 0 2px 8px rgba(155,139,122,0.08);
-    border: 2px solid var(--border-color);
-    background: #f8f7f5;
-}
-.premium-qty-group-elegant {
-    min-width: 120px;
-    border-radius: 2rem;
-    border: 1.5px solid var(--border-color);
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(155,139,122,0.07);
-}
-.premium-qty-group-elegant .btn-premium {
-    font-size: 1.1rem;
-    border-radius: 50%;
-    padding: 0.25rem 0.7rem;
-    min-width: 32px;
-    min-height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.cart-item-simple {
-    font-size: 1rem;
-    background: none;
-    border-radius: 0;
-    box-shadow: none;
-    margin-bottom: 0;
-    min-height: 72px;
-}
-.cart-item-simple:last-child {
-    border-bottom: none;
-    }
-.cart-table th, .cart-table td {
-    padding: 1.25rem 1rem !important;
-    vertical-align: middle;
-}
-.cart-table td img {
-    box-shadow: 0 2px 8px rgba(155,139,122,0.08);
-    border-radius: 0.75rem;
-}
-.cart-mobile-card {
-    background: #fff;
-    border: 1.5px solid var(--border-color, #eee);
-    box-shadow: 0 2px 8px rgba(155,139,122,0.07);
-    border-radius: 1.25rem;
-    position: relative;
-}
-.cart-mobile-img {
-    width: 64px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 0.75rem;
-    box-shadow: 0 2px 8px rgba(155,139,122,0.08);
-}
-@media (max-width: 767px) {
-    .cart-table, .cart-table thead, .cart-table tbody, .cart-table tr, .cart-table td {
-        display: none !important;
-    }
-    .cart-mobile-card {
-        display: block;
-    }
-}
-</style>
-
-@push('scripts')
-<script>
-    $(document).ready(function() {
-        // Quantity buttons
-        $('.quantity-btn').on('click', function() {
-            const action = $(this).data('action');
-            const itemId = $(this).data('item-id');
-            const input = $(`.quantity-input[data-item-id="${itemId}"]`);
-            let currentQty = parseInt(input.val());
-            
-            if (action === 'increase') {
-                input.val(currentQty + 1);
-            } else if (action === 'decrease' && currentQty > 1) {
-                input.val(currentQty - 1);
-            }
-            
-            updateQuantity(itemId, input.val());
-        });
-
-        // Quantity input change
-        $('.quantity-input').on('change', function() {
-            const itemId = $(this).data('item-id');
-            const quantity = $(this).val();
-            updateQuantity(itemId, quantity);
-        });
-
-        // Remove item
-        $('.remove-item').on('click', function() {
-            const itemId = $(this).data('item-id');
-            removeItem(itemId);
-        });
-
-        // Apply coupon
-        $('#applyCoupon').on('click', function() {
-            const couponCode = $('#couponCode').val().trim();
-            if (couponCode) {
-                applyCoupon(couponCode);
-            }
-        });
-
-        // Enter key for coupon
-        $('#couponCode').on('keypress', function(e) {
-            if (e.which === 13) {
-                $('#applyCoupon').click();
-            }
-        });
-
-        function updateQuantity(itemId, quantity) {
-            $.ajax({
-                url: '{{ route("cart.update") }}',
-                method: 'POST',
-                data: {
-                    item_id: itemId,
-                    quantity: quantity
-                },
-                success: function(response) {
-                    if (response.success) {
-                        updateCartCount(response.cart_count);
-                        updateSummary(response);
-                        
-                        // Update the specific item's line total
-                        if (response.cart_items && response.cart_items[itemId]) {
-                            const item = response.cart_items[itemId];
-                            const itemElement = $(`.cart-item-table-row[data-item-id="${itemId}"]`);
-                            
-                            // Update the line total
-                            itemElement.find('.fw-bold').text('$' + parseFloat(item.total).toFixed(2));
-                            
-                            // Update the quantity input to ensure it matches
-                            itemElement.find('.quantity-input').val(item.quantity);
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Animation for step indicator
+                const steps = document.querySelectorAll('.step');
+                steps.forEach(step => {
+                    step.addEventListener('mouseenter', function() {
+                        if (!this.classList.contains('active')) {
+                            this.querySelector('.step-circle').style.transform = 'scale(1.1)';
                         }
-                        
-                        showToast('Cart updated successfully', 'success');
-                    } else {
-                        showToast(response.message || 'Error updating cart', 'danger');
-                    }
-                },
-                error: function() {
-                    showToast('Error updating cart', 'danger');
-                }
-            });
-        }
-
-        function removeItem(itemId) {
-            if (confirm('Are you sure you want to remove this item?')) {
-                $.ajax({
-                    url: '{{ route("cart.remove") }}',
-                    method: 'POST',
-                    data: {
-                        item_id: itemId
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            updateCartCount(response.cart_count);
-                            $(`.cart-item-table-row[data-item-id="${itemId}"]`).fadeOut(300, function() {
-                                $(this).remove();
-                                if ($('.cart-item-table-row').length === 0) {
-                                    location.reload();
-                                }
-                            });
-                            updateSummary(response);
-                            showToast('Item removed from cart', 'success');
-                        } else {
-                            showToast(response.message || 'Error removing item', 'danger');
-                        }
-                    },
-                    error: function() {
-                        showToast('Error removing item', 'danger');
-                    }
+                    });
+                    step.addEventListener('mouseleave', function() {
+                        this.querySelector('.step-circle').style.transform = 'scale(1)';
+                    });
                 });
-            }
-        }
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Quantity selectors
+                document.querySelectorAll('.plus-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const input = this.parentNode.querySelector('.quantity-input');
+                        input.value = parseInt(input.value) + 1;
+                        updateCartTotals();
+                    });
+                });
 
-        function applyCoupon(couponCode) {
-            const button = $('#applyCoupon');
-            const originalText = button.html();
-            
-            button.prop('disabled', true);
-            button.html('<span class="spinner-border spinner-border-sm"></span>');
-            
-            $.ajax({
-                url: '{{ route("cart.apply-coupon") }}',
-                method: 'POST',
-                data: {
-                    coupon_code: couponCode
-                },
-                success: function(response) {
-                    if (response.success) {
-                        updateSummary(response);
-                        $('#couponMessage').html(`
-                            <div class="alert alert-success alert-sm">
-                                <i class="bi bi-check-circle me-1"></i>${response.message}
-                            </div>
-                        `);
-                        showToast(response.message, 'success');
-                    } else {
-                        $('#couponMessage').html(`
-                            <div class="alert alert-danger alert-sm">
-                                <i class="bi bi-exclamation-triangle me-1"></i>${response.message}
-                            </div>
-                        `);
-                        showToast(response.message, 'danger');
-                    }
-                },
-                error: function() {
-                    $('#couponMessage').html(`
-                        <div class="alert alert-danger alert-sm">
-                            <i class="bi bi-exclamation-triangle me-1"></i>Error applying coupon
-                        </div>
-                    `);
-                    showToast('Error applying coupon', 'danger');
-                },
-                complete: function() {
-                    button.prop('disabled', false);
-                    button.html(originalText);
+                document.querySelectorAll('.minus-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const input = this.parentNode.querySelector('.quantity-input');
+                        if (parseInt(input.value) > 1) {
+                            input.value = parseInt(input.value) - 1;
+                            updateCartTotals();
+                        }
+                    });
+                });
+
+                // Remove items
+                document.querySelectorAll('.remove-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const row = this.closest('tr');
+                        row.style.opacity = '0';
+                        setTimeout(() => {
+                            row.remove();
+                            updateCartTotals();
+                            showToast('Item removed from cart');
+                        }, 300);
+                    });
+                });
+
+                // Coupon system
+                const applyCouponBtn = document.getElementById('applyCoupon');
+                const couponMessage = document.getElementById('couponMessage');
+                const couponOptions = document.querySelectorAll('.coupon-option');
+
+
+
+                // Select coupon from dropdown
+                couponOptions.forEach(option => {
+                    option.addEventListener('click', function() {
+                        // Remove active class from all options
+                        couponOptions.forEach(opt => opt.classList.remove('active'));
+
+                        // Add active class to selected option
+                        this.classList.add('active');
+
+                        // Set coupon code in input
+                        document.getElementById('couponCode').value = this.dataset.code;
+
+
+                    });
+                });
+
+                // Apply coupon
+                if (applyCouponBtn) {
+                    applyCouponBtn.addEventListener('click', function() {
+                        const couponCode = document.getElementById('couponCode').value.trim();
+                        couponMessage.classList.remove('d-none');
+
+                        // Validate coupon
+                        if (couponCode) {
+                            couponMessage.textContent = 'Coupon applied successfully!';
+                            couponMessage.className = 'alert alert-success';
+                            document.getElementById('discountLabel').classList.remove('d-none');
+                        } else {
+                            couponMessage.textContent =
+                                'Invalid coupon code. Try one of our available coupons.';
+                            couponMessage.className = 'alert alert-danger';
+                            document.getElementById('discountLabel').classList.add('d-none');
+                            removeDiscount();
+                        }
+
+                    });
+                }
+
+
+
+                function updateCartTotals() {
+                    // Calculate subtotal based on items
+                    let subtotal = 0;
+                    document.querySelectorAll('tbody tr').forEach(row => {
+                        const price = parseFloat(row.querySelector('.price').textContent.replace('$', ''));
+                        const quantity = parseInt(row.querySelector('.quantity-input').value);
+                        const total = price * quantity;
+                        row.querySelector('td:nth-child(4)').textContent = '$' + total.toFixed(2);
+                        subtotal += total;
+                    });
+
+                    // Get current discount
+                    const discount = parseFloat(document.getElementById('discountAmount').textContent.replace('$',
+                        '') || 0);
+                    const total = subtotal - discount;
+
+                    // Update display
+                    document.querySelector('.list-group-item:first-child span').textContent = '$' + subtotal
+                        .toFixed(2);
+                    document.getElementById('totalAmount').textContent = '$' + total.toFixed(2);
+                }
+
+                function applyDiscount(percent) {
+                    const subtotalText = document.querySelector('.list-group-item:first-child span').textContent;
+                    const subtotal = parseFloat(subtotalText.replace('$', ''));
+                    const discountAmount = (subtotal * percent / 100).toFixed(2);
+
+                    document.getElementById('discountAmount').textContent = '$' + discountAmount;
+                    updateCartTotals();
+                }
+
+                function removeDiscount() {
+                    document.getElementById('discountAmount').textContent = '$0.00';
+                    updateCartTotals();
+                }
+
+                function showToast(message) {
+                    // In a real app, you would use a proper toast notification
+                    console.log(message);
                 }
             });
-        }
-
-        function updateSummary(data) {
-            $('.summary-details').html(`
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Subtotal:</span>
-                    <span class="fw-bold">$${parseFloat(data.subtotal || data.cart_total || 0).toFixed(2)}</span>
-                </div>
-                ${(data.discount || 0) > 0 ? `
-                <div class="d-flex justify-content-between mb-2 text-success">
-                    <span>Discount:</span>
-                    <span class="fw-bold">-$${parseFloat(data.discount || 0).toFixed(2)}</span>
-                </div>
-                ` : ''}
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Shipping:</span>
-                    <span class="fw-bold">$${parseFloat(data.shipping || 0).toFixed(2)}</span>
-                </div>
-                <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Tax:</span>
-                    <span class="fw-bold">$${parseFloat(data.tax || 0).toFixed(2)}</span>
-                </div>
-                <hr class="my-3">
-                <div class="d-flex justify-content-between mb-4">
-                    <span class="fw-bold fs-5" style="font-family: 'Playfair Display', serif;">Total:</span>
-                    <span class="fw-bold fs-4 price premium-price" style="font-family: 'Playfair Display', serif; color: var(--primary-color);">$${parseFloat(data.total || data.cart_total || 0).toFixed(2)}</span>
-                </div>
-            `);
-        }
-    });
-</script>
-@endpush
-@endsection 
+        </script>
+    @endpush
+@endsection

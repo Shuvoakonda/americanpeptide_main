@@ -143,7 +143,7 @@
                         <a class="nav-link text-white" href="{{ route('home') }}">HOME</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="#">PEPTIDES FOR SALE</a>
+                        <a class="nav-link text-white" href="{{ route('products.index') }}">PEPTIDES FOR SALE</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-white" href="{{ route('about') }}">ABOUT US</a>
@@ -158,7 +158,7 @@
                         </a>
                     </li>
                     <li class="nav-item position-relative icon-hover">
-                        <a class="nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                        <a class="nav-link" href="{{ route('cart.index') }}">
                             <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
                             <span id="cart-count" class="cart-badge">0</span>
                         </a>
@@ -231,8 +231,7 @@
     </div>
 
     <!-- Main Content -->
-    <main class="flex-grow-1 py-5" style="">
-
+    <main class="flex-grow-1" style="margin-top: 15px;">
 
         @yield('content')
 

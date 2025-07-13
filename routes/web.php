@@ -1,20 +1,21 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderPrintController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\BlogController;
-use App\Http\Controllers\PayPalController;
-use App\Http\Controllers\PageController;
 use App\Mail\NewOrderNotification;
 use App\Mail\OrderConfirmation;
-use App\Models\Order;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeEmail;
+use App\Models\Order;
+use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +29,10 @@ use App\Mail\WelcomeEmail;
 */
 
 Route::get('/', function () {
-    return view('home');
+    $products = Product::latest()->take(8)->get();
+    return view('home', compact('products'));
 })->name('home');
+
 
 // Static Pages
 Route::get('/about', [PageController::class, 'about'])->name('about');
@@ -51,6 +54,10 @@ Route::post('/cart/apply-coupon', [CartController::class, 'applyCoupon'])->name(
 Route::post('/cart/remove-coupon', [CartController::class, 'removeCoupon'])->name('cart.remove-coupon');
 Route::get('/cart/count', [CartController::class, 'count']);
 
+Route::get('/test-checkout', function () {
+    return view('frontend.checkout.test_checkout');
+})->name('test.checkout');
+
 // Checkout Routes
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
@@ -68,7 +75,7 @@ Route::get('/paypal/cancel', [PayPalController::class, 'cancel'])->name('paypal.
 Route::post('/paypal/webhook', [PayPalController::class, 'webhook'])->name('paypal.webhook');
 
 // PayPal Test Route (remove in production)
-Route::get('/paypal/test', function() {
+Route::get('/paypal/test', function () {
     $paypalService = new \App\Services\PayPalService();
     return response()->json($paypalService->testConnection());
 })->name('paypal.test');
@@ -121,7 +128,6 @@ Route::get('/order-confirmation/{order}', function (Order $order) {
 //     return new OrderCancellation($order, 'Customer cancelled due to delay');
 // });
 
-
 // Route::get('/test/order-refund/{order}', function (Order $order) {
 //     return new OrderRefund($order, 50.00, 'Partial refund issued');
 // });
@@ -129,7 +135,6 @@ Route::get('/order-confirmation/{order}', function (Order $order) {
 // Route::get('/test/order-status-update/{order}', function (Order $order) {
 //     return new OrderStatusUpdate($order, 'processing', 'shipped');
 // });
-
 
 // Route::get('/test/new-order-notification/{order}', function (Order $order) {
 //     $billing = $order->billing_address ?? [];
@@ -159,7 +164,7 @@ Route::get('/order-confirmation/{order}', function (Order $order) {
 
 Route::get('/test-welcome-email', function () {
     $user = Auth::user() ?? \App\Models\User::first(); // fallback to first user
-    if (!$user) {
+    if (! $user) {
         abort(404, 'No user found to send test email.');
     }
     Mail::to($user->email)->send(new WelcomeEmail($user));
