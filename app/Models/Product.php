@@ -14,25 +14,17 @@ class Product extends Model
         'slug',
         'description',
         'category_id',
-        'brand_id',
+    
         'thumbnail',
         'gallery',
-        'price',
-        'compare_at_price',
-        'cost_per_item',
-        'track_quantity',
-        'sku',
-        'barcode',
-        'weight',
-        'height',
-        'width',
-        'length',
-        'stock',
+
+ 
+
+
         'status',
         'published_at',
         'tags',
-        'options',
-        'has_variants',
+   
         'variants',
         'meta_title',
         'meta_description',
@@ -55,58 +47,92 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function brand()
-    {
-        return $this->belongsTo(Brand::class);
-    }
 
-    public function audioBooks()
-    {
-        return $this->belongsToMany(AudioBook::class, 'audio_book_product');
-    }
+    
 
-    public function hasVariants(): bool
+   
+
+    /**
+     * Get all variants as a collection
+     */
+    public function getVariantsCollection()
     {
-        return $this->has_variants;
+        return collect($this->variants ?? []);
     }
 
     /**
-     * Check if product is digital
+     * Get a variant by SKU
      */
-    public function isDigital(): bool
+    public function getVariantBySku(string $sku)
     {
-        return (bool) $this->is_digital;
+        return $this->getVariantsCollection()->firstWhere('sku', $sku);
     }
 
+    /**
+     * Add a new variant
+     */
+    public function addVariant(array $variant)
+    {
+        $variants = $this->getVariantsCollection()->push($variant)->all();
+        $this->variants = $variants;
+        $this->save();
+    }
+
+    /**
+     * Update a variant by SKU
+     */
+    public function updateVariant(string $sku, array $data)
+    {
+        $variants = $this->getVariantsCollection()->map(function ($variant) use ($sku, $data) {
+            if (isset($variant['sku']) && $variant['sku'] === $sku) {
+                return array_merge($variant, $data);
+            }
+            return $variant;
+        })->all();
+        $this->variants = $variants;
+        $this->save();
+    }
+
+    /**
+     * Remove a variant by SKU
+     */
+    public function removeVariant(string $sku)
+    {
+        $variants = $this->getVariantsCollection()->reject(function ($variant) use ($sku) {
+            return isset($variant['sku']) && $variant['sku'] === $sku;
+        })->values()->all();
+        $this->variants = $variants;
+        $this->save();
+    }
+
+    /**
+     * Get total stock (sum of all variants)
+     */
     public function getStock(): int
     {
-        return $this->hasVariants() ? array_sum(array_column($this->variants, 'stock')) : $this->stock;
+        return $this->getVariantsCollection()->sum('stock');
     }
 
     /**
-     * Get minimum price from variants
+     * Get minimum price from variants (retailer.unit)
      */
     public function getMinPrice(): float
     {
-        if (!$this->hasVariants() || empty($this->variants)) {
-            return $this->price;
-        }
-
-        $prices = collect($this->variants)->pluck('price')->filter();
-        return $prices->isNotEmpty() ? $prices->min() : $this->price;
+        return $this->getVariantsCollection()
+            ->pluck('price.retailer.unit')
+            ->filter()
+            ->min() ?? 0;
     }
 
     /**
-     * Get maximum price from variants
+     * Get maximum price from variants (retailer.unit)
      */
     public function getMaxPrice(): float
     {
-        if (!$this->hasVariants() || empty($this->variants)) {
-            return $this->price;
-        }
-
-        $prices = collect($this->variants)->pluck('price')->filter();
-        return $prices->isNotEmpty() ? $prices->max() : $this->price;
+        return $this->getVariantsCollection()
+            ->pluck('price.retailer.unit')
+            ->filter()
+            ->max() ?? 0;
     }
 
     /**
@@ -114,18 +140,12 @@ class Product extends Model
      */
     public function getPriceRange(): string
     {
-        if (!$this->hasVariants()) {
-            return '$' . number_format($this->price, 2);
+        $min = $this->getMinPrice();
+        $max = $this->getMaxPrice();
+        if ($min == $max) {
+            return '$' . number_format($min, 2);
         }
-
-        $minPrice = $this->getMinPrice();
-        $maxPrice = $this->getMaxPrice();
-
-        if ($minPrice == $maxPrice) {
-            return '$' . number_format($minPrice, 2);
-        }
-
-        return '$' . number_format($minPrice, 2) . ' - $' . number_format($maxPrice, 2);
+        return '$' . number_format($min, 2) . ' - $' . number_format($max, 2);
     }
 
     /**

@@ -31,20 +31,23 @@ class CartController extends Controller
     public function add(Request $request): JsonResponse
     {
         
+        
+      
         $request->validate([
             'product_id' => 'required|exists:products,id',
-            'quantity' => 'required|integer|min:1',
-            'variant' => 'nullable|array',
+            'quantity' => 'required|min:1',
+            // 'variant' => 'nullable|array',
             'options' => 'nullable|array',
         ]);
         
+        $variant = $request->variant ? json_decode($request->variant, true) : null;
        
         try {
             $result = Cart::add(
                 $request->product_id,
                 $request->quantity,
                 $request->options ?? [],
-                $request->variant
+                $variant
             );
 
            

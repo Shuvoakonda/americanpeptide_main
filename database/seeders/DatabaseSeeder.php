@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             RoleTableSeeder::class,
             UserTableSeeder::class,
             // EternaReadsSeeder::class, 
-            BrandSeeder::class,
+            // BrandSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
             OrderSeeder::class,

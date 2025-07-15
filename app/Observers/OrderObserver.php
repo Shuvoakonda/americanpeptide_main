@@ -74,7 +74,7 @@ class OrderObserver
                 if (!$product) continue;
 
                 // Only process digital products
-                if (!$product->isDigital()) continue;
+                if (!$product->is_digital) continue;
 
                 // Get all audiobooks associated with this product
                 $audioBooks = $product->audioBooks()->get();

@@ -255,12 +255,11 @@ class CheckoutService
             }
 
             // Skip stock check for digital products
-            if ($product->isDigital()) {
+            if ($product->is_digital) {
                 Log::info('Skipping stock check for digital product', [
                     'product_id' => $product->id,
                     'product_name' => $product->name,
-                    'is_digital' => $product->is_digital,
-                    'isDigital_method' => $product->isDigital()
+                    'is_digital' => $product->is_digital
                 ]);
                 continue;
             }
@@ -507,7 +506,7 @@ class CheckoutService
         }
 
         // Skip quantity reduction for digital products
-        if ($product->isDigital()) {
+        if ($product->is_digital) {
             Log::info('Skipping quantity reduction for digital product', [
                 'product_id' => $product->id,
                 'product_name' => $product->name
@@ -996,7 +995,7 @@ class CheckoutService
             $physicalProducts = [];
 
             foreach ($orderLines as $line) {
-                if ($line->product && $line->product->isDigital()) {
+                if ($line->product && $line->product->is_digital) {
                     $digitalProducts[] = $line;
                 } else {
                     $physicalProducts[] = $line;

@@ -138,27 +138,25 @@ class OrderSeeder extends Seeder
             $numProducts = rand(1, 5);
             
             foreach ($products->random($numProducts) as $product) {
-                $qty = rand(1, 5);
-                // Simulate a variant if product has variants
-                $variant = null;
-                if (!empty($product->variants)) {
-                    $variant = $product->variants[array_rand($product->variants)];
+                // Always use a variant for each product
+                if (empty($product->variants) || !is_array($product->variants) || count($product->variants) === 0) {
+                    continue; // skip products with no variants
                 }
-                
-                $price = $product->price ?? rand(10, 200);
+                $variant = $product->variants[array_rand($product->variants)];
+                $qty = rand(1, 5);
+                $price = $variant['price']['retailer']['unit_price'] ?? rand(10, 200);
                 $lineTotal = $price * $qty;
-                
+
                 $line = OrderLine::create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
                     'product_name' => $product->name,
-                    'sku' => $product->sku,
+                    'sku' => $variant['sku'] ?? null,
                     'price' => $price,
                     'quantity' => $qty,
                     'total' => $lineTotal,
                     'variant' => $variant,
                     'notes' => rand(1, 20) === 1 ? 'Special request' : null,
-                
                 ]);
                 $orderTotal += $lineTotal;
             }

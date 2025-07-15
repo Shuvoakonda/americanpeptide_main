@@ -3,7 +3,7 @@
 @section('title', 'Shopping Cart - MyShop')
 
 @section('content')
-    <div class="container p-5">
+    <div class="container text-dark p-5">
         <div class="cart-header-wrapper mb-4">
             <div class="d-flex align-items-center position-relative">
                 <h2 class="mb-0 pe-4 d-flex align-items-center">
@@ -37,7 +37,7 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table text-dark">
                                 <thead>
                                     <tr>
                                         <th scope="col">Product</th>
@@ -48,69 +48,44 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @forelse($cartItems as $item)
                                     <tr>
                                         <td data-label="Product">
                                             <div class="d-flex align-items-center">
-                                                <img src="/assets/images/product/ABP-7-10mg-300x300.jpg.webp"
+                                                <img src="{{ $item['image_url'] ?? '/assets/images/product/placeholder.png' }}"
                                                     class="img-fluid rounded-3 me-3" alt="Product">
                                                 <div>
-                                                    <h6 class="mb-0">Premium Leather Wallet</h6>
-                                                    <p class="mb-0 text-muted">SKU: 12345</p>
+                                                    <h6 class="mb-0 text-dark">{{ $item['product_name'] }}</h6>
+                                                    <p class="mb-0 text-dark">SKU: {{ $item['sku'] }}</p>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="align-middle price" data-label="Price">$49.99</td>
+                                        <td class="align-middle price text-danger" data-label="Price">${{ number_format($item['price'], 2) }}</td>
                                         <td class="align-middle" data-label="Quantity">
                                             <div class="input-group quantity-selector">
-                                                <button class="btn btn-outline-secondary minus-btn"
-                                                    type="button">-</button>
-                                                <input type="text" class="form-control text-center quantity-input"
-                                                    value="1">
-                                                <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+                                                <button class="btn btn-secondary minus-btn" type="button">-</button>
+                                                <input type="text" class="form-control text-dark text-center quantity-input" value="{{ $item['quantity'] }}">
+                                                <button class="btn btn-secondary plus-btn" type="button">+</button>
                                             </div>
                                         </td>
-                                        <td class="align-middle price" data-label="Total">$49.99</td>
+                                        <td class="align-middle price" data-label="Total">${{ number_format($item['total'], 2) }}</td>
                                         <td class="align-middle" data-label="Remove">
                                             <button class="btn btn-sm btn-outline-danger remove-btn">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </td>
                                     </tr>
+                                    @empty
                                     <tr>
-                                        <td data-label="Product">
-                                            <div class="d-flex align-items-center">
-                                                <img src="/assets/images/product/ABP-7-10mg-300x300.jpg.webp"
-                                                    class="img-fluid rounded-3 me-3" alt="Product">
-                                                <div>
-                                                    <h6 class="mb-0">Wireless Earbuds</h6>
-                                                    <p class="mb-0 text-muted">SKU: 67890</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle price" data-label="Price">$29.99</td>
-                                        <td class="align-middle" data-label="Quantity">
-                                            <div class="input-group quantity-selector">
-                                                <button class="btn btn-outline-secondary minus-btn"
-                                                    type="button">-</button>
-                                                <input type="text" class="form-control text-center quantity-input"
-                                                    value="2">
-                                                <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle price" data-label="Total">$59.98</td>
-                                        <td class="align-middle" data-label="Remove">
-                                            <button class="btn btn-sm btn-outline-danger remove-btn">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </td>
+                                        <td colspan="5" class="text-center">Your cart is empty.</td>
                                     </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
 
                         <div class="d-flex justify-content-between pt-2">
-                            <button class="btn btn-light">Continue Shopping</button>
-                            <button class="btn btn-warning">Update Cart</button>
+                            <a href="{{ route('products.index') }}" class="btn btn-light">Continue Shopping</a>
                         </div>
                     </div>
                 </div>
@@ -119,12 +94,16 @@
                 <div class="card mb-4">
                     <div class="card-body">
                         <h5 class="card-title">Discount Code</h5>
-                        <p class="card-text text-muted">Apply promo code for instant savings</p>
+                        <p class="card-text text-dark">Apply promo code for instant savings</p>
 
                         <div class="coupon-container">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" id="couponCode" placeholder="Enter promo code">
-                                <button class="btn btn-primary" id="applyCoupon">Apply</button>
+                                <button class="btn btn-apply-coupon btn-secondary" id="applyCoupon">Apply</button>
+                            </div>
+                            <div id="appliedCouponArea" class="mb-2" style="display:none;">
+                                <span id="appliedCouponLabel" class="badge bg-success"></span>
+                                <button class="btn btn-remove-coupon" id="removeCoupon" title="Remove coupon">&times;</button>
                             </div>
                             <div id="couponMessage" class="d-none alert mt-3"></div>
                         </div>
@@ -142,7 +121,7 @@
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-2">
                                 Subtotal
-                                <span class="price">$109.97</span>
+                                <span class="price">${{ number_format($subtotal, 2) }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0 pb-2">
                                 Shipping
@@ -151,26 +130,32 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0 pb-2 mb-3">
                                 <div>
                                     <strong>Discount</strong>
-                                    <small class="text-success d-none" id="discountLabel">(SUMMER10)</small>
+                                    <small class="text-success d-none" id="discountLabel">(<span id="appliedCouponCode"></span>)</small>
                                 </div>
-                                <span class="text-success" id="discountAmount">$0.00</span>
+                                <span class="text-success" id="discountAmount">${{ number_format($discount, 2) }}</span>
                             </li>
                             <li
                                 class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3 pt-3">
                                 <div>
                                     <strong>Total</strong>
-                                    <small class="text-muted d-block">Includes tax</small>
+                                    <small class="text-dark d-block">Includes tax</small>
                                 </div>
-                                <span><strong class="price" id="totalAmount">$109.97</strong></span>
+                                <span><strong class="price" id="totalAmount">${{ number_format($total, 2) }}</strong></span>
                             </li>
                         </ul>
 
-                        <button class="btn btn-primary btn-lg w-100 mt-3" href={{ route('checkout.index') }}>
-                            <i class="bi bi-lock-fill me-2"></i>Proceed to Checkout
-                        </button>
+                        @if(count($cartItems) > 0)
+                            <a href="{{ route('checkout.index') }}" class="btn btn-primary btn-lg w-100 mt-3" id="checkout-btn" style="background-color: #00a6e7; border-color: #00a6e7; transition: all 0.3s ease;">
+                                <i class="bi bi-lock-fill me-2"></i>Proceed to Checkout
+                            </a>
+                        @else
+                            <button class="btn btn-secondary btn-lg w-100 mt-3" disabled id="checkout-btn">
+                                <i class="bi bi-lock-fill me-2"></i>Cart is Empty
+                            </button>
+                        @endif
                         
                         <div class="text-center mt-3">
-                            <small class="text-muted">
+                            <small class="text-dark">
                                 <i class="bi bi-shield-check me-1"></i>Secure checkout
                             </small>
                         </div>
@@ -213,83 +198,185 @@
         </script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                // Quantity selectors
-                document.querySelectorAll('.plus-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const input = this.parentNode.querySelector('.quantity-input');
-                        input.value = parseInt(input.value) + 1;
-                        updateCartTotals();
-                    });
-                });
-
-                document.querySelectorAll('.minus-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const input = this.parentNode.querySelector('.quantity-input');
-                        if (parseInt(input.value) > 1) {
-                            input.value = parseInt(input.value) - 1;
-                            updateCartTotals();
+                // Quantity selectors (AJAX)
+                document.querySelectorAll('.quantity-selector').forEach(function(selector) {
+                    const minusBtn = selector.querySelector('.minus-btn');
+                    const plusBtn = selector.querySelector('.plus-btn');
+                    const input = selector.querySelector('.quantity-input');
+                    const row = selector.closest('tr');
+                    const sku = row.querySelector('p.mb-0.text-dark').textContent.replace('SKU: ', '').trim();
+                    const productName = row.querySelector('h6.mb-0').textContent.trim();
+                    // Find item_id by matching SKU and product name in cartItems
+                    let itemId = null;
+                    @foreach($cartItems as $key => $item)
+                        if ('{{ $item['sku'] }}' === sku && '{{ $item['product_name'] }}' === productName) {
+                            itemId = @json($key);
+                        }
+                    @endforeach
+                    function updateQuantity(newQty) {
+                        fetch("{{ route('cart.update') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                            },
+                            body: JSON.stringify({
+                                item_id: itemId,
+                                quantity: newQty
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                input.value = newQty;
+                                row.querySelector('td.price:last-child').textContent = '$' + parseFloat(data.item_total).toFixed(2);
+                                document.querySelectorAll('#cart-count').forEach(el => el.textContent = data.cart_count);
+                                // Update summary
+                                document.querySelector('.list-group-item:first-child span').textContent = '$' + parseFloat(data.subtotal).toFixed(2);
+                                document.getElementById('discountAmount').textContent = '$' + parseFloat(data.discount).toFixed(2);
+                                document.getElementById('totalAmount').textContent = '$' + parseFloat(data.total).toFixed(2);
+                                showToast('Cart updated!', 'success');
+                            }
+                        });
+                    }
+                    minusBtn.addEventListener('click', function() {
+                        let val = parseInt(input.value);
+                        if (val > 1) {
+                            updateQuantity(val - 1);
                         }
                     });
+                    plusBtn.addEventListener('click', function() {
+                        let val = parseInt(input.value);
+                        updateQuantity(val + 1);
+                    });
                 });
-
-                // Remove items
-                document.querySelectorAll('.remove-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const row = this.closest('tr');
-                        row.style.opacity = '0';
-                        setTimeout(() => {
-                            row.remove();
-                            updateCartTotals();
-                            showToast('Item removed from cart');
-                        }, 300);
+                // Remove item (AJAX)
+                document.querySelectorAll('.remove-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        const row = btn.closest('tr');
+                        const sku = row.querySelector('p.mb-0.text-dark').textContent.replace('SKU: ', '').trim();
+                        const productName = row.querySelector('h6.mb-0').textContent.trim();
+                        let itemId = null;
+                        @foreach($cartItems as $key => $item)
+                            if ('{{ $item['sku'] }}' === sku && '{{ $item['product_name'] }}' === productName) {
+                                itemId = @json($key);
+                            }
+                        @endforeach
+                        fetch("{{ route('cart.remove') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                            },
+                            body: JSON.stringify({
+                                item_id: itemId
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                row.remove();
+                                document.querySelectorAll('#cart-count').forEach(el => el.textContent = data.cart_count);
+                                document.querySelector('.list-group-item:first-child span').textContent = '$' + parseFloat(data.subtotal).toFixed(2);
+                                document.getElementById('discountAmount').textContent = '$' + parseFloat(data.discount).toFixed(2);
+                                document.getElementById('totalAmount').textContent = '$' + parseFloat(data.total).toFixed(2);
+                                showToast('Item removed from cart!', 'success');
+                                updateCheckoutButtonState();
+                            }
+                        });
                     });
                 });
 
                 // Coupon system
                 const applyCouponBtn = document.getElementById('applyCoupon');
+                const removeCouponBtn = document.getElementById('removeCoupon');
                 const couponMessage = document.getElementById('couponMessage');
-                const couponOptions = document.querySelectorAll('.coupon-option');
-
-
-
-                // Select coupon from dropdown
-                couponOptions.forEach(option => {
-                    option.addEventListener('click', function() {
-                        // Remove active class from all options
-                        couponOptions.forEach(opt => opt.classList.remove('active'));
-
-                        // Add active class to selected option
-                        this.classList.add('active');
-
-                        // Set coupon code in input
-                        document.getElementById('couponCode').value = this.dataset.code;
-
-
-                    });
-                });
-
-                // Apply coupon
+                const couponCodeInput = document.getElementById('couponCode');
+                const appliedCouponArea = document.getElementById('appliedCouponArea');
+                const appliedCouponLabel = document.getElementById('appliedCouponLabel');
+                const appliedCouponCode = document.getElementById('appliedCouponCode');
+                const discountLabel = document.getElementById('discountLabel');
+                // Show applied coupon if present (server-side render)
+                @if(isset($cart) && isset($cart['coupons']) && count($cart['coupons']))
+                    const couponKeys = Object.keys(@json($cart['coupons']));
+                    if (couponKeys.length > 0) {
+                        appliedCouponArea.style.display = '';
+                        appliedCouponLabel.textContent = couponKeys[0];
+                        appliedCouponCode.textContent = couponKeys[0];
+                        discountLabel.classList.remove('d-none');
+                    }
+                @endif
                 if (applyCouponBtn) {
                     applyCouponBtn.addEventListener('click', function() {
-                        const couponCode = document.getElementById('couponCode').value.trim();
-                        couponMessage.classList.remove('d-none');
-
-                        // Validate coupon
-                        if (couponCode) {
-                            couponMessage.textContent = 'Coupon applied successfully!';
-                            couponMessage.className = 'alert alert-success';
-                            document.getElementById('discountLabel').classList.remove('d-none');
-                        } else {
-                            couponMessage.textContent =
-                                'Invalid coupon code. Try one of our available coupons.';
-                            couponMessage.className = 'alert alert-danger';
-                            document.getElementById('discountLabel').classList.add('d-none');
-                            removeDiscount();
-                        }
-
+                        const code = couponCodeInput.value.trim();
+                        if (!code) return;
+                        fetch("{{ route('cart.apply-coupon') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                            },
+                            body: JSON.stringify({ coupon_code: code })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                showToast('Coupon applied!', 'success');
+                                appliedCouponArea.style.display = '';
+                                appliedCouponLabel.textContent = code;
+                                appliedCouponCode.textContent = code;
+                                discountLabel.classList.remove('d-none');
+                                document.getElementById('discountAmount').textContent = '$' + parseFloat(data.discount).toFixed(2);
+                                document.getElementById('totalAmount').textContent = '$' + parseFloat(data.total).toFixed(2);
+                                couponMessage.classList.add('d-none');
+                            } else {
+                                showToast(data.message || 'Invalid coupon.', 'danger');
+                                couponMessage.textContent = data.message || 'Invalid coupon.';
+                                couponMessage.className = 'alert alert-danger mt-3';
+                                couponMessage.classList.remove('d-none');
+                            }
+                        })
+                        .catch(() => {
+                            showToast('Failed to apply coupon.', 'danger');
+                            couponMessage.textContent = 'Failed to apply coupon.';
+                            couponMessage.className = 'alert alert-danger mt-3';
+                            couponMessage.classList.remove('d-none');
+                        });
                     });
                 }
-
+                if (removeCouponBtn) {
+                    removeCouponBtn.addEventListener('click', function() {
+                        fetch("{{ route('cart.remove-coupon') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                            }
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                showToast('Coupon removed.', 'success');
+                                appliedCouponArea.style.display = 'none';
+                                discountLabel.classList.add('d-none');
+                                document.getElementById('discountAmount').textContent = '$' + parseFloat(data.discount).toFixed(2);
+                                document.getElementById('totalAmount').textContent = '$' + parseFloat(data.total).toFixed(2);
+                                couponMessage.classList.add('d-none');
+                            } else {
+                                showToast(data.message || 'Failed to remove coupon.', 'danger');
+                                couponMessage.textContent = data.message || 'Failed to remove coupon.';
+                                couponMessage.className = 'alert alert-danger mt-3';
+                                couponMessage.classList.remove('d-none');
+                            }
+                        })
+                        .catch(() => {
+                            showToast('Failed to remove coupon.', 'danger');
+                            couponMessage.textContent = 'Failed to remove coupon.';
+                            couponMessage.className = 'alert alert-danger mt-3';
+                            couponMessage.classList.remove('d-none');
+                        });
+                    });
+                }
 
 
                 function updateCartTotals() {
@@ -328,9 +415,77 @@
                     updateCartTotals();
                 }
 
-                function showToast(message) {
-                    // In a real app, you would use a proper toast notification
-                    console.log(message);
+                function showToast(message, type) {
+                    const container = document.getElementById('toast-container');
+                    if (!container) return;
+                    
+                    const toast = document.createElement('div');
+                    toast.className = `alert alert-${type}`;
+                    toast.style.minWidth = '200px';
+                    toast.style.marginBottom = '10px';
+                    toast.innerHTML = message;
+                    container.appendChild(toast);
+                    
+                    setTimeout(() => {
+                        toast.classList.add('fade');
+                        setTimeout(() => toast.remove(), 500);
+                    }, 2500);
+                }
+
+                // Update checkout button state based on cart items
+                function updateCheckoutButtonState() {
+                    const cartRows = document.querySelectorAll('tbody tr');
+                    const checkoutBtn = document.getElementById('checkout-btn');
+                    
+                    if (cartRows.length === 0 || (cartRows.length === 1 && cartRows[0].querySelector('td').colSpan === 5)) {
+                        // Cart is empty
+                        if (checkoutBtn) {
+                            checkoutBtn.style.pointerEvents = 'none';
+                            checkoutBtn.style.opacity = '0.6';
+                            checkoutBtn.innerHTML = '<i class="bi bi-lock-fill me-2"></i>Cart is Empty';
+                            checkoutBtn.disabled = true;
+                        }
+                    } else {
+                        // Cart has items
+                        if (checkoutBtn) {
+                            checkoutBtn.style.pointerEvents = 'auto';
+                            checkoutBtn.style.opacity = '1';
+                            checkoutBtn.innerHTML = '<i class="bi bi-lock-fill me-2"></i>Proceed to Checkout';
+                            checkoutBtn.disabled = false;
+                        }
+                    }
+                }
+
+                // Call update function on page load
+                updateCheckoutButtonState();
+
+                // Add click handler for checkout button
+                const checkoutBtn = document.getElementById('checkout-btn');
+                if (checkoutBtn) {
+                    checkoutBtn.addEventListener('click', function(e) {
+                        const cartRows = document.querySelectorAll('tbody tr');
+                        if (cartRows.length === 0 || (cartRows.length === 1 && cartRows[0].querySelector('td').colSpan === 5)) {
+                            e.preventDefault();
+                            showToast('Your cart is empty. Please add items before checkout.', 'warning');
+                        }
+                    });
+
+                    // Add hover effect
+                    checkoutBtn.addEventListener('mouseenter', function() {
+                        if (!this.disabled) {
+                            this.style.backgroundColor = '#008fc7';
+                            this.style.borderColor = '#008fc7';
+                            this.style.transform = 'translateY(-2px)';
+                        }
+                    });
+
+                    checkoutBtn.addEventListener('mouseleave', function() {
+                        if (!this.disabled) {
+                            this.style.backgroundColor = '#00a6e7';
+                            this.style.borderColor = '#00a6e7';
+                            this.style.transform = 'translateY(0)';
+                        }
+                    });
                 }
             });
         </script>

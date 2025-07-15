@@ -282,7 +282,7 @@ class PayPalController extends Controller
             $physicalProducts = [];
 
             foreach ($orderLines as $line) {
-                if ($line->product && $line->product->isDigital()) {
+                if ($line->product && $line->product->is_digital) {
                     $digitalProducts[] = $line;
                 } else {
                     $physicalProducts[] = $line;

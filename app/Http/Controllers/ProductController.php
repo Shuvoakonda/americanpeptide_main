@@ -14,18 +14,13 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'brand'])->where('status', 'active');
+        $query = Product::with(['category'])->where('status', 'active');
 
         // Filter by category (by slug only)
         if ($request->has('category') && $request->category) {
             $query->whereHas('category', function($q) use ($request) {
                 $q->where('slug', $request->category);
             });
-        }
-
-        // Filter by brand
-        if ($request->has('brand') && $request->brand) {
-            $query->where('brand_id', $request->brand);
         }
 
         // Search by name or description
@@ -75,7 +70,6 @@ class ProductController extends Controller
 
         $products = $query->paginate(12);
         $categories = Category::all();
-        $brands = Brand::all();
 
         // Get current category for display
         $currentCategory = null;
@@ -83,7 +77,7 @@ class ProductController extends Controller
             $currentCategory = Category::where('slug', $request->category)->first();
         }
 
-        return view('frontend.products.index', compact('products', 'categories', 'brands', 'currentCategory'));
+        return view('frontend.products.index', compact('products', 'categories', 'currentCategory'));
     }
 
     /**
@@ -97,26 +91,9 @@ class ProductController extends Controller
             ->where(function($query) use ($product) {
                 $query->where(function($q) use ($product) {
                     // Same category and brand
-                    $q->where('category_id', $product->category_id)
-                      ->where('brand_id', $product->brand_id);
-                })->orWhere(function($q) use ($product) {
-                    // Same category only
-                    $q->where('category_id', $product->category_id)
-                      ->where('brand_id', '!=', $product->brand_id);
-                })->orWhere(function($q) use ($product) {
-                    // Same brand only
-                    $q->where('brand_id', $product->brand_id)
-                      ->where('category_id', '!=', $product->category_id);
+                    $q->where('category_id', $product->category_id);
                 });
             })
-            ->orderByRaw('
-                CASE 
-                    WHEN category_id = ? AND brand_id = ? THEN 1
-                    WHEN category_id = ? THEN 2
-                    WHEN brand_id = ? THEN 3
-                    ELSE 4
-                END
-            ', [$product->category_id, $product->brand_id, $product->category_id, $product->brand_id])
             ->limit(4)
             ->get();
 
@@ -144,45 +121,10 @@ class ProductController extends Controller
             $relatedProducts = $relatedProducts->merge($randomProducts);
         }
 
-        // Prepare variants data for the view
-        $variants = [];
-        if ($product->hasVariants() && !empty($product->variants)) {
-            foreach ($product->variants as $variant) {
-                $variants[] = [
-                    'sku' => $variant['sku'],
-                    'price' => $variant['price'],
-                    'stock' => $variant['stock'] ?? 0,
-                    'image' => $variant['image'] ?? null,
-                    'attributes' => $variant['attributes'] ?? [],
-                    'label' => implode(', ', array_values($variant['attributes'] ?? [])),
-                ];
-            }
-        }
+      
 
-        // If product is digital, return a different view
-        if ($product->is_digital) {
-            // Fetch related audiobooks
-            $audioBooks = $product->audioBooks()->get();
-
-            // Collect all trial audio files from JSON column
-            $trialAudioFiles = [];
-            foreach ($audioBooks as $audioBook) {
-                foreach ($audioBook->audio_files ?? [] as $file) {
-                    if (!empty($file['trial'])) {
-                        $trialAudioFiles[] = [
-                            'audio_book_title' => $audioBook->title,
-                            'track_title' => $file['title'],
-                            'file_url' => $file['file'],
-                            'duration' => $file['duration'] ?? null,
-                        ];
-                    }
-                }
-            }
-
-            return view('frontend.products.show-digital', compact('product', 'relatedProducts', 'variants', 'trialAudioFiles'));
-        }
 
         // Default (physical) product view
-        return view('frontend.products.show', compact('product', 'relatedProducts', 'variants'));
+        return view('frontend.products.show', compact('product', 'relatedProducts'));
     }
 } 

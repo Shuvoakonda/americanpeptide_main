@@ -61,7 +61,6 @@ class CreateOrder extends CreateRecord
                 ->description('Add products to the order. Total will be calculated automatically.')
                 ->schema([
                     Repeater::make('order_lines')
-                 
                         ->schema([
                             Select::make('product_id')
                                 ->label('Product')
@@ -74,23 +73,12 @@ class CreateOrder extends CreateRecord
                                         $product = Product::find($state);
                                         if ($product) {
                                             $set('product_name', $product->name);
-                                            // Clear all dependent fields
                                             $set('variant', null);
                                             $set('variant_data', null);
                                             $set('sku', null);
                                             $set('price', null);
-                                            // Set available variants if product has them
-                                            if ($product->hasVariants() && $product->variants) {
-                                                $set('has_variants', true);
-                                            } else {
-                                                $set('has_variants', false);
-                                                $set('sku', $product->sku);
-                                                $set('price', $product->price);
-                                                $this->updateLineTotal($set, $get);
-                                            }
                                         }
                                     } else {
-                                        $set('has_variants', false);
                                         $set('sku', null);
                                         $set('price', null);
                                     }
@@ -98,39 +86,35 @@ class CreateOrder extends CreateRecord
                             TextInput::make('product_name')
                                 ->disabled()
                                 ->dehydrated(true),
-                            // Variant dropdown, only if product has variants
+                            // Variant dropdown (always required)
                             Select::make('variant')
                                 ->label('Variant')
                                 ->options(function (Get $get) {
                                     $productId = $get('product_id');
                                     if (!$productId) return [];
                                     $product = Product::find($productId);
-                                    if (!$product || !$product->hasVariants() || !$product->variants) {
+                                    if (!$product || !$product->variants) {
                                         return [];
                                     }
                                     $variants = [];
-                                    foreach ($product->variants as $index => $variant) {
-                                        $label = $variant['sku'];
-                                        $variants[$index] = $label;
+                                    foreach ($product->variants as $variant) {
+                                        $label = $variant['name'] . ' (' . $variant['sku'] . ')';
+                                        $variants[$variant['sku']] = $label;
                                     }
-                                    $converted = array_combine($variants, $variants);
-                                    return $converted;
+                                    return $variants;
                                 })
+                                ->required()
                                 ->reactive()
                                 ->afterStateUpdated(function (Set $set, $state, Get $get) {
                                     $productId = $get('product_id');
                                     if ($productId) {
                                         $product = Product::find($productId);
-                                
                                         if ($product && $product->variants && isset($state)) {
-                                            $variant =  array_filter($product->variants, function($variant) use ($state) {
+                                            $variant = array_filter($product->variants, function($variant) use ($state) {
                                                 return $variant['sku'] == $state;
                                             });
-                                            $variant = array_values($variant)[0];
-                                        ;
-                                          
-                         
-                                            $set('price', $variant['price'] ?? null);
+                                            $variant = array_values($variant)[0] ?? null;
+                                            $set('price', $variant['price']['retailer']['unit_price'] ?? null);
                                             $set('sku', $variant['sku'] ?? null);
                                             $set('variant_data', $variant);
                                             $this->updateLineTotal($set, $get);
@@ -141,21 +125,16 @@ class CreateOrder extends CreateRecord
                                         }
                                     }
                                 })
-                                ->helperText('Select product variant if available')
-                                ->visible(fn (Get $get) => $get('has_variants') === true),
-                            // SKU field, only if product has NO variants
+                                ->helperText('Select product variant'),
                             TextInput::make('sku')
                                 ->label('SKU')
                                 ->disabled()
-                                ->dehydrated(false)
-                                ->visible(fn (Get $get) => $get('has_variants') === false),
-                            // Price field, only show if SKU or variant is chosen
+                                ->dehydrated(false),
                             TextInput::make('price')
                                 ->numeric()
                                 ->required()
                                 ->reactive()
                                 ->afterStateUpdated(function (Set $set, Get $get) {
-                                    // Only update the line total here
                                     $this->updateLineTotal($set, $get);
                                 }),
                             TextInput::make('quantity')
@@ -164,7 +143,6 @@ class CreateOrder extends CreateRecord
                                 ->required()
                                 ->reactive()
                                 ->afterStateUpdated(function (Set $set, Get $get) {
-                                    // Only update the line total here
                                     $this->updateLineTotal($set, $get);
                                 }),
                             TextInput::make('total')
@@ -175,9 +153,6 @@ class CreateOrder extends CreateRecord
                             TextInput::make('variant_data')
                                 ->hidden()
                                 ->dehydrated(true),
-                            TextInput::make('has_variants')
-                                ->hidden()
-                                ->dehydrated(false),
                         ])
                         ->columns(6)
                         ->defaultItems(1)

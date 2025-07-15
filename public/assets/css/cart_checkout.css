@@ -72,7 +72,7 @@
  }
 
  .step.active .step-circle {
-     background-color: #ac7630;
+     background-color: #C4F6FF;
      color: white;
      box-shadow: 0 0 0 4px rgba(172, 118, 48, 0.2);
  }
@@ -96,7 +96,7 @@
      left: 0;
      height: 100%;
      width: 50%;
-     background-color: #ac7630;
+     background-color: #C4F6FF;
  }
 
  .step-label {
@@ -109,7 +109,7 @@
  }
 
  .step.active .step-label {
-     color: #ac7630;
+     color: #C4F6FF;
      font-weight: 600;
  }
 
@@ -155,6 +155,7 @@
  /* Table Styling */
  .table {
      margin-bottom: 0;
+     color: #222 !important;
  }
 
  .table thead th {
@@ -163,6 +164,7 @@
      text-transform: uppercase;
      font-size: 0.8rem;
      letter-spacing: 0.5px;
+     color: #222 !important;
  }
 
  .table tbody tr {
@@ -171,6 +173,15 @@
 
  .table tbody tr:hover {
      background-color: rgba(172, 118, 48, 0.05);
+ }
+
+ .table tbody td {
+     color: #222 !important;
+ }
+
+ /* Text-muted override */
+ .text-muted {
+     color: #6c757d !important;
  }
 
  /* Product Image */
@@ -401,7 +412,7 @@
  }
 
  .step.active .step-circle {
-     background-color: #ac7630;
+     background-color: #C4F6FF;
      color: white;
      box-shadow: 0 0 0 4px rgba(172, 118, 48, 0.2);
  }
@@ -425,7 +436,7 @@
      left: 0;
      height: 100%;
      width: 50%;
-     background-color: #ac7630;
+     background-color: #C4F6FF;
  }
 
  .step-label {
@@ -438,7 +449,7 @@
  }
 
  .step.active .step-label {
-     color: #ac7630;
+     color: #C4F6FF;
      font-weight: 600;
  }
 

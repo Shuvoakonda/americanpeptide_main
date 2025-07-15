@@ -1,20 +1,17 @@
 // Theme Colors
-$primary: #9B8B7A; // Dusty rose
-$primary-dark: #7A6B5A;
-$secondary: #A8B5A0; // Sage green
-$accent: #D4C4B7; // Warm gray
-$success: #8BA892; // Muted green
-$danger: #B87A7A; // Muted red
-$warning: #D4B483; // Muted gold
-$info: #8BA8B5; // Muted blue
-$light: #FAF9F7; // Soft cream
-$dark: #4A3F35; // Dark text
-$body-bg: #FAF9F7;
-$body-color: #4A3F35;
-$border-color: #E8E0D8;
-
-// Body
-$body-bg: #f8fafc;
+$primary: #09a2bc; // Light blue from logo
+$primary-dark: #09a2bc; // Slightly darker blue for accents (optional)
+$secondary: #3f4549; // Gray from logo background
+$accent: #6D6E71; // Use same gray for accent
+$success: #8BA892; // Muted green (unchanged)
+$danger: #B87A7A; // Muted red (unchanged)
+$warning: #D4B483; // Muted gold (unchanged)
+$info: #09a2bc; // Light blue for info
+$light: #FFFFFF; // White from logo
+$dark: #444444; // Neutral dark for text
+$body-bg: #ffffff; // Gray background from logo
+$body-color: #222; // Dark text for better readability
+$border-color: #09a2bc; // Accent blue for borders
 
 // Typography
 $font-family-sans-serif: 'Nunito', sans-serif;

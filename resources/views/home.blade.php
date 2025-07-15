@@ -127,17 +127,7 @@
                     <x-product.product :product="$product" />
                 </div>
             @endforeach
-            @foreach ($products as $product)
-                <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                    <x-product.product-2 :product="$product" />
-                </div>
-            @endforeach
-
-            @foreach ($products as $product)
-                <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                    <x-product.product-3 :product="$product" />
-                </div>
-            @endforeach
+       
 
         </div>
 

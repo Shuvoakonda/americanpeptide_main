@@ -1,16 +1,16 @@
  :root {
      --card-bg: #fff;
      --card-title: #222;
-     --card-border: #e0e0e0;
-     --primary-color: #ac7630;
-     --price-color: #ac7630;
-     --badge-sale: #FF5722;
+     --card-border: #525356;
+     --primary-color: #C4F6FF;
+     --price-color: #6D6E71;
+     --badge-sale: #6D6E71;
      --success-color: #28a745;
      --danger-color: #dc3545;
      --hover-transition: all 0.3s ease;
      --secondary-color: #f8f9fa;
      --success-color: #28a745;
-     --border-color: #e0e0e0;
+     --border-color: #525356;
      --text-muted: #6c757d;
      --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
      --hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
@@ -53,7 +53,7 @@
  }
 
  .nav-link:hover {
-     color: #ac7630 !important;
+     color: #C4F6FF !important;
  }
 
  .navbar-toggler {
@@ -131,14 +131,14 @@
  /* Heart icon styling */
  .favourite i {
      font-size: 30px;
-     color: #ac7630;
+     color: #C4F6FF;
      cursor: pointer;
      align-items: center;
  }
 
  .favourite.selected i {
      color: red;
-     border-color: #ac7630;
+     border-color: #C4F6FF;
  }
 
  .fixed-top {
@@ -251,9 +251,9 @@
  .et_pb_button {
      display: inline-block;
      padding: 15px 30px;
-     color: #ac7630 !important;
+     color: #C4F6FF !important;
      border: 2px solid;
-     border-color: #ac7630 !important;
+     border-color: #C4F6FF !important;
      border-radius: 21px;
      /* or your preferred color */
      font-size: 16px;
@@ -264,7 +264,7 @@
  }
 
  .et_pb_button:hover {
-     background-color: #ac7630 !important;
+     background-color: #C4F6FF !important;
      color: #ffffff !important;
      /* darker shade for hover */
  }
@@ -511,7 +511,7 @@
  }
 
  .product-card__title a:hover {
-     color: #ac7630;
+     color: #C4F6FF;
  }
 
  .product-card__price {
@@ -564,12 +564,12 @@
  }
 
  .pep_btn {
-     color: #ac7630 !important;
-     border: 1px solid #ac7630 !important;
+     color: #C4F6FF !important;
+     border: 1px solid #C4F6FF !important;
  }
 
  .pep_btn:hover {
-     background-color: #ac7630 !important;
+     background-color: #C4F6FF !important;
      color: #ffffff !important;
  }
 
@@ -672,7 +672,7 @@
  }
 
  .footer-brand .peptides {
-     color: #ac7630;
+     color: #C4F6FF;
  }
 
  .footer-disclaimer {
@@ -696,7 +696,7 @@
      font-size: 18px;
      font-weight: bold;
      margin-bottom: 20px;
-     color: #ac7630;
+     color: #C4F6FF;
  }
 
  .footer-links {
@@ -716,7 +716,7 @@
  }
 
  .footer-links a:hover {
-     color: #ac7630;
+     color: #C4F6FF;
      text-decoration: none;
  }
 
@@ -727,12 +727,12 @@
      font-weight: bold;
      margin-left: 15px;
      margin-bottom: 20px;
-     color: #ac7630;
+     color: #C4F6FF;
  }
 
  .copyright {
      font-size: 14px;
-     color: #ac7630;
+     color: #C4F6FF;
      text-align: center;
      margin-top: 40px;
      padding-top: 20px;
@@ -875,7 +875,7 @@
  .newsletter-subtitle {
      font-size: 1.2rem;
      text-transform: uppercase;
-     background: linear-gradient(45deg, #d8bb7a, #ac7630 80%);
+     background: linear-gradient(45deg, #d8bb7a, #C4F6FF 80%);
      -webkit-background-clip: text;
      background-clip: text;
      -webkit-text-fill-color: transparent;
@@ -899,7 +899,7 @@
  }
 
  .newsletter-input:focus {
-     border-color: #ac7630;
+     border-color: #C4F6FF;
      box-shadow: 0 0 0 0.25rem rgba(172, 118, 48, 0.25);
      outline: none;
  }
@@ -970,14 +970,14 @@
  }
 
  #productTab .nav-link.active {
-     background-color: var(--primary-color, #ac7630);
+     background-color: var(--primary-color, #C4F6FF);
      color: #fff !important;
      border-color: transparent;
  }
 
  .tab-content h4,
  .tab-content h5 {
-     color: var(--primary-color, #ac7630);
+     color: var(--primary-color, #C4F6FF);
  }
 
  .tab-content p {

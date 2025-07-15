@@ -29,14 +29,6 @@ class ProductResource extends Resource
                     Forms\Components\Tabs\Tab::make('General')
                         ->icon('heroicon-o-information-circle')
                         ->schema([
-                            Forms\Components\Toggle::make('has_variants')->label('Has Variants')->default(false)
-                                ->live()
-                                ->visible(fn($get) => !$get('is_digital'))
-                                ->helperText('Enable if this product has multiple variants.')->columnSpanFull(),
-                            Forms\Components\Toggle::make('is_digital')->label('Is Digital')->default(false)
-                                ->live()
-                                ->visible(fn($get) => !$get('has_variants'))
-                                ->helperText('Enable if this product is digital.')->columnSpanFull(),
                             Forms\Components\TextInput::make('name')->required()->maxLength(255)
                                 ->live(onBlur: true)
                                 ->afterStateUpdated(function (string $state, callable $set) {
@@ -45,8 +37,6 @@ class ProductResource extends Resource
                                 ->helperText('Enter the product name as it will appear to customers.'),
                             Forms\Components\TextInput::make('slug')->required()->maxLength(255)
                                 ->helperText('Unique URL slug for the product. Auto-generated from the name.'),
-
-
                             Forms\Components\Textarea::make('description')
                                 ->helperText('Detailed product description.'),
                             Forms\Components\Select::make('category_id')
@@ -55,12 +45,7 @@ class ProductResource extends Resource
                                 ->searchable()
                                 ->nullable()
                                 ->helperText('Assign a category for better organization.'),
-                            Forms\Components\Select::make('brand_id')
-                                ->label('Brand')
-                                ->relationship('brand', 'name')
-                                ->searchable()
-                                ->nullable()
-                                ->helperText('Select the product brand.'),
+                          
                             Forms\Components\Select::make('status')
                                 ->options([
                                     'draft' => 'Draft',
@@ -71,35 +56,7 @@ class ProductResource extends Resource
                                 ->required()
                                 ->helperText('Set the product status.')
                         ]),
-                    Forms\Components\Tabs\Tab::make('Pricing')
-                        ->icon('heroicon-o-currency-dollar')
-                        ->visible(fn($get) => !$get('has_variants'))
-                        ->schema([
-                            Forms\Components\TextInput::make('price')->label('Price')->numeric()->required()
-                                ->prefix('$')->helperText('Current selling price.'),
-                            Forms\Components\TextInput::make('compare_at_price')->label('Compare at Price')->numeric()
-                                ->prefix('$')->helperText('Original price for showing discounts.'),
-                            Forms\Components\TextInput::make('cost_per_item')->label('Cost per Item')->numeric()
-                                ->prefix('$')->helperText('Internal cost for profit calculation.'),
-                        ]),
-                    Forms\Components\Tabs\Tab::make('Inventory')
-                        ->icon('heroicon-o-archive-box')
-                        ->visible(fn($get) => !$get('has_variants')  && !$get('is_digital'))
-                        ->schema([
-                            Forms\Components\TextInput::make('sku')->label('SKU')->maxLength(255)
-                                ->helperText('Stock Keeping Unit for inventory tracking.'),
-                            Forms\Components\TextInput::make('barcode')->label('Barcode')->maxLength(255)
-                                ->helperText('Product barcode (UPC, EAN, etc).'),
-                            Forms\Components\TextInput::make('stock')->label('Stock')->numeric()->default(0)
-                                ->helperText('Available quantity in stock.'),
-                            Forms\Components\Toggle::make('track_quantity')->label('Track Quantity')->default(true)
-                                ->helperText('Enable to track inventory quantity.'),
-                            Forms\Components\TextInput::make('weight')->label('Weight (kg)')->numeric()
-                                ->helperText('Weight for shipping calculation.'),
-                            Forms\Components\TextInput::make('height')->label('Height (cm)')->numeric(),
-                            Forms\Components\TextInput::make('width')->label('Width (cm)')->numeric(),
-                            Forms\Components\TextInput::make('length')->label('Length (cm)')->numeric(),
-                        ]),
+              
                     Forms\Components\Tabs\Tab::make('Media')
                         ->icon('heroicon-o-photo')
                         ->schema([
@@ -123,46 +80,50 @@ class ProductResource extends Resource
                         ]),
                     Forms\Components\Tabs\Tab::make('Variants')
                         ->icon('heroicon-o-squares-2x2')
-                        ->visible(fn($get) => $get('has_variants'))
                         ->schema([
                             Forms\Components\Repeater::make('variants')
                                 ->label('Product Variants')
-                                ->helperText('Add different options like size, color, etc.')
+                                ->helperText('Add different options like strength, size, etc.')
                                 ->schema([
                                     Forms\Components\Section::make('Variant Details')
                                         ->schema([
                                             Forms\Components\TextInput::make('sku')->label('SKU')->required(),
-                                            Forms\Components\TextInput::make('barcode')->label('Barcode')->maxLength(255)
-                                                ->helperText('Product barcode (UPC, EAN, etc).'),
-                                            Forms\Components\KeyValue::make('attributes')
-                                                ->label('Attributes (e.g. color, size)')
-                                                ->keyLabel('Attribute')
-                                                ->valueLabel('Value')
-                                                ->required()
-                                                ->helperText('Specify attributes like color, size, etc.'),
-                                            Forms\Components\Fieldset::make('Pricing & Inventory')
+                                            Forms\Components\TextInput::make('name')->label('Variant Name')->required(),
+                                            Forms\Components\Hidden::make('attributes.0.name')->label('Strength')->default('Strength')->required(),
+                                            Forms\Components\TextInput::make('attributes.0.value')->label('Strength')->required()
+                                                ->helperText('Enter the strength value (e.g. 5mg, 10mg, etc.)'),
+                                            Forms\Components\Grid::make(5)
                                                 ->schema([
-                                                    Forms\Components\Toggle::make('track_quantity')->label('Track Quantity')->default(true)
-                                                        ->helperText('Enable to track inventory quantity.')->columnSpanFull(),
-                                                    Forms\Components\TextInput::make('price')->label('Price')->numeric()->required()
-                                                        ->prefix('$')->helperText('Current selling price.'),
-                                                    Forms\Components\TextInput::make('compare_at_price')->label('Compare at Price')->numeric()
-                                                        ->prefix('$')->helperText('Original price for showing discounts.'),
-                                                    Forms\Components\TextInput::make('cost_per_item')->label('Cost per Item')->numeric()
-                                                        ->prefix('$')->helperText('Internal cost for profit calculation.'),
-                                                    Forms\Components\TextInput::make('stock')->label('Stock')->numeric()->required(),
-                                                ])->columns(2),
-                                            Forms\Components\Fieldset::make('Dimensions')
-                                                ->label('Dimensions (Physical dimensions for shipping)')
-                                                ->schema([
-                                                    Forms\Components\Placeholder::make('dimensions_help')
-                                                        ->content('Physical dimensions for shipping.'),
-                                                    Forms\Components\TextInput::make('weight')->label('Weight (kg)')->numeric(),
-                                                    Forms\Components\TextInput::make('height')->label('Height (cm)')->numeric(),
-                                                    Forms\Components\TextInput::make('width')->label('Width (cm)')->numeric(),
-                                                    Forms\Components\TextInput::make('length')->label('Length (cm)')->numeric(),
-                                                ])->columns(4),
-                                            Forms\Components\FileUpload::make('image')->label('Variant Image')->image()->directory('products/variants')->nullable()
+                                                    Forms\Components\Fieldset::make('Retailer')
+                                                        ->schema([
+                                                            Forms\Components\TextInput::make('price.retailer.unit_price')->label('Unit Price')->numeric()->required(),
+                                                            Forms\Components\TextInput::make('price.retailer.kit_price')->label('Kit Price')->numeric()->nullable(),
+                                                        ]),
+                                                    Forms\Components\Fieldset::make('Wholesale 1')
+                                                        ->schema([
+                                                            Forms\Components\TextInput::make('price.wholesale_1.unit_price')->label('Unit Price')->numeric()->required(),
+                                                            Forms\Components\TextInput::make('price.wholesale_1.kit_price')->label('Kit Price')->numeric()->nullable(),
+                                                        ]),
+                                                    Forms\Components\Fieldset::make('Wholesale 2')
+                                                        ->schema([
+                                                            Forms\Components\TextInput::make('price.wholesale_2.unit_price')->label('Unit Price')->numeric()->required(),
+                                                            Forms\Components\TextInput::make('price.wholesale_2.kit_price')->label('Kit Price')->numeric()->nullable(),
+                                                        ]),
+                                                    Forms\Components\Fieldset::make('Distributor 1')
+                                                        ->schema([
+                                                            Forms\Components\TextInput::make('price.distributor_1.unit_price')->label('Unit Price')->numeric()->required(),
+                                                            Forms\Components\TextInput::make('price.distributor_1.kit_price')->label('Kit Price')->numeric()->nullable(),
+                                                        ]),
+                                                    Forms\Components\Fieldset::make('Distributor 2')
+                                                        ->schema([
+                                                            Forms\Components\TextInput::make('price.distributor_2.unit_price')->label('Unit Price')->numeric()->required(),
+                                                            Forms\Components\TextInput::make('price.distributor_2.kit_price')->label('Kit Price')->numeric()->nullable(),
+                                                        ]),
+                                                ]),
+                                            Forms\Components\TextInput::make('stock')->label('Stock')->numeric()->required(),
+                                            Forms\Components\Toggle::make('track_quantity')->label('Track Quantity')->default(true)
+                                                ->helperText('Enable to track inventory quantity.'),
+                                            Forms\Components\FileUpload::make('thumbnail')->label('Variant Image')->image()->directory('products/variants')->nullable()
                                                 ->helperText('Image specific to this variant.'),
                                         ]),
                                 ])
@@ -175,14 +136,11 @@ class ProductResource extends Resource
                             Forms\Components\Textarea::make('meta_description')->label('Meta Description'),
                             Forms\Components\TextInput::make('meta_keywords')->label('Meta Keywords')->maxLength(255),
                             Forms\Components\TextInput::make('tags')->label('Tags')
-
                                 ->helperText('Enter tags separated by commas.'),
                         ]),
                 ])->maxWidth('full')
                 ->columns(2)
                 ->columnSpanFull()
-
-
         ]);
     }
 
@@ -191,49 +149,17 @@ class ProductResource extends Resource
         return $table->columns([
             Tables\Columns\ImageColumn::make('thumbnail')->label('Thumbnail')->size(40),
             Tables\Columns\TextColumn::make('name')->searchable(),
-            Tables\Columns\TextColumn::make('price')
-                ->label('Price')
-                ->sortable()
+            Tables\Columns\TextColumn::make('variants')
+                ->label('Variants')
                 ->formatStateUsing(function ($state, $record) {
-                    if (method_exists($record, 'hasVariants') && $record->hasVariants() && is_array($record->variants) && count($record->variants) > 0) {
-                        $min = $record->getMinPrice();
-                        $max = $record->getMaxPrice();
-                        if ($min == $max) {
-                            return '<span class="inline-badge badge badge-success">$' . number_format($min, 2) . '</span>';
-                        } else {
-                            return '<span class="inline-badge badge badge-info">$' . number_format($min, 2) . ' - $' . number_format($max, 2) . '</span>';
-                        }
-                    } else {
-                        return '<span class="inline-badge badge badge-success">$' . number_format($record->price, 2) . '</span>';
+                    if (is_array($record->variants) && count($record->variants) > 0) {
+                        $variantNames = collect($record->variants)->pluck('name')->implode(', ');
+                        return $variantNames;
                     }
+                    return '-';
                 })
-                ->html()
-                ->tooltip('Shows the price or price range for variants'),
-            Tables\Columns\TextColumn::make('stock')
-                ->label('Stock')
-                ->sortable()
-                ->formatStateUsing(function ($state, $record) {
-                    $stock = $record->getStock();
-                    if ($record->is_digital) {
-                        return '<span class="inline-badge badge badge-success">Digital</span>';
-                    } elseif ($record->hasVariants()) {
-                        return '<span class="inline-badge badge badge-success">' . $stock . '</span>';
-                    } elseif ($record->hasVariants() == false && $record->getStock() > 0) {
-                        return '<span class="inline-badge badge badge-danger">'.$stock.'</span>';
-                    } else {
-                        return '<span class="inline-badge badge badge-danger">Out of Stock</span>';
-                    }
-                 
-                })
-                ->html()
-                ->tooltip('Shows total stock (sum of all variants if applicable)'),
+                ->tooltip('Shows all variant names'),
             Tables\Columns\TextColumn::make('status')->sortable(),
-            Tables\Columns\TextColumn::make('is_digital')->label('Type')->sortable()->formatStateUsing(function ($state) {
-                return $state ? 'Digital' : 'Physical';
-            }),
-            Tables\Columns\TextColumn::make('has_variants')->label('Has Variants')->sortable()->formatStateUsing(function ($state) {
-                return $state ? 'Yes' : 'No';
-            }),
             Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),
         ])->filters([
             Tables\Filters\SelectFilter::make('status')

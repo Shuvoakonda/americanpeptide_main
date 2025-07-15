@@ -154,78 +154,56 @@ class CartService
             return ['success' => false, 'message' => 'Product not found'];
         }
 
-        // Handle variants
-        $variant = null;
-        $sku = $product->is_digital ? 'digital-'.$product->id : $product->sku;
-        $price = $product->price;
-        $productName = $product->name;
-
-        $isDigital = $product->is_digital ?? false;
-
-        if ($product->hasVariants() && $variantData) {
-            // Use the variant data directly from frontend
+        // Always require a variant
+        if (!$variantData) {
+            return ['success' => false, 'message' => 'Variant is required for this product'];
+        }
+        if (is_string($variantData)) {
+            $variant = json_decode($variantData, true);
+        } else {
             $variant = $variantData;
-            $sku = $variant['sku'];
-            $price = $variant['price'];
-            $productName = $product->name . ' - ' . implode(', ', array_values($variant['attributes']));
-        } elseif ($product->hasVariants() && !empty($options)) {
-            // Fallback to finding variant by options
-            $variant = $this->findVariant($product, $options);
-            
-            if (!$variant) {
-                return ['success' => false, 'message' => 'Selected variant not found'];
-            }
-            
-            $sku = $variant['sku'];
-            $price = $variant['price'];
-            $productName = $product->name . ' - ' . $this->formatVariantName($variant);
+        }
+        if (!$variant || !isset($variant['sku'])) {
+            return ['success' => false, 'message' => 'Invalid variant data'];
         }
 
-        // DIGITAL PRODUCT: Always quantity 1, skip stock checks
-        if ($isDigital) {
-            $quantity = 1;
-        } else {
-            // Check stock for variant
-            if ($product->track_quantity && $variant && isset($variant['stock'])) {
-                if ($variant['stock'] < $quantity) {
-                    $variantLabel = implode(', ', array_values($variant['attributes']));
-                    return ['success' => false, 'message' => "Insufficient stock for variant: {$variantLabel} (Available: {$variant['stock']})"];
-                }
-            } elseif ($product->track_quantity && $product->stock < $quantity) {
-                return ['success' => false, 'message' => 'Insufficient stock'];
-            }
+        $sku = $variant['sku'];
+        $price = $variant['price']['retailer']['unit_price'] ?? null;
+        $productName = $variant['name'] ?? ($product->name . ' - Variant');
+        $stock = $variant['stock'] ?? null;
+        $trackQuantity = $variant['track_quantity'] ?? true;
+
+        if ($price === null) {
+            return ['success' => false, 'message' => 'Variant price not found'];
         }
 
-        // Create unique item key based on product and variant
-        $itemKey = $this->getItemKey($productId, $options, $variant);
-        
+        // Always check variant stock
+        if ($trackQuantity && $stock !== null && $stock < $quantity) {
+            $attrLabel = collect($variant['attributes'] ?? [])->map(function($a) { return $a['value'] ?? ''; })->implode(', ');
+            return ['success' => false, 'message' => "Insufficient stock for variant: {$attrLabel} (Available: {$stock})"];
+        }
+
+        // Create unique item key based on product and variant sku
+        $itemKey = $productId . '_' . $sku;
         if (isset($this->items[$itemKey])) {
-            // Update existing item
-            if($product->is_digital){
-                $this->items[$itemKey]['quantity'] = 1;
-            }else{
-                $this->items[$itemKey]['quantity'] += $quantity;
-            }
+            $this->items[$itemKey]['quantity'] += $quantity;
             $this->items[$itemKey]['total'] = $price * $this->items[$itemKey]['quantity'];
-            $this->items[$itemKey]['image_url'] = $product->image_url; // Update image URL in case it changed
+            $this->items[$itemKey]['image_url'] = $variant['thumbnail'] ?? $product->image_url;
         } else {
-                    // Add new item
-        $this->items[$itemKey] = [
-            'product_id' => $productId,
-            'product_name' => $productName,
-            'sku' => $sku,
-            'price' => $price,
-            'quantity' => $quantity,
-            'variant' => $variant,
-            'options' => $options,
-            'total' => $price * $quantity,
-            'image_url' => $product->image_url,
-            'added_at' => Carbon::now(),
-        ];
+            $this->items[$itemKey] = [
+                'product_id' => $productId,
+                'product_name' => $productName,
+                'sku' => $sku,
+                'price' => $price,
+                'quantity' => $quantity,
+                'variant' => $variant,
+                'options' => $options,
+                'total' => $price * $quantity,
+                'image_url' => $variant['thumbnail'] ?? $product->image_url,
+                'added_at' => now(),
+            ];
         }
-
         $this->saveCart();
-        
         return [
             'success' => true, 
             'message' => 'Product added to cart',
@@ -242,43 +220,37 @@ class CartService
      * @param array $options
      * @return array
      */
-    public function update($productId, $quantity, $options = [])
+    public function update($productId, $quantity, $options = [], $variantData = null)
     {
-        $itemKey = $this->getItemKey($productId, $options);
-        
+        // Always require variant
+        if (!$variantData) {
+            return ['success' => false, 'message' => 'Variant is required for this product'];
+        }
+        if (is_string($variantData)) {
+            $variant = json_decode($variantData, true);
+        } else {
+            $variant = $variantData;
+        }
+        if (!$variant || !isset($variant['sku'])) {
+            return ['success' => false, 'message' => 'Invalid variant data'];
+        }
+        $itemKey = $productId . '_' . $variant['sku'];
         if (!isset($this->items[$itemKey])) {
             return ['success' => false, 'message' => 'Item not found in cart'];
         }
-
-        $product = Product::find($productId);
-        if (!$product) {
-            return ['success' => false, 'message' => 'Product not found'];
+        $stock = $variant['stock'] ?? null;
+        $trackQuantity = $variant['track_quantity'] ?? true;
+        if ($trackQuantity && $stock !== null && $stock < $quantity) {
+            $attrLabel = collect($variant['attributes'] ?? [])->map(function($a) { return $a['value'] ?? ''; })->implode(', ');
+            return ['success' => false, 'message' => "Insufficient stock for variant: {$attrLabel} (Available: {$stock})"];
         }
-
-        $isDigital = $product->is_digital ?? false;
-        if ($isDigital) {
-            $quantity = 1;
-        } else {
-            if ($quantity <= 0) {
-                return $this->remove($productId, $options);
-            }
-            // Check stock for variant
-            $item = $this->items[$itemKey];
-            if ($product->track_quantity && $item['variant'] && isset($item['variant']['stock'])) {
-                if ($item['variant']['stock'] < $quantity) {
-                    return ['success' => false, 'message' => 'Insufficient stock for selected variant'];
-                }
-            } elseif ($product->track_quantity && $product->stock < $quantity) {
-                return ['success' => false, 'message' => 'Insufficient stock'];
-            }
+        if ($quantity <= 0) {
+            return $this->remove($productId, $options, $variant);
         }
-
         $this->items[$itemKey]['quantity'] = $quantity;
         $this->items[$itemKey]['total'] = $this->items[$itemKey]['price'] * $quantity;
-        $this->items[$itemKey]['updated_at'] = Carbon::now();
-
+        $this->items[$itemKey]['updated_at'] = now();
         $this->saveCart();
-        
         return [
             'success' => true, 
             'message' => 'Cart updated',

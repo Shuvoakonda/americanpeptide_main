@@ -7,8 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>American Peptide Co.</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+   
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <!-- Font Awesome 6 Free -->
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -23,19 +23,140 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <style>
+        /* Force table text to be dark */
+        .table, .table th, .table td {
+            color: #222 !important;
+        }
+        
+        /* Force text-muted to be visible */
+        .text-muted {
+            color: #6c757d !important;
+        }
+        
+        /* Force other text utilities to be visible */
+        .text-secondary {
+            color: #6c757d !important;
+        }
+        
+        .text-body-secondary {
+            color: #6c757d !important;
+        }
+        
         .wishlist-badge,
         .cart-badge {
             position: absolute;
             top: -5px;
             right: -8px;
-            background-color: #ac7630;
-            color: #fff;
+            background-color: #00a6e7 !important;
+            color: #fff !important;
             font-size: 12px;
             padding: 2px 6px;
             border-radius: 50%;
         }
-
-
+        /* Reset previous navbar customizations */
+        .navbar {
+            background: #fff !important;
+            box-shadow: none;
+            border-bottom: 1px solid #eaeaea;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #6D6E71;
+        }
+        .navbar-brand img {
+            height: 36px;
+            width: auto;
+        }
+        .navbar-nav {
+            flex-direction: row;
+            align-items: center;
+            gap: 1rem;
+        }
+        .navbar-nav .nav-link {
+            color: #6D6E71 !important;
+            font-weight: 400;
+            font-size: 0.98rem;
+            padding: 0;
+            background: none !important;
+            border: none !important;
+            transition: color 0.2s;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link.active {
+            color: #222 !important;
+            background: none;
+        }
+        .navbar .icon-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #6D6E71 !important;
+            font-size: 0.98rem;
+            background: none;
+            border: none;
+            box-shadow: none;
+            padding: 0 0.5rem;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+        .navbar .icon-btn i {
+            font-size: 1.1rem;
+            color: #6D6E71 !important;
+        }
+        .navbar .icon-btn span {
+            display: inline;
+            font-size: 0.98rem;
+            color: #6D6E71;
+        }
+        .navbar .icon-btn:hover {
+            color: #222 !important;
+        }
+        .navbar .search-box {
+            flex: 1 1 400px;
+            max-width: 420px;
+            margin: 0 2rem;
+            position: relative;
+        }
+        .navbar .search-box input[type="text"] {
+            width: 100%;
+            padding: 0.55rem 1.2rem 0.55rem 2.2rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #6D6E71;
+            background: #fff;
+            outline: none;
+        }
+        .navbar .search-box .fa-search {
+            position: absolute;
+            left: 0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #b0b0b0;
+            font-size: 1rem;
+        }
+        @media (max-width: 991.98px) {
+            .navbar .search-box {
+                max-width: 100%;
+                margin: 0.7rem 0;
+            }
+            .navbar-nav {
+                gap: 0.7rem;
+            }
+            .navbar-brand img {
+                height: 32px !important;
+            }
+        }
+        /* Ensure hamburger icon is visible */
+        .navbar-toggler .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(109,110,113,0.85)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
         /* Floating Cart Styles */
         .floating-cart {
             position: fixed;
@@ -52,14 +173,16 @@
                 display: block;
             }
         }
-
+        .navbar .nav-link {
+font-size: 13px;
+        }
         .cart-icon-link {
             display: flex;
             align-items: center;
             justify-content: center;
             width: 60px;
             height: 60px;
-            background-color: var(--primary-color);
+            background-color: #00a6e7;
             color: white;
             border-radius: 50%;
             text-decoration: none;
@@ -71,7 +194,7 @@
         .cart-icon-link:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-            background-color: #9a6829;
+            background-color: #008fc7;
             /* Darker shade of primary color */
         }
 
@@ -83,7 +206,7 @@
             position: absolute;
             top: -5px;
             right: -5px;
-            background-color: var(--primary-color);
+            background-color: #00a6e7;
             color: white;
             border-radius: 50%;
             width: 24px;
@@ -116,122 +239,176 @@
         .fly-animation {
             animation: flyToCart 0.8s ease-out forwards;
         }
+        /* Minimal hamburger icon */
+        .navbar-toggler {
+            border: none;
+            background: none;
+            padding: 0.35rem 0.7rem;
+            box-shadow: none;
+            outline: none;
+        }
+        .navbar-toggler:focus {
+            outline: none;
+            box-shadow: none;
+        }
+        .navbar-toggler-icon {
+            width: 28px;
+            height: 22px;
+            background: none;
+            display: inline-block;
+            position: relative;
+            border: none;
+        }
+        .navbar-toggler-icon:before,
+        .navbar-toggler-icon:after,
+        .navbar-toggler-icon div {
+            content: '';
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: #6D6E71;
+            border-radius: 2px;
+            position: absolute;
+            left: 0;
+            transition: all 0.2s;
+        }
+        .navbar-toggler-icon:before { top: 0; }
+        .navbar-toggler-icon div { top: 9px; }
+        .navbar-toggler-icon:after { top: 18px; }
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            color: #6D6E71 !important;
+            font-size: 1.1rem;
+            background: none;
+            border: none;
+            box-shadow: none;
+            padding: 0 0.3rem;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+        .icon-btn i {
+            font-size: 1.25rem;
+            color: #6D6E71 !important;
+        }
+        /* Offcanvas mobile menu styles */
+        .offcanvas .icon-btn, .offcanvas .icon-btn i, .offcanvas .icon-btn span {
+            color: #6D6E71 !important;
+            font-size: 1.08rem;
+        }
+        .offcanvas .icon-btn {
+            justify-content: center;
+            width: 100%;
+        }
+        .offcanvas .icon-btn span {
+            margin-left: 0.5rem;
+        }
+        .offcanvas .navbar-nav .nav-link {
+            color: #6D6E71 !important;
+            font-size: 1.08rem;
+            text-align: center;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+        .offcanvas .navbar-nav {
+            gap: 1.2rem;
+        }
+        .offcanvas .search-box input[type="text"] {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding-left: 2rem;
+        }
+        .offcanvas .search-box {
+            max-width: 320px;
+            width: 100%;
+        }
     </style>
 
     @stack('styles')
-    @vite('resources/js/app.js')
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg fixed-top bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <span style="color: #fff;">AMERICAN</span>
-                <span style="color: #ac7630;">PEPTIDES</span>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light">
+        <div class="container-fluid px-5 d-flex align-items-center justify-content-between" style="gap: 1.5rem;">
+            <a class="navbar-brand d-lg-none" href="#">
+                <img src="/mobil-logo.png" alt="American Peptide Mobile Logo">
             </a>
-
-            <!-- Offcanvas toggle button -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
-                aria-controls="mobileMenu">
-                <i class="bi bi-list" style="font-size: 2.5rem; color:#fff !important;"></i>
-            </button>
-
-            <!-- Desktop Nav (visible on lg and above) -->
-            <div class="d-none d-lg-block">
-                <ul class="navbar-nav ms-auto align-items-center">
+            <a class="navbar-brand d-none d-lg-flex" href="#">
+                <img src="/logo.png" alt="American Peptide Logo">
+            </a>
+            <div class="d-lg-none d-flex align-items-center ms-auto" style="gap: 0.3rem;">
+                <a class="icon-btn p-0" href="{{ route('cart.index') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+                <a class="icon-btn p-0" href="{{ route('login') }}"><i class="far fa-user"></i></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"><div></div></span>
+                </button>
+            </div>
+            <form class="search-box d-none d-lg-block" action="#" method="get">
+                <i class="fas fa-search"></i>
+                <input type="text" name="q" placeholder="Search">
+            </form>
+            <div class="d-none d-lg-flex flex-grow-1 justify-content-center">
+                <ul class="navbar-nav align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('home') }}">HOME</a>
+                        <a class="nav-link" href="{{ route('products.index') }}">All Peptides</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('products.index') }}">PEPTIDES FOR SALE</a>
+                        <a class="nav-link" href="{{ route('about') }}">Our Company</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('about') }}">ABOUT US</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" href="{{ route('contact') }}">CONTACT</a>
-                    </li>
-                    <li class="nav-item position-relative icon-hover">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-heart" style="font-size: 20px;"></i>
-                            <span id="wishlist-count" class="cart-badge">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item position-relative icon-hover">
-                        <a class="nav-link" href="{{ route('cart.index') }}">
-                            <i class="fas fa-shopping-cart" style="font-size: 20px;"></i>
-                            <span id="cart-count" class="cart-badge">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle icon-hover" href="#" id="userDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user" style="font-size: 20px;"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="{{ route('login') }}">Login</a></li>
-                            <li><a class="dropdown-item" href="{{ route('register') }}">Register</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">My Account</a></li>
-                        </ul>
+                        <a class="nav-link" href="{{ route('contact') }}">Contact Us</a>
                     </li>
                 </ul>
             </div>
+            <div class="d-none d-lg-flex align-items-center" style="gap: 1.2rem;">
+                <a class="icon-btn" href="{{ route('login') }}"><i class="far fa-user"></i><span>Sign in</span></a>
+                <a class="icon-btn" href="{{ route('cart.index') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+            </div>
         </div>
-
-
     </nav>
-
     <!-- Offcanvas Side Menu for Mobile -->
-    <div class="offcanvas offcanvas-start bg-dark text-white" tabindex="-1" id="mobileMenu"
-        aria-labelledby="mobileMenuLabel">
+    <div class="offcanvas offcanvas-start bg-white" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
         <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="mobileMenuLabel">Menu</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                aria-label="Close"></button>
+            <a class="navbar-brand" href="#">
+                <img src="/mobil-logo.png" alt="American Peptide Mobile Logo" style="height:32px; width:auto;">
+            </a>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body position-relative mt-auto">
-            <ul class="navbar-nav">
+        <div class="offcanvas-body d-flex flex-column align-items-center">
+            <form class="search-box mb-4 w-100" action="#" method="get" style="max-width: 320px;">
+                <i class="fas fa-search"></i>
+                <input type="text" name="q" placeholder="Search">
+            </form>
+            <ul class="navbar-nav mb-4 w-100 align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('home') }}"><i class="fas fa-home me-2"></i>HOME</a>
+                    <a class="nav-link" href="{{ route('products.index') }}">ALL PEPTIDES</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#"><i class="fas fa-flask me-2"></i>PEPTIDES FOR
-                        SALE</a>
+                    <a class="nav-link" href="{{ route('about') }}">OUR COMPANY</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('about') }}"><i
-                            class="fas fa-info-circle me-2"></i>ABOUT US</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('contact') }}"><i
-                            class="fas fa-envelope me-2"></i>CONTACT</a>
-                </li>
-                <li>
-                    <hr class="dropdown-divider bg-secondary">
-                </li>
-                <li class="nav-item">
-
-                    <a class="nav-link text-white" href="#"><i class="fas fa-sign-in-alt me-2"></i>Login</a>
-                </li>
-                <li class="nav-item">
-
-                    <a class="nav-link text-white" href="#"><i class="fas fa-user-plus me-2"></i> Register</a>
-                </li>
-                <li class="nav-item">
-
-                    <a class="nav-link text-white" href="#"><i class="fas fa-user me-2"></i> My Account</a>
+                    <a class="nav-link" href="{{ route('contact') }}">CONTACT US</a>
                 </li>
             </ul>
-
+            <div class="d-flex flex-column gap-2 w-100 align-items-center">
+                <a class="icon-btn" href="{{ route('login') }}"><i class="far fa-user"></i><span style="margin-left:0.5rem;">Sign in</span></a>
+                <a class="icon-btn" href="{{ route('cart.index') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="cart-badge">0</span>
+                </a>
+            </div>
         </div>
-
     </div>
 
     <!-- Main Content -->
-    <main class="flex-grow-1" style="margin-top: 15px;">
+    <main class="flex-grow-1" style="margin-top: 60px;">
 
         @yield('content')
 
@@ -305,15 +482,10 @@
     <script>
         // Cart count update
         function updateCartCount() {
-            fetch('{{ route('cart.index') }}')
-                .then(response => response.text())
-                .then(html => {
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(html, 'text/html');
-                    const cartCount = doc.querySelector('#cart-count');
-                    if (cartCount) {
-                        document.getElementById('cart-count').textContent = cartCount.textContent;
-                    }
+            fetch('/cart/count')
+                .then(response => response.json())
+                .then(data => {
+                    document.querySelectorAll('#cart-count').forEach(el => el.textContent = data.cart_count);
                 });
         }
 
@@ -342,58 +514,28 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const floatingCart = document.getElementById('floatingCart');
-            const cartIconLink = document.querySelector('.cart-icon-link');
-
-            // Click handler for flying animation
-            cartIconLink.addEventListener('click', function(e) {
-                // Only animate if going to cart page (not already on it)
-                if (!window.location.pathname.includes('cart')) {
-                    e.preventDefault();
-                    const cartIcon = this.querySelector('i');
-                    const clone = cartIcon.cloneNode(true);
-
-                    // Style the clone for animation
-                    clone.style.position = 'fixed';
-                    clone.style.color = 'var(--primary-color)';
-                    clone.style.fontSize = '2rem';
-                    clone.style.zIndex = '1000';
-                    clone.style.pointerEvents = 'none';
-
-                    // Position the clone
-                    const rect = cartIcon.getBoundingClientRect();
-                    clone.style.top = `${rect.top}px`;
-                    clone.style.left = `${rect.left}px`;
-                    document.body.appendChild(clone);
-
-                    // Add fly animation
-                    clone.classList.add('fly-animation');
-
-                    // Navigate after animation completes
-                    setTimeout(() => {
-                        window.location.href = this.href;
-                    }, 800);
-                }
-            });
-
-            // Update cart badge count (replace with your actual cart count)
-            function updateCartCount() {
-                fetch('/api/cart-count') // Replace with your actual endpoint
-                    .then(response => response.json())
-                    .then(data => {
-                        document.querySelector('.cart-badge').textContent = data.count;
-                    })
-                    .catch(() => {
-                        document.querySelector('.cart-badge').textContent = '0';
-                    });
-            }
-
-            // Initialize and update periodically
             updateCartCount();
             setInterval(updateCartCount, 30000); // Update every 30 seconds
         });
     </script>
     @stack('scripts')
+    <div id="toast-container" style="position: fixed; top: 80px; right: 20px; z-index: 9999;"></div>
+    <script>
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = `alert alert-${type}`;
+        toast.style.minWidth = '200px';
+        toast.style.marginBottom = '10px';
+        toast.innerHTML = message;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('fade');
+            setTimeout(() => toast.remove(), 500);
+        }, 2500);
+    }
+    </script>
     <div class="floating-cart d-lg-none" id="floatingCart">
         <a href="" class="cart-icon-link">
             <i class="fas fa-shopping-cart"></i>

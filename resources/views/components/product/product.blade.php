@@ -1,42 +1,26 @@
 @props(['product'])
-<article class="product-card" aria-labelledby="product-title-61189">
-    <!-- Product Image with Lazy Loading -->
-    <figure class="product-card__image">
-        <a href="{{ route('products.show', $product) }}" tabindex="-1">
-            <img src="/assets/images/wp-content/uploads/2024/05/Sermorelin-Ipamorelin-5-5MG.jpg"
-                alt="{{ $product->name }}" width="300" height="300" loading="lazy" class="product-card__thumbnail" />
+<article class="text-center p-4">
+    <!-- Product Image -->
+    <div style="display: flex; justify-content: center; align-items: center; height: 170px;">
+        <a href="{{ route('products.show', $product) }}">
+            <img src="{{ $product->image_url }}" alt="{{ $product->name }}" height="300"
+                style=" contain; display: block; margin: 0 auto;" loading="lazy" />
         </a>
-        <!-- Optional: Badges (Sale/Out of Stock) -->
-        <span class="product-card__badge" data-badge="sale">Sale!</span>
-    </figure>
-
-    <!-- Product Details -->
-    <div class="product-card__body">
-        @if ($product->category)
-            <span class="small d-flex align-items-center"
-                style="font-family: 'Playfair Display', serif; letter-spacing: 0.02em;">
-                <i class="bi bi-journal-bookmark me-1" style="color: var(--secondary-color);"></i>
-                {{ $product->category->name }}
-            </span>
+    </div>
+    <!-- Product Name -->
+    <div style="margin-top: 30px; font-size: 1rem; font-weight: 500; color: #222;">
+        {{ $product->name }}
+    </div>
+    <!-- Price -->
+    @php
+        $firstVariant = is_array($product->variants) && count($product->variants) > 0 ? $product->variants[0] : null;
+        $price = $firstVariant['price']['retailer']['unit_price'] ?? null;
+    @endphp
+    <div style="color: #0099cc; font-size: 1.1rem; font-weight: bold; margin-top: 2px;">
+        @if ($price)
+            ${{ number_format($price, 2) }}
+        @else
+            $XX
         @endif
-        @if ($product->brand)
-            <h3 id="product-title-61189" class="product-card__title">
-                <a href="{{ route('products.show', $product) }}">{{ $product->name }}</a>
-            </h3>
-        @endif
-
-        <!-- Price -->
-        <div class="product-card__price" aria-label="Price">
-            @if (method_exists($product, 'hasVariants') && $product->hasVariants())
-                <span class="product-card__price-amount">${{ number_format($product->price, 2) }}</span>
-                <del class="product-card__price-old"
-                    aria-hidden="true">${{ number_format($product->compare_at_price, 2) }}</del>
-            @endif
-        </div>
-
-        <!-- Add to Cart (Optional) -->
-        {{-- <button class="product-card__add-to-cart" aria-label="Add ABP-7 to cart">
-            Add to Cart
-        </button> --}}
     </div>
 </article>

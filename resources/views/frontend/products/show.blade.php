@@ -4,125 +4,103 @@
 
 @section('content')
 
-    <section class="container">
+    <section class="container text-dark">
         <div class="breadcrumb">
             <a class="me-1" href="{{ route('home') }}">Home</a> /
-            <a class="me-1 ms-1"
-                href="{{ route('products.index', ['category' => $product->category_id]) }}">{{ $product->category->name ?? 'Category' }}</a>
+            <a class="me-1 ms-1" href="{{ route('products.index', ['category' => $product->category->slug ?? '']) }}">
+                {{ $product->category->name ?? 'Category' }}
+            </a>
             /
             <a class="ms-1" href="#">{{ $product->name }}</a>
         </div>
         <div class="product-container">
             <div class="product-image">
 
-                <img src="/assets/images/wp-content/uploads/2024/05/ABP-7-10mg-600x600.jpg" alt="ABP-7 Peptide (10mg)"
+                <img src="{{ $product->image_url ?? '/assets/images/wp-content/uploads/2024/05/ABP-7-10mg-600x600.jpg' }}"
                     alt="{{ $product->name }}">
             </div>
 
+            @php
+                $variants = $product->variants ?? [];
+                $firstVariant = $variants[0] ?? null;
+            @endphp
             <div class="product-details">
                 <div class="product-name">
-                    <h3 id="" class="product-card-details_title">
-                        <a href="">{{ $product->name }}</a>
+                    <h3 id="product-variation-name" class="product-card-details_title">
+                        <a href="">{{ $firstVariant['name'] ?? $product->name }}</a>
                     </h3>
                 </div>
-                <div class="price">{{ $product->price }}</div>
-
+                <div class="price" id="product-variation-price">
+                    ${{ isset($firstVariant['price']['retailer']['unit_price']) ? number_format($firstVariant['price']['retailer']['unit_price'], 2) : number_format($product->price ?? 0, 2) }}
+                </div>
+                <div class="info-row">
+                    <div class="info-label">SKU:</div>
+                    <div class="info-value text-dark" id="product-variation-sku">{{ $firstVariant['sku'] ?? $product->sku }}
+                    </div>
+                </div>
+                @if (!empty($variants))
+                    <div class="info-row">
+                        <div class="info-label">Strength:</div>
+                        <div class="info-value">
+                            <select id="variation-selector" class="form-select text-dark">
+                                @foreach ($variants as $i => $variant)
+                                    <option value="{{ $i }}" data-name="{{ $variant['name'] ?? '' }}"
+                                        data-price="{{ $variant['price']['retailer']['unit_price'] ?? 0 }}"
+                                        data-sku="{{ $variant['sku'] ?? '' }}"
+                                        @if ($i === 0) selected @endif>
+                                        {{ collect($variant['attributes'] ?? [])->firstWhere('name', 'Strength')['value'] ?? ($variant['name'] ?? 'Variant') }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                @endif
                 <div class="product-info">
                     <div class="info-row">
                         <div class="info-label">Size:</div>
-                        <div class="info-value">1mg</div>
+                        <div class="info-value text-dark">{{ $product->size ?? '1mg' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Contents:</div>
-                        <div class="info-value">{{ $product->name }} ({{ $product->weight }}mg)</div>
+                        <div class="info-value text-dark">{{ $product->name }} </div>
                     </div>
-                    <div class="info-row">
-                        <div class="info-label">Form:</div>
-                        <div class="info-value">Lyophilized powder</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">Purity:</div>
-                        <div class="info-value">&gt;99%</div>
-                    </div>
-                    <div class="info-row">
-                        <div class="info-label">SKU:</div>
-                        <div class="info-value">{{ $product->sku }}</div>
-                    </div>
+
                 </div>
 
-                <div class="shipping-notice mt-2">
-                    FREE Shipping on $200+ orders
-                </div>
-                <table class="discount-table">
-                    <thead>
-                        <tr>
-                            <th>Quantity</th>
-                            <th>Discount</th>
-                            <th>Price</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>5 - 8</td>
-                            <td>5%</td>
-                            <td>$164.35</td>
-                        </tr>
-                        <tr>
-                            <td>9 +</td>
-                            <td>10%</td>
-                            <td>$155.70</td>
-                        </tr>
-                    </tbody>
-                </table>
+
+              
                 <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="post">
                     @csrf
-                    <div class="pro-quantity-selector">
-                        <div class="pro-quantity-label">Quantity:</div>
-                        <div class="pro-quantity-controls d-flex align-items-center">
-                            <button class="pro-quantity-btn minus btn btn-outline-secondary" type="button">-</button>
-                            <input type="number" class="pro-quantity-input form-control mx-2" value="1" min="1"
-                                style="width: 70px;" max="{{ $product->track_quantity ? $product->getStock() : 999 }}">
-                            <button class="pro-quantity-btn plus btn btn-outline-secondary" type="button">+</button>
+                    <input type="hidden" name="variant_index" id="selected-variant-index" value="0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="pro-quantity-selector m-0">
+                            <div class="pro-quantity-label">Quantity:</div>
+                            <div class="pro-quantity-controls d-flex align-items-center">
+                                <button class=" minus btn btn-secondary" type="button">-</button>
+                                <input type="number" class="pro-quantity-input form-control text-dark mx-2" value="1"
+                                    min="1" style="width: 70px;"
+                                    max="{{ $product->track_quantity ? $product->getStock() : 999 }}">
+                                <button class="plus btn btn-secondary" type="button">+</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-evenly align-items-center">
                         <button type="submit"
-                            class="add-to-cart zoom-in"{{ $product->track_quantity && $product->getStock() <= 0 ? 'disabled' : '' }}>
+                            class="add-cart btn btn-secondary text-light "{{ $product->track_quantity && $product->getStock() <= 0 ? 'disabled' : '' }}>
                             <i class="fas fa-shopping-cart me-2"></i> Add To Cart</button>
-                        <a class="favourite" id="add-to-wishlist" data-product-id="101">
-                            <i class="fas fa-heart"></i>
-                        </a>
+
                     </div>
                 </form>
+                <div id="add-to-cart-message" class="mt-2"></div>
             </div>
         </div>
     </section>
 
-    <section class="container py-5">
+    <section class="container text-dark py-5">
         <!-- Nav Tabs -->
-        <ul class="nav nav-tabs border-bottom mb-4" id="productTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#description"
+        <ul class="nav nav-tabs border-bottom mb-4 text-dark" id="productTab" role="tablist">
+            <li class="nav-item text-dark" role="presentation">
+                <button class="nav-link active text-dark" style="background-color:#00505E !important" id="desc-tab" data-bs-toggle="tab" data-bs-target="#description"
                     type="button" role="tab">
                     Description
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="coa-tab" data-bs-toggle="tab" data-bs-target="#coa" type="button"
-                    role="tab">
-                    Certificate of Analysis
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="hplc-tab" data-bs-toggle="tab" data-bs-target="#hplc" type="button"
-                    role="tab">
-                    HPLC
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="mass-tab" data-bs-toggle="tab" data-bs-target="#mass" type="button"
-                    role="tab">
-                    Mass Spectrometry
                 </button>
             </li>
         </ul>
@@ -133,37 +111,7 @@
             <!-- Description Tab -->
             <div class="tab-pane fade show active" id="description" role="tabpanel">
                 <h3 class="mb-3">{{ $product->name }}</h3>
-                <p>
-                    ACE-031 peptide, also known as ActRIIB-IgG1 peptide, appears to be a myostatin inhibitor...
-                    <br><br>
-                    <strong>Chemical Makeup</strong><br>
-                    Molecular Formula: C3649H5688N982O1062S58 <br>
-                    Molecular Weight: 77,489.82 g/mol
-                </p>
-
-                <h5 class="mt-4">Research and Clinical Studies</h5>
-                <p>
-                    In clinical trials, {{ $product->description }} showed significant increases in lean muscle mass...
-                </p>
-            </div>
-
-            <!-- Certificate of Analysis Tab -->
-            <div class="tab-pane fade" id="coa" role="tabpanel">
-                <div class="tab-pane-body">
-                    <img src="/assets/images/product/pro_ifo.jpg" alt="ABP-7 Peptide (10mg)">
-                </div>
-            </div>
-
-            <!-- HPLC Tab -->
-            <div class="tab-pane fade" id="hplc" role="tabpanel">
-                <h4>High Performance Liquid Chromatography (HPLC)</h4>
-                <p>Graphical HPLC data or description of purity and testing.</p>
-            </div>
-
-            <!-- Mass Spectrometry Tab -->
-            <div class="tab-pane fade" id="mass" role="tabpanel">
-                <h4>Mass Spectrometry</h4>
-                <p>Mass spec results and analysis of peptide molecular structure.</p>
+                <p>{!! nl2br(e($product->description)) !!}</p>
             </div>
 
         </div>
@@ -179,7 +127,7 @@
                 @foreach ($relatedProducts as $relatedProduct)
                     <!-- Product 1 -->
                     <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
-                        <x-product.product />
+                        <x-product.product :product="$relatedProduct" />
                     </div>
                 @endforeach
 
@@ -193,10 +141,10 @@
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const minusBtn = document.querySelector('.pro-quantity-btn.minus');
-            const plusBtn = document.querySelector('.pro-quantity-btn.plus');
+            const minusBtn = document.querySelector('.btn.minus');
+            const plusBtn = document.querySelector('.btn.plus');
             const quantityInput = document.querySelector('.pro-quantity-input');
-            const addToCartBtn = document.querySelector('.add-to-cart');
+            const addToCartBtn = document.querySelector('.add-cart');
             const cartCount = document.getElementById('cart-count');
 
             // Quantity controls
@@ -264,6 +212,65 @@
 
                 // Update count
                 wishlistCount.textContent = wishlist.length;
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const variationSelector = document.getElementById('variation-selector');
+            const nameEl = document.getElementById('product-variation-name').querySelector('a');
+            const priceEl = document.getElementById('product-variation-price');
+            const skuEl = document.getElementById('product-variation-sku');
+            const hiddenVariantIndex = document.getElementById('selected-variant-index');
+
+            if (variationSelector) {
+                variationSelector.addEventListener('change', function() {
+                    const selected = variationSelector.options[variationSelector.selectedIndex];
+                    nameEl.textContent = selected.dataset.name;
+                    priceEl.textContent = '$' + parseFloat(selected.dataset.price).toFixed(2);
+                    skuEl.textContent = selected.dataset.sku;
+                    hiddenVariantIndex.value = selected.value;
+                });
+            }
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('add-to-cart-form');
+            const quantityInput = form.querySelector('.pro-quantity-input');
+            const variantIndexInput = document.getElementById('selected-variant-index');
+            const messageDiv = document.getElementById('add-to-cart-message');
+            const cartCountEls = document.querySelectorAll('#cart-count, .cart-badge');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const quantity = parseInt(quantityInput.value);
+                const variantIndex = variantIndexInput ? variantIndexInput.value : null;
+                const formData = new FormData();
+                formData.append('product_id', {{ $product->id }});
+                formData.append('quantity', quantity);
+                @if (!empty($variants))
+                    formData.append('variant', JSON.stringify(@json($variants)[variantIndex]));
+                @endif
+                formData.append('_token', form.querySelector('input[name="_token"]').value);
+                fetch("{{ route('cart.add', $product->id) }}", {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        showToast(data.message, 'success');
+                        cartCountEls.forEach(el => el.textContent = data.cart_count);
+                    } else {
+                        showToast(data.message || 'Failed to add to cart.', 'danger');
+                    }
+                })
+                .catch(() => {
+                    showToast('Failed to add to cart.', 'danger');
+                });
             });
         });
     </script>
