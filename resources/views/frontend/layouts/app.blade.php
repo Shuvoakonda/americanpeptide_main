@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>American Peptide Co.</title>
-   
+
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     <!-- Font Awesome 6 Free -->
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css" rel="stylesheet">
@@ -24,24 +24,26 @@
 
     <style>
         /* Force table text to be dark */
-        .table, .table th, .table td {
+        .table,
+        .table th,
+        .table td {
             color: #222 !important;
         }
-        
+
         /* Force text-muted to be visible */
         .text-muted {
             color: #6c757d !important;
         }
-        
+
         /* Force other text utilities to be visible */
         .text-secondary {
             color: #6c757d !important;
         }
-        
+
         .text-body-secondary {
             color: #6c757d !important;
         }
-        
+
         .wishlist-badge,
         .cart-badge {
             position: absolute;
@@ -53,6 +55,7 @@
             padding: 2px 6px;
             border-radius: 50%;
         }
+
         /* Reset previous navbar customizations */
         .navbar {
             background: #fff !important;
@@ -61,6 +64,7 @@
             padding-top: 0.5rem;
             padding-bottom: 0.5rem;
         }
+
         .navbar-brand {
             display: flex;
             align-items: center;
@@ -69,15 +73,18 @@
             font-weight: 700;
             color: #6D6E71;
         }
+
         .navbar-brand img {
             height: 36px;
             width: auto;
         }
+
         .navbar-nav {
             flex-direction: row;
             align-items: center;
             gap: 1rem;
         }
+
         .navbar-nav .nav-link {
             color: #6D6E71 !important;
             font-weight: 400;
@@ -87,11 +94,13 @@
             border: none !important;
             transition: color 0.2s;
         }
+
         .navbar-nav .nav-link:hover,
         .navbar-nav .nav-link.active {
             color: #222 !important;
             background: none;
         }
+
         .navbar .icon-btn {
             display: flex;
             align-items: center;
@@ -105,24 +114,29 @@
             transition: color 0.2s;
             text-decoration: none;
         }
+
         .navbar .icon-btn i {
             font-size: 1.1rem;
             color: #6D6E71 !important;
         }
+
         .navbar .icon-btn span {
             display: inline;
             font-size: 0.98rem;
             color: #6D6E71;
         }
+
         .navbar .icon-btn:hover {
             color: #222 !important;
         }
+
         .navbar .search-box {
             flex: 1 1 400px;
             max-width: 420px;
             margin: 0 2rem;
             position: relative;
         }
+
         .navbar .search-box input[type="text"] {
             width: 100%;
             padding: 0.55rem 1.2rem 0.55rem 2.2rem;
@@ -133,6 +147,7 @@
             background: #fff;
             outline: none;
         }
+
         .navbar .search-box .fa-search {
             position: absolute;
             left: 0.8rem;
@@ -141,22 +156,27 @@
             color: #b0b0b0;
             font-size: 1rem;
         }
+
         @media (max-width: 991.98px) {
             .navbar .search-box {
                 max-width: 100%;
                 margin: 0.7rem 0;
             }
+
             .navbar-nav {
                 gap: 0.7rem;
             }
+
             .navbar-brand img {
                 height: 32px !important;
             }
         }
+
         /* Ensure hamburger icon is visible */
         .navbar-toggler .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(109,110,113,0.85)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
+
         /* Floating Cart Styles */
         .floating-cart {
             position: fixed;
@@ -173,9 +193,11 @@
                 display: block;
             }
         }
+
         .navbar .nav-link {
-font-size: 13px;
+            font-size: 13px;
         }
+
         .cart-icon-link {
             display: flex;
             align-items: center;
@@ -204,13 +226,12 @@ font-size: 13px;
 
         .cart-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
+            top: 3px;
+            right: 35px;
+            padding: 0px 6px;
             background-color: #00a6e7;
             color: white;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            border-radius: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -239,6 +260,7 @@ font-size: 13px;
         .fly-animation {
             animation: flyToCart 0.8s ease-out forwards;
         }
+
         /* Minimal hamburger icon */
         .navbar-toggler {
             border: none;
@@ -247,10 +269,12 @@ font-size: 13px;
             box-shadow: none;
             outline: none;
         }
+
         .navbar-toggler:focus {
             outline: none;
             box-shadow: none;
         }
+
         .navbar-toggler-icon {
             width: 28px;
             height: 22px;
@@ -259,6 +283,7 @@ font-size: 13px;
             position: relative;
             border: none;
         }
+
         .navbar-toggler-icon:before,
         .navbar-toggler-icon:after,
         .navbar-toggler-icon div {
@@ -272,9 +297,19 @@ font-size: 13px;
             left: 0;
             transition: all 0.2s;
         }
-        .navbar-toggler-icon:before { top: 0; }
-        .navbar-toggler-icon div { top: 9px; }
-        .navbar-toggler-icon:after { top: 18px; }
+
+        .navbar-toggler-icon:before {
+            top: 0;
+        }
+
+        .navbar-toggler-icon div {
+            top: 9px;
+        }
+
+        .navbar-toggler-icon:after {
+            top: 18px;
+        }
+
         .icon-btn {
             display: flex;
             align-items: center;
@@ -287,22 +322,29 @@ font-size: 13px;
             transition: color 0.2s;
             text-decoration: none;
         }
+
         .icon-btn i {
             font-size: 1.25rem;
             color: #6D6E71 !important;
         }
+
         /* Offcanvas mobile menu styles */
-        .offcanvas .icon-btn, .offcanvas .icon-btn i, .offcanvas .icon-btn span {
+        .offcanvas .icon-btn,
+        .offcanvas .icon-btn i,
+        .offcanvas .icon-btn span {
             color: #6D6E71 !important;
             font-size: 1.08rem;
         }
+
         .offcanvas .icon-btn {
             justify-content: center;
             width: 100%;
         }
+
         .offcanvas .icon-btn span {
             margin-left: 0.5rem;
         }
+
         .offcanvas .navbar-nav .nav-link {
             color: #6D6E71 !important;
             font-size: 1.08rem;
@@ -310,15 +352,18 @@ font-size: 13px;
             font-weight: 400;
             letter-spacing: 0.02em;
         }
+
         .offcanvas .navbar-nav {
             gap: 1.2rem;
         }
+
         .offcanvas .search-box input[type="text"] {
             width: 100%;
             border-radius: 8px;
             border: 1px solid #ccc;
             padding-left: 2rem;
         }
+
         .offcanvas .search-box {
             max-width: 320px;
             width: 100%;
@@ -343,8 +388,11 @@ font-size: 13px;
                     <span id="cart-count" class="cart-badge">0</span>
                 </a>
                 <a class="icon-btn p-0" href="{{ route('login') }}"><i class="far fa-user"></i></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"><div></div></span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
+                    aria-controls="mobileMenu" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon">
+                        <div></div>
+                    </span>
                 </button>
             </div>
             <form class="search-box d-none d-lg-block" action="#" method="get">
@@ -398,7 +446,8 @@ font-size: 13px;
                 </li>
             </ul>
             <div class="d-flex flex-column gap-2 w-100 align-items-center">
-                <a class="icon-btn" href="{{ route('login') }}"><i class="far fa-user"></i><span style="margin-left:0.5rem;">Sign in</span></a>
+                <a class="icon-btn" href="{{ route('login') }}"><i class="far fa-user"></i><span
+                        style="margin-left:0.5rem;">Sign in</span></a>
                 <a class="icon-btn" href="{{ route('cart.index') }}">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" class="cart-badge">0</span>
@@ -521,20 +570,20 @@ font-size: 13px;
     @stack('scripts')
     <div id="toast-container" style="position: fixed; top: 80px; right: 20px; z-index: 9999;"></div>
     <script>
-    function showToast(message, type = 'success') {
-        const container = document.getElementById('toast-container');
-        if (!container) return;
-        const toast = document.createElement('div');
-        toast.className = `alert alert-${type}`;
-        toast.style.minWidth = '200px';
-        toast.style.marginBottom = '10px';
-        toast.innerHTML = message;
-        container.appendChild(toast);
-        setTimeout(() => {
-            toast.classList.add('fade');
-            setTimeout(() => toast.remove(), 500);
-        }, 2500);
-    }
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `alert alert-${type}`;
+            toast.style.minWidth = '200px';
+            toast.style.marginBottom = '10px';
+            toast.innerHTML = message;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('fade');
+                setTimeout(() => toast.remove(), 500);
+            }, 2500);
+        }
     </script>
     <div class="floating-cart d-lg-none" id="floatingCart">
         <a href="" class="cart-icon-link">

@@ -68,7 +68,7 @@
                 </div>
 
 
-              
+
                 <form id="add-to-cart-form" action="{{ route('cart.add', $product->id) }}" method="post">
                     @csrf
                     <input type="hidden" name="variant_index" id="selected-variant-index" value="0">
@@ -90,31 +90,28 @@
                     </div>
                 </form>
                 <div id="add-to-cart-message" class="mt-2"></div>
+                <ul class="nav nav-tabs border-bottom mb-4 text-dark" id="productTab" role="tablist">
+                    <li class="nav-item text-dark" role="presentation">
+                        <button class="nav-link active text-dark" style="background-color:#00505E !important" id="desc-tab"
+                            data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">
+                            Description
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content border p-4 rounded" id="productTabContent" style="background-color: #fff;">
+
+                    <!-- Description Tab -->
+                    <div class="tab-pane fade show active" id="description" role="tabpanel">
+                        <h3 class="mb-3">{{ $product->name }}</h3>
+                        <p>{!! nl2br(e($product->description)) !!}</p>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </section>
 
-    <section class="container text-dark py-5">
-        <!-- Nav Tabs -->
-        <ul class="nav nav-tabs border-bottom mb-4 text-dark" id="productTab" role="tablist">
-            <li class="nav-item text-dark" role="presentation">
-                <button class="nav-link active text-dark" style="background-color:#00505E !important" id="desc-tab" data-bs-toggle="tab" data-bs-target="#description"
-                    type="button" role="tab">
-                    Description
-                </button>
-            </li>
-        </ul>
-
-        <!-- Tab Content -->
-        <div class="tab-content border p-4 rounded" id="productTabContent" style="background-color: #fff;">
-
-            <!-- Description Tab -->
-            <div class="tab-pane fade show active" id="description" role="tabpanel">
-                <h3 class="mb-3">{{ $product->name }}</h3>
-                <p>{!! nl2br(e($product->description)) !!}</p>
-            </div>
-
-        </div>
     </section>
 
 
@@ -123,7 +120,7 @@
             <h2 class="section-title">Related Product</h2>
         </div>
         @if ($relatedProducts->count() > 0)
-            <div class="row px-5">
+            <div class="row px-5 mt-5">
                 @foreach ($relatedProducts as $relatedProduct)
                     <!-- Product 1 -->
                     <div class="col-lg-3 col-md-6 col-sm-6 mb-5">
@@ -256,21 +253,21 @@
                 @endif
                 formData.append('_token', form.querySelector('input[name="_token"]').value);
                 fetch("{{ route('cart.add', $product->id) }}", {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        showToast(data.message, 'success');
-                        cartCountEls.forEach(el => el.textContent = data.cart_count);
-                    } else {
-                        showToast(data.message || 'Failed to add to cart.', 'danger');
-                    }
-                })
-                .catch(() => {
-                    showToast('Failed to add to cart.', 'danger');
-                });
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            showToast(data.message, 'success');
+                            cartCountEls.forEach(el => el.textContent = data.cart_count);
+                        } else {
+                            showToast(data.message || 'Failed to add to cart.', 'danger');
+                        }
+                    })
+                    .catch(() => {
+                        showToast('Failed to add to cart.', 'danger');
+                    });
             });
         });
     </script>
