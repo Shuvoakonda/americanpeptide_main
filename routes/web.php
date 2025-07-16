@@ -8,6 +8,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WholeSalerController;
 use App\Mail\NewOrderNotification;
 use App\Mail\OrderConfirmation;
 use App\Mail\WelcomeEmail;
@@ -33,6 +34,8 @@ Route::get('/', function () {
     return view('home', compact('products'));
 })->name('home');
 
+Route::get('/register/wholesaler', [WholeSalerController::class, 'showWholesalerRegistrationForm'])->name('register.wholesaler');
+Route::post('/register/wholesaler', [WholeSalerController::class, 'registerWholesaler'])->name('register.wholesaler.submit');
 
 // Static Pages
 Route::get('/about', [PageController::class, 'about'])->name('about');

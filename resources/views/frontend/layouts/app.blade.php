@@ -383,15 +383,15 @@
                 <img src="/logo.png" alt="American Peptide Logo">
             </a>
             <div class="d-lg-none d-flex align-items-center ms-auto" style="gap: 0.3rem;">
-                <a class="icon-btn p-0" href="{{ route('cart.index') }}">
+                {{-- <a class="icon-btn p-0" href="{{ route('cart.index') }}">
                     <i class="fas fa-shopping-cart"></i>
                     <span id="cart-count" class="cart-badge">0</span>
-                </a>
+                </a> --}}
                 <a class="icon-btn p-0" href="{{ route('login') }}"><i class="far fa-user"></i></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu"
                     aria-controls="mobileMenu" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
-                        <div></div>
+                        <i class="fas fa-bars"></i>
                     </span>
                 </button>
             </div>
@@ -412,22 +412,73 @@
                     </li>
                 </ul>
             </div>
-            <div class="d-none d-lg-flex align-items-center" style="gap: 1.2rem;">
-                <a class="icon-btn" href="{{ route('login') }}"><i class="far fa-user"></i><span>Sign in</span></a>
-                <a class="icon-btn" href="{{ route('cart.index') }}">
+            <div class="d-none d-lg-flex align-items-center" style="position: relative;">
+                <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count" class="cart-badge">0</span>
+                    <span id="cart-count" class="cart-badge position-absolute top-0 start-100 translate-middle">
+                        0
+                    </span>
                 </a>
             </div>
+
+            <div class="d-none d-lg-flex align-items-center dropdown">
+                <a class="icon-btn dropdown-toggle" href="#" role="button" id="userDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="far fa-user"></i>
+                    <span>Account</span>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    @guest
+                        <li>
+                            <a class="dropdown-item" href="{{ route('login') }}">
+                                <i class="fas fa-sign-in-alt me-2"></i> Sign in
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('register') }}">
+                                <i class="fas fa-user-plus me-2"></i> Register
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('register.wholesaler') }}">
+                                <i class="fas fa-user-plus me-2"></i> Register as a Wholesaler
+                            </a>
+                        </li>
+                    @endguest
+
+                    @auth
+                        <li>
+                            <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                <i class="fas fa-tachometer-alt me-2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    @endauth
+                </ul>
+            </div>
+
         </div>
     </nav>
     <!-- Offcanvas Side Menu for Mobile -->
-    <div class="offcanvas offcanvas-start bg-white" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+    <div class="offcanvas offcanvas-start bg-white" tabindex="-1" id="mobileMenu"
+        aria-labelledby="mobileMenuLabel">
         <div class="offcanvas-header">
             <a class="navbar-brand" href="#">
                 <img src="/mobil-logo.png" alt="American Peptide Mobile Logo" style="height:32px; width:auto;">
             </a>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
         </div>
         <div class="offcanvas-body d-flex flex-column align-items-center">
             <form class="search-box mb-4 w-100" action="#" method="get" style="max-width: 320px;">
@@ -448,9 +499,11 @@
             <div class="d-flex flex-column gap-2 w-100 align-items-center">
                 <a class="icon-btn" href="{{ route('login') }}"><i class="far fa-user"></i><span
                         style="margin-left:0.5rem;">Sign in</span></a>
-                <a class="icon-btn" href="{{ route('cart.index') }}">
+                <a class="icon-btn position-relative" href="{{ route('cart.index') }}">
                     <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count" class="cart-badge">0</span>
+                    <span id="cart-count" class="cart-badge position-absolute top-0 start-100 translate-middle">
+                        0
+                    </span>
                 </a>
             </div>
         </div>

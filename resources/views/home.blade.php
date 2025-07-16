@@ -37,9 +37,9 @@
         position: relative;
     }
 </style>
-@section('content')
+@section('content') 
 
-    <section class="">
+    <section>
         <div class="et_pb_section et_pb_section_0 corepepbgimage et_pb_with_background et_section_regular">
             <span class="et_pb_background_pattern"></span>
             <div class="et_pb_row et_pb_row_0">

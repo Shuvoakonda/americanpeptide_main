@@ -76,26 +76,29 @@
  }
 
  @media (max-width: 576px) {
-        .navbar-brand {
-            font-size: 1.5rem;
-        }
-    
-        .nav-link {
-            font-size: 0.8rem;
-        }
+     .navbar-brand {
+         font-size: 1.5rem;
+     }
+
+     .nav-link {
+         font-size: 0.8rem;
+     }
  }
 
  /* Cart badge style */
  .cart-badge {
-     position: absolute;
-     top: -2px;
-     right: 3px;
-     color: var(--card-bg);
-     background-color: var(--primary-color);
-     font-size: 12px;
-     padding: 2px 6px;
+     background-color: #dc3545;
+     /* red */
+     color: white;
+     font-size: 0.75rem;
+     padding: 0.25em 0.5em;
      border-radius: 50%;
+     line-height: 1;
+     min-width: 1.5em;
+     text-align: center;
+     z-index: 10;
  }
+
 
  .wishlist-badge {
      position: absolute;
@@ -265,7 +268,7 @@
 
  .et_pb_button:hover {
      background-color: #C4F6FF !important;
-     color: #ffffff !important;
+     color: #433c3c !important;
      /* darker shade for hover */
  }
 
