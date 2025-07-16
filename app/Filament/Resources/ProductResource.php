@@ -16,7 +16,6 @@ class ProductResource extends Resource
 {
     use ResourcePermissionTrait;
     protected static ?string $model = Product::class;
-    protected static ?string $navigationIcon = 'heroicon-o-cube';
     protected static ?string $navigationLabel = 'Products';
     protected static ?string $navigationGroup = 'Catalogue';
     protected static ?int $navigationSort = 3;

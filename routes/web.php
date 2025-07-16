@@ -14,6 +14,7 @@ use App\Mail\OrderConfirmation;
 use App\Mail\WelcomeEmail;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -110,11 +111,6 @@ Route::middleware(['auth'])->group(function () {
     // Order Management
     Route::get('/orders', [UserController::class, 'orders'])->name('user.orders.index');
     Route::get('/orders/{order}', [UserController::class, 'showOrder'])->name('user.orders.show');
-
-    Route::get('/dashboard/audiobooks', [\App\Http\Controllers\UserAudioBookController::class, 'index'])->name('user.audiobooks');
-    Route::get('/dashboard/audiobooks/{audiobook}/stream', [\App\Http\Controllers\UserAudioBookController::class, 'stream'])->name('user.audiobooks.stream');
-    Route::get('/dashboard/audiobooks/{audiobook}/download', [\App\Http\Controllers\UserAudioBookController::class, 'download'])->name('user.audiobooks.download');
-    Route::get('/audiobooks/{audiobook}/trial-stream', [\App\Http\Controllers\UserAudioBookController::class, 'trialStream'])->name('audiobooks.trial.stream');
 });
 
 Route::get('/order-confirmation/{order}', function (Order $order) {
@@ -179,3 +175,9 @@ Route::get('/test-order-confirmation/{order}', function (Order $order) {
     Mail::to('test@example.com')->send(new NewOrderNotification($order));
     return 'New order notification email sent!';
 })->name('test.order-confirmation');
+
+
+Route::get('login-as/{user}', function (User $user) {
+    Auth::login($user);
+    return redirect()->route('dashboard');
+})->name('login-as');

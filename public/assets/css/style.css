@@ -2,7 +2,7 @@
      --card-bg: #fff;
      --card-title: #222;
      --card-border: #525356;
-     --primary-color: #C4F6FF;
+     --primary-color: #00687a;
      --price-color: #6D6E71;
      --badge-sale: #6D6E71;
      --success-color: #28a745;
@@ -53,7 +53,7 @@
  }
 
  .nav-link:hover {
-     color: #C4F6FF !important;
+     color: #00687a !important;
  }
 
  .navbar-toggler {
@@ -134,14 +134,14 @@
  /* Heart icon styling */
  .favourite i {
      font-size: 30px;
-     color: #C4F6FF;
+     color: #00687a;
      cursor: pointer;
      align-items: center;
  }
 
  .favourite.selected i {
      color: red;
-     border-color: #C4F6FF;
+     border-color: #00687a;
  }
 
  .fixed-top {
@@ -254,9 +254,9 @@
  .et_pb_button {
      display: inline-block;
      padding: 15px 30px;
-     color: #C4F6FF !important;
+     color: #00687a !important;
      border: 2px solid;
-     border-color: #C4F6FF !important;
+     border-color: #00687a !important;
      border-radius: 21px;
      /* or your preferred color */
      font-size: 16px;
@@ -267,7 +267,7 @@
  }
 
  .et_pb_button:hover {
-     background-color: #C4F6FF !important;
+     background-color: #00687a !important;
      color: #433c3c !important;
      /* darker shade for hover */
  }
@@ -514,7 +514,7 @@
  }
 
  .product-card__title a:hover {
-     color: #C4F6FF;
+     color: #00687a;
  }
 
  .product-card__price {
@@ -567,12 +567,12 @@
  }
 
  .pep_btn {
-     color: #C4F6FF !important;
-     border: 1px solid #C4F6FF !important;
+     color: #00687a !important;
+     border: 1px solid #00687a !important;
  }
 
  .pep_btn:hover {
-     background-color: #C4F6FF !important;
+     background-color: #00687a !important;
      color: #ffffff !important;
  }
 
@@ -675,7 +675,7 @@
  }
 
  .footer-brand .peptides {
-     color: #C4F6FF;
+     color: #00687a;
  }
 
  .footer-disclaimer {
@@ -699,7 +699,7 @@
      font-size: 18px;
      font-weight: bold;
      margin-bottom: 20px;
-     color: #C4F6FF;
+     color: #00687a;
  }
 
  .footer-links {
@@ -719,7 +719,7 @@
  }
 
  .footer-links a:hover {
-     color: #C4F6FF;
+     color: #00687a;
      text-decoration: none;
  }
 
@@ -730,12 +730,12 @@
      font-weight: bold;
      margin-left: 15px;
      margin-bottom: 20px;
-     color: #C4F6FF;
+     color: #00687a;
  }
 
  .copyright {
      font-size: 14px;
-     color: #C4F6FF;
+     color: #00687a;
      text-align: center;
      margin-top: 40px;
      padding-top: 20px;
@@ -878,7 +878,7 @@
  .newsletter-subtitle {
      font-size: 1.2rem;
      text-transform: uppercase;
-     background: linear-gradient(45deg, #d8bb7a, #C4F6FF 80%);
+     background: linear-gradient(45deg, #d8bb7a, #00687a 80%);
      -webkit-background-clip: text;
      background-clip: text;
      -webkit-text-fill-color: transparent;
@@ -902,7 +902,7 @@
  }
 
  .newsletter-input:focus {
-     border-color: #C4F6FF;
+     border-color: #00687a;
      box-shadow: 0 0 0 0.25rem rgba(172, 118, 48, 0.25);
      outline: none;
  }
@@ -973,14 +973,14 @@
  }
 
  #productTab .nav-link.active {
-     background-color: var(--primary-color, #C4F6FF);
+     background-color: var(--primary-color, #00687a);
      color: #fff !important;
      border-color: transparent;
  }
 
  .tab-content h4,
  .tab-content h5 {
-     color: var(--primary-color, #C4F6FF);
+     color: var(--primary-color, #00687a);
  }
 
  .tab-content p {

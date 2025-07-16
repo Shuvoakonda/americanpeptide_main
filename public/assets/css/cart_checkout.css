@@ -72,7 +72,7 @@
  }
 
  .step.active .step-circle {
-     background-color: #C4F6FF;
+     background-color: #00687a;
      color: white;
      box-shadow: 0 0 0 4px rgba(172, 118, 48, 0.2);
  }
@@ -96,7 +96,7 @@
      left: 0;
      height: 100%;
      width: 50%;
-     background-color: #C4F6FF;
+     background-color: #00687a;
  }
 
  .step-label {
@@ -109,7 +109,7 @@
  }
 
  .step.active .step-label {
-     color: #C4F6FF;
+     color: #00687a;
      font-weight: 600;
  }
 
@@ -412,7 +412,7 @@
  }
 
  .step.active .step-circle {
-     background-color: #C4F6FF;
+     background-color: #00687a;
      color: white;
      box-shadow: 0 0 0 4px rgba(172, 118, 48, 0.2);
  }
@@ -436,7 +436,7 @@
      left: 0;
      height: 100%;
      width: 50%;
-     background-color: #C4F6FF;
+     background-color: #00687a;
  }
 
  .step-label {
@@ -449,7 +449,7 @@
  }
 
  .step.active .step-label {
-     color: #C4F6FF;
+     color: #00687a;
      font-weight: 600;
  }
 

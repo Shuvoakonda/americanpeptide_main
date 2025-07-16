@@ -2,7 +2,7 @@
        --card-bg: #fff;
        --card-title: #222;
        --card-border: #e0e0e0;
-       --primary-color: #C4F6FF;
+       --primary-color: #00687a;
        --price-color: #525356;
        --badge-sale: #FF5722;
    }
@@ -50,7 +50,7 @@
    }
 
    .product-card-details_title a:hover {
-       color: #C4F6FF;
+       color: #00687a;
    }
 
    .product-image h1 {
@@ -195,7 +195,7 @@
    }
 
    .add-to-cart:hover {
-       background-color: #C4F6FF;
+       background-color: #00687a;
        color: #000000;
    }
 
